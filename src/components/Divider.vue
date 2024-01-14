@@ -3,7 +3,7 @@ type DividerType = 'vertical' | 'horizontal'
 
 defineOptions({ name: 'VDivider' })
 
-const props = withDefaults(defineProps<{ type: DividerType }>(), { type: 'horizontal' })
+withDefaults(defineProps<{ type: DividerType }>(), { type: 'horizontal' })
 
 const verticalClass = 'w-[1px] border-l'
 const horizontalClass = 'h-[1px] border-t'
@@ -11,7 +11,7 @@ const horizontalClass = 'h-[1px] border-t'
 <template>
   <div
     :class="
-      (props.type === 'vertical' ? verticalClass : horizontalClass) +
+      (type === 'vertical' ? verticalClass : horizontalClass) +
       ' ' +
       'dark:border-primer-dark-gray-600'
     "

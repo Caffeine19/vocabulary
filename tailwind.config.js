@@ -13,7 +13,10 @@ export default {
           700: '#21262D',
           900: '#0D1117'
         },
-        'primer-dark-white': '#FFFFFF'
+        'primer-dark-white': '#FFFFFF',
+        'primer-dark-blue': {
+          500: '#1F6FEB'
+        }
       }
     }
   },
