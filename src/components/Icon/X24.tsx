@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 
 const X24 = defineComponent({
-  name: 'X24Icon',
+  name: 'VX24',
   setup() {
     return () => (
       <svg

@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 
 const Rule24 = defineComponent({
-  name: 'Rule24Icon',
+  name: 'VRule24',
   setup() {
     return () => (
       <svg

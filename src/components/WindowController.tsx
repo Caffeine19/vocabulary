@@ -27,7 +27,7 @@ const windowControllerOptions: windowController[] = [
 ]
 
 const WindowController = defineComponent({
-  name: 'WindowController',
+  name: 'VWindowController',
   setup() {
     return () => (
       <div class="flex items-center space-x-4">
