@@ -23,7 +23,9 @@ const StatusTab = defineComponent({
         >
           <div class="flex space-x-3 items-center">
             <props.icon class=" dark:fill-primer-dark-gray-400"></props.icon>
-            <span class="dark:text-primer-dark-gray-100 font-normal text-lg">{props.label}</span>
+            <span class="dark:text-primer-dark-gray-100 font-normal text-lg fira-code">
+              {props.label}
+            </span>
           </div>
           <Badge num={props.num}></Badge>
         </a>

@@ -20,7 +20,9 @@ defineProps<{ label: string; selected: boolean }>()
         "
       >
         <Tag16 class="dark:fill-primer-dark-gray-400"></Tag16>
-        <span class="dark:text-primer-dark-gray-100 text-sm font-normal">{{ label }}</span>
+        <span class="dark:text-primer-dark-gray-100 text-sm font-normal fira-code">{{
+          label
+        }}</span>
       </div>
     </a>
   </li>

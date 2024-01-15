@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .fira-code {
+    font-family: fira-code;
+  }
+  @font-face {
+    font-family: fira-code;
+    src: url(./assets/fonts/FiraCode-VF.ttf);
+  }
+}
