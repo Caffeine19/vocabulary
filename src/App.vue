@@ -8,6 +8,8 @@ import Search16 from './components/Icon/Search16.vue'
 import Pencil16 from './components/Icon/Pencil16.vue'
 import SortDesc16 from './components/Icon/SortDesc16.vue'
 import Tag16 from './components/Icon/Tag16.vue'
+import Box from './components/Box.vue'
+import Copy24 from './components/Icon/Copy24'
 </script>
 <template>
   <div class="flex flex-col w-screen h-screen overflow-hidden">
@@ -49,10 +51,8 @@ import Tag16 from './components/Icon/Tag16.vue'
           </button>
         </div>
 
-        <div class="rounded-md border dark:border-primer-dark-gray-600 overflow-clip flex flex-col">
-          <div
-            class="dark:bg-primer-dark-gray-800 flex justify-between px-3 py-1.5 border-b dark:border-primer-dark-gray-600"
-          >
+        <Box>
+          <template #header>
             <div></div>
             <div>
               <div class="flex items-center space-x-1.5">
@@ -60,8 +60,9 @@ import Tag16 from './components/Icon/Tag16.vue'
                 <span class="fira-code text-sm dark:text-primer-dark-gray-400">Sort</span>
               </div>
             </div>
-          </div>
-          <div class="overflow-y-auto">
+          </template>
+
+          <template #main>
             <ul>
               <template v-for="i in 32" :key="i">
                 <li class="px-3 py-1.5">
@@ -88,11 +89,30 @@ import Tag16 from './components/Icon/Tag16.vue'
                 <Divider></Divider>
               </template>
             </ul>
-          </div>
-        </div>
+          </template>
+        </Box>
       </div>
       <Divider type="vertical"></Divider>
-      <div></div>
+      <div class="p-6 space-y-3 grow">
+        <Divider></Divider>
+        <Box>
+          <template #header>
+            <span class="fira-code text-xs font-normal dark:text-primer-dark-gray-400"
+              >19 lines (16 loc) · 170 Bytes</span
+            >
+            <button>
+              <Copy24 class="w-4 h-4 dark:fill-primer-dark-gray-400"></Copy24>
+            </button>
+          </template>
+          <template #main>
+            <pre class="p-4"><code class="dark:text-primer-dark-gray-100">
+&lt;script setup lang=&quot;ts&quot;&gt;&lt;/script&gt;
+&lt;template&gt;&lt;/template&gt;
+&lt;style scoped&gt;&lt;/style&gt;
+</code></pre>
+          </template>
+        </Box>
+      </div>
     </main>
   </div>
 </template>
