@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { ref, shallowRef } from 'vue'
+
+import { Codemirror } from 'vue-codemirror'
+import { javascript } from '@codemirror/lang-javascript'
+
 import TitleBar from './components/TitleBar'
 import StatusTabGroup from './components/StatusTab'
 import Divider from './components/Divider.vue'
@@ -10,6 +15,30 @@ import SortDesc16 from './components/Icon/SortDesc16.vue'
 import Tag16 from './components/Icon/Tag16.vue'
 import Box from './components/Box.vue'
 import Copy24 from './components/Icon/Copy24'
+
+const code = ref(`console.log('Hello, world!')`)
+const extensions = [javascript()]
+
+// Codemirror EditorView instance ref
+const view = shallowRef()
+const handleReady = (payload: { view: any }) => {
+  view.value = payload.view
+}
+
+// Status is available at all times via Codemirror EditorView
+const getCodemirrorStates = () => {
+  const state = view.value.state
+  const ranges = state.selection.ranges
+  const selected = ranges.reduce(
+    (r: any, range: { to: any; from: number }) => r + range.to - range.from,
+    0
+  )
+  const cursor = ranges[0].anchor
+  const length = state.doc.length
+  const lines = state.doc.lines
+  // more state info ...
+  // return ...
+}
 </script>
 <template>
   <div class="flex flex-col w-screen h-screen overflow-hidden">
@@ -106,9 +135,22 @@ import Copy24 from './components/Icon/Copy24'
           </template>
           <template #main>
             <pre class="p-4"><code class="dark:text-primer-dark-gray-100">
-&lt;script setup lang=&quot;ts&quot;&gt;&lt;/script&gt;
-&lt;template&gt;&lt;/template&gt;
-&lt;style scoped&gt;&lt;/style&gt;
+              <highlightjs></highlightjs>
+
+  <codemirror
+    v-model="code"
+    placeholder="Code goes here..."
+    :style="{ height: '400px' }"
+    :autofocus="true"
+    :indent-with-tab="true"
+    :tab-size="2"
+    :extensions="extensions"
+    @ready="handleReady"
+    @change="log('change', $event)"
+    @focus="log('focus', $event)"
+    @blur="log('blur', $event)"
+  />
+
 </code></pre>
           </template>
         </Box>
