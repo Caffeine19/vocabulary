@@ -21,6 +21,11 @@ export default {
         'primer-dark-green': {
           400: '#2EA043',
           500: '#238636'
+        },
+
+        'primer-dark-red': {
+          400: '#F85149',
+          500: '#DA3633'
         }
       }
     }
