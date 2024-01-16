@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 
-import Box from '@/components/Box.vue'
-import Copy24 from '@/components/Icon/Copy24'
 import Divider from '@/components/Divider.vue'
 import Tag, { TagOption } from '@/components/Tag.vue'
 import Button from '@/components/Button.vue'
@@ -42,19 +40,7 @@ const tagList = reactive<TagOption[]>([
       </div>
     </div>
     <Divider></Divider>
-    <Box class="grow">
-      <template #header>
-        <span class="fira-code text-xs font-normal dark:text-primer-dark-gray-400"
-          >19 lines (16 loc) · 170 Bytes</span
-        >
-        <button>
-          <Copy24 class="w-4 h-4 dark:fill-primer-dark-gray-400"></Copy24>
-        </button>
-      </template>
-      <template #main>
-        <CodeEditor></CodeEditor>
-      </template>
-    </Box>
+    <CodeEditor class="grow"></CodeEditor>
   </div>
 </template>
 
