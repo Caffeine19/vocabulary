@@ -35,11 +35,7 @@ const tagList = reactive<TagOption[]>([
 <template>
   <div class="basis-1/2 p-6 space-y-4 flex flex-col border-r dark:border-primer-dark-gray-600">
     <div class="flex items-center space-x-4 justify-between">
-      <Input
-        class="relative min-w-[20rem] grow"
-        placeholder="Type to search"
-        v-model:value="searchKeyword"
-      >
+      <Input class="relative grow" placeholder="Type to search" v-model:value="searchKeyword">
         <template #icon>
           <Search16
             class="absolute top-1/2 -translate-y-1/2 left-2.5 dark:fill-primer-dark-gray-400"

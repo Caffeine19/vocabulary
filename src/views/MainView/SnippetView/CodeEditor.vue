@@ -3,14 +3,14 @@ import { onMounted, ref, shallowRef, nextTick } from 'vue'
 
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
-import { type ViewUpdate, type EditorView } from '@codemirror/view'
+import { type ViewUpdate, EditorView } from '@codemirror/view'
 import GithubDark from '@/theme/GithubDark'
 
 import Box from '@/components/Box.vue'
 import Copy24 from '@/components/Icon/Copy24'
 
 const code = ref(`console.log('Hello, world!')`)
-const extensions = [javascript(), GithubDark]
+const extensions = [javascript(), GithubDark, EditorView.lineWrapping]
 
 // Codemirror EditorView instance ref
 const view = shallowRef<EditorView>()
