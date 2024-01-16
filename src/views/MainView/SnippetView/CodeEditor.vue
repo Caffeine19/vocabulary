@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, shallowRef } from 'vue'
+import { onMounted, ref, shallowRef, nextTick } from 'vue'
 
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
@@ -41,7 +41,7 @@ const getCodemirrorStates = () => {
   const length = state.doc.length
   const lines = state.doc.lines
   const text = (state.doc as any).text as string[]
-  const loc = text.filter((line) => line.length > 0).length
+  const loc = text?.filter((line) => line.length > 0)?.length || 0
   console.log('🚀 ~ getCodemirrorStates ~ loc:', loc)
 
   return {
@@ -53,10 +53,12 @@ const getCodemirrorStates = () => {
 
 const onCodeChange = (value: string, viewUpdate: ViewUpdate) => {
   console.log('🚀 ~ onCodeChange ~ value:', value, viewUpdate.state.doc)
-  const newState = getCodemirrorStates()
-  length.value = newState.length
-  lines.value = newState.lines
-  loc.value = newState.loc
+  nextTick(() => {
+    const newState = getCodemirrorStates()
+    length.value = newState.length
+    lines.value = newState.lines
+    loc.value = newState.loc
+  })
 }
 
 onMounted(() => {
