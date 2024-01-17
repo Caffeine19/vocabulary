@@ -14,15 +14,15 @@ interface windowController {
 const windowControllerOptions: windowController[] = [
   {
     icon: Rule24,
-    action: () => window.electronAPI.minimize()
+    action: window.electronAPI.minimize
   },
   {
     icon: Copy24,
-    action: () => window.electronAPI.maximize()
+    action: window.electronAPI.maximize
   },
   {
     icon: X24,
-    action: () => window.electronAPI.close()
+    action: window.electronAPI.close
   }
 ]
 
@@ -32,7 +32,7 @@ const WindowController = defineComponent({
     return () => (
       <div class="flex items-center space-x-4">
         {windowControllerOptions.map((controller) => (
-          <button>
+          <button onClick={controller.action} class="cursor-pointer">
             <controller.icon class=" fill-primer-dark-gray-0"></controller.icon>
           </button>
         ))}

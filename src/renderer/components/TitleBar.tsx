@@ -16,7 +16,7 @@ const TitleBar = defineComponent({
           <p class="dark:text-primer-dark-gray-0 fira-code text-xl">VOCABULARY</p>
         </div>
 
-        <WindowController style="-webkit-app-region:drag"></WindowController>
+        <WindowController style="-webkit-app-region:no-drag"></WindowController>
       </header>
     )
   }
