@@ -2,16 +2,17 @@
   "name": "vocabulary",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "set VITE_PORT=5179 && vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "electron:compile": "npx tsc -b -w src/main",
+    "electron:win:start": "chcp 65001 && set NODE_ENV=development && set VITE_PORT=5179 && electron ./src/main/dist/main.js"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.1",
@@ -37,6 +38,7 @@
     "@vue/test-utils": "^2.4.3",
     "@vue/tsconfig": "^0.5.0",
     "autoprefixer": "^10.4.16",
+    "electron": "^28.1.3",
     "eslint": "^8.49.0",
     "eslint-plugin-vue": "^9.17.0",
     "jsdom": "^23.0.1",

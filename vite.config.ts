@@ -5,6 +5,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
+const port = Number(process.env.VITE_PORT?.trim())
 const srcPath = path.resolve(__dirname, './src/renderer')
 
 // https://vitejs.dev/config/
@@ -16,7 +17,5 @@ export default defineConfig({
     }
   },
   root: srcPath,
-  server: {
-    port: 4777
-  }
+  server: { port }
 })

@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    -webkit-app-region: no-drag;
+    overflow: hidden;
+  }
+}
 @layer utilities {
   .fira-code {
     font-family: fira-code;
