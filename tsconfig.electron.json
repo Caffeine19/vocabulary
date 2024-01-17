@@ -4,8 +4,7 @@
         "./src/shared/**/*.ts"
     ],
     "compilerOptions": {
-        "module": "CommonJS",
         "outDir": "./dist",
-        "moduleResolution": "node"
+        "module": "CommonJS",
     }
 }

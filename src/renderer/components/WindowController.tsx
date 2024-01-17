@@ -14,15 +14,15 @@ interface windowController {
 const windowControllerOptions: windowController[] = [
   {
     icon: Rule24,
-    action: () => console.log('hide')
+    action: () => window.electronAPI.minimize()
   },
   {
     icon: Copy24,
-    action: () => console.log('fullscreen')
+    action: () => window.electronAPI.maximize()
   },
   {
     icon: X24,
-    action: () => console.log('close')
+    action: () => window.electronAPI.close()
   }
 ]
 

@@ -1,5 +1,7 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import * as path from 'path'
+
+import { IPCMainEvent } from './ipcMainEvent'
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -29,6 +31,21 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow()
     }
+  })
+
+  ipcMain.on(IPCMainEvent.minimize, () => {
+    BrowserWindow.getFocusedWindow()?.minimize()
+  })
+  ipcMain.on(IPCMainEvent.maximize, () => {
+    const win = BrowserWindow.getFocusedWindow()
+    if (win?.isMaximized()) {
+      win.unmaximize()
+    } else {
+      win?.maximize()
+    }
+  })
+  ipcMain.on(IPCMainEvent.close, () => {
+    BrowserWindow.getFocusedWindow()?.close()
   })
 })
 
