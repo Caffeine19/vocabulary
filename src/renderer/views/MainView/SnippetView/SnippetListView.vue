@@ -5,10 +5,11 @@ import Search16 from '@/components/Icon/Search16.vue'
 import Pencil16 from '@/components/Icon/Pencil16.vue'
 import SortDesc16 from '@/components/Icon/SortDesc16.vue'
 import Input from '@/components/Input.vue'
-import Tag, { type TagOption } from '@/components/Tag.vue'
 import Box from '@/components/Box.vue'
 import Divider from '@/components/Divider.vue'
 import Button from '@/components/Button.vue'
+import SnippetItem from '@/components/SnippetItem.vue'
+import type { TagOption } from '@/components/Tag.vue'
 
 const searchKeyword = ref('')
 
@@ -30,6 +31,8 @@ const tagList = reactive<TagOption[]>([
     label: 'SCSS'
   }
 ])
+
+const preview = "const searchKeyword = ref('')"
 </script>
 
 <template>
@@ -63,22 +66,7 @@ const tagList = reactive<TagOption[]>([
       <template #main>
         <ul>
           <template v-for="i in 32" :key="i">
-            <li class="px-3 py-1.5">
-              <div class="flex items-center justify-between">
-                <span class="fira-code dark:text-primer-dark-gray-0 text-base font-normal">
-                  vue ts init
-                </span>
-                <div class="flex items-center space-x-1.5">
-                  <Tag v-for="(tag, index) in tagList" :key="index" v-bind="tag"></Tag>
-                </div>
-              </div>
-              <div>
-                <span class="text-xs font-normal fira-code dark:text-primer-dark-gray-400">
-                  &lt;script setup lang=&quot;ts&quot;&gt;&lt;/script&gt;
-                  &lt;template&gt;&lt;/template&gt; &lt;style scoped&gt;&lt;/style&gt;
-                </span>
-              </div>
-            </li>
+            <SnippetItem name="VueTsInit" :tags="tagList" :preview="preview"></SnippetItem>
             <Divider></Divider>
           </template>
         </ul>
