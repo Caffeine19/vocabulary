@@ -1,10 +1,11 @@
 {
     "include": [
-        "./*.ts"
+        "./src/main/**/*.ts",
+        "./src/shared/**/*.ts"
     ],
     "compilerOptions": {
         "module": "CommonJS",
-        "outDir": "dist",
+        "outDir": "./dist",
         "moduleResolution": "node"
     }
 }
