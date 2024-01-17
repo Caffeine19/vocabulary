@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 
 import Divider from '@/components/Divider.vue'
-import Tag, { TagOption } from '@/components/Tag.vue'
+import Tag, { type TagOption } from '@/components/Tag.vue'
 import Button from '@/components/Button.vue'
 import Trashcan16 from '@/components/Icon/Trashcan16.vue'
 
