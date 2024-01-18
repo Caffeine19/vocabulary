@@ -4,10 +4,18 @@ import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 
-import { IPCMainEvent } from './ipcMainEvent'
+// const __filename = fileURLToPath(import.meta.url)
+// const __dirname = dirname(__filename)
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+import { getSnippetList } from './data/snippet'
+
+export enum IPCMainEvent {
+  minimize = 'minimize',
+  maximize = 'maximize',
+  close = 'close',
+
+  getSnippetList = 'getSnippetList'
+}
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -52,6 +60,11 @@ app.whenReady().then(() => {
   })
   ipcMain.on(IPCMainEvent.close, () => {
     BrowserWindow.getFocusedWindow()?.close()
+  })
+
+  ipcMain.handle(IPCMainEvent.getSnippetList, async () => {
+    const res = await getSnippetList()
+    return res
   })
 })
 

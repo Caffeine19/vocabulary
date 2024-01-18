@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import Tag, { type TagOption } from './Tag.vue'
 
+import type { SnippetItem } from 'src/shared/snippet'
+
 defineOptions({ name: 'VSnippetItem' })
-defineProps<{ name: string; tags: TagOption[]; preview: string }>()
+defineProps<SnippetItem>()
 </script>
 <template>
   <li class="px-3 py-1.5 dark:hover:bg-primer-dark-gray-800 transition-colors">
@@ -16,7 +18,7 @@ defineProps<{ name: string; tags: TagOption[]; preview: string }>()
     </div>
     <div>
       <span class="text-xs font-normal fira-code dark:text-primer-dark-gray-400">
-        {{ preview }}
+        {{ excerpt }}
       </span>
     </div>
   </li>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import Search16 from '@/components/Icon/Search16.vue'
 import Pencil16 from '@/components/Icon/Pencil16.vue'
@@ -10,6 +11,8 @@ import Divider from '@/components/Divider.vue'
 import Button from '@/components/Button.vue'
 import SnippetItem from '@/components/SnippetItem.vue'
 import type { TagOption } from '@/components/Tag.vue'
+
+import { useSnippetStore } from '@/stores/snippet'
 
 const searchKeyword = ref('')
 
@@ -33,6 +36,11 @@ const tagList = reactive<TagOption[]>([
 ])
 
 const preview = "const searchKeyword = ref('')"
+
+const snippetStore = useSnippetStore()
+
+const { snippetList } = storeToRefs(snippetStore)
+onMounted(() => snippetStore.getSnippetList())
 </script>
 
 <template>
@@ -65,8 +73,14 @@ const preview = "const searchKeyword = ref('')"
 
       <template #main>
         <ul>
-          <template v-for="i in 32" :key="i">
-            <SnippetItem name="VueTsInit" :tags="tagList" :preview="preview"></SnippetItem>
+          <template v-for="snippet in snippetList" :key="snippet.id">
+            <SnippetItem
+              :id="snippet.id"
+              :name="snippet.name"
+              :tags="snippet.tags"
+              :preview="snippet.excerpt"
+              :excerpt="snippet.excerpt"
+            ></SnippetItem>
             <Divider></Divider>
           </template>
         </ul>
