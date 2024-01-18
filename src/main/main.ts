@@ -1,7 +1,13 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import * as path from 'path'
 
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
 import { IPCMainEvent } from './ipcMainEvent'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 function createWindow() {
   const win = new BrowserWindow({
