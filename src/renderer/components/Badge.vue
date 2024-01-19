@@ -8,5 +8,4 @@ defineProps<{ num: number }>()
   >
     <span class="text-sm dark:text-primer-dark-white fira-code">{{ num }}</span>
   </div>
-  <div></div>
 </template>
