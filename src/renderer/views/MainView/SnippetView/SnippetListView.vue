@@ -20,7 +20,12 @@ const searchKeyword = ref('')
 const snippetStore = useSnippetStore()
 
 const { snippetList } = storeToRefs(snippetStore)
-onMounted(() => snippetStore.getSnippetList())
+
+onMounted(async () => {
+  await snippetStore.getSnippetList()
+  const initId = snippetList.value[0]?.id
+  if (initId) snippetStore.getSnippetDetail(initId)
+})
 
 const onSnippetItemClick = (id: ISnippetItem['id']) => {
   snippetStore.getSnippetDetail(id)
