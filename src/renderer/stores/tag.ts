@@ -1,9 +1,10 @@
-import { Tag } from '@shared/Tag'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+
+import { TagItem } from '@shared/Tag'
 
 export const useTagStore = defineStore('tag', () => {
-  const tagList = ref<Tag[]>([])
+  const tagList = ref<TagItem[]>([])
   const getTagList = async () => {
     try {
       const res = await window.electronAPI.getTagList()
@@ -13,8 +14,21 @@ export const useTagStore = defineStore('tag', () => {
     }
   }
 
+  const selectedTag = ref<TagItem | undefined>(undefined)
+  const selectedTagId = computed(() => selectedTag.value?.id)
+  const setSelectedTag = (tag: TagItem) => {
+    selectedTag.value = tag
+  }
+  const unsetSelectedTag = () => {
+    selectedTag.value = undefined
+  }
+
   return {
     tagList,
-    getTagList
+    getTagList,
+    selectedTag,
+    selectedTagId,
+    setSelectedTag,
+    unsetSelectedTag
   }
 })

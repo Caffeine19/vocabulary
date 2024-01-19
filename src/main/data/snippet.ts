@@ -2,7 +2,7 @@ import prisma from './index'
 
 import { GetSnippetDetail, GetSnippetList, UpdateSnippetContent } from '../../shared/snippet'
 
-export const getSnippetList: GetSnippetList = async () => {
+export const getSnippetList: GetSnippetList = async ({ tagId }) => {
   try {
     const res = await prisma.snippet.findMany({
       select: {
@@ -16,8 +16,16 @@ export const getSnippetList: GetSnippetList = async () => {
             color: true
           }
         }
+      },
+      where: {
+        tags: {
+          some: {
+            id: tagId
+          }
+        }
       }
     })
+    console.log('🚀 ~ constgetSnippetList:GetSnippetList= ~ res:', res)
     return res
   } catch (error) {
     console.log('🚀 ~ getSnippetList ~ error:', error)

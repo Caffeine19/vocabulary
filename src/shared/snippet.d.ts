@@ -5,7 +5,7 @@ export type Snippet = PrismaSnippet
 export type SnippetItem = Omit<Snippet, 'content'> & { tags: Tag[] }
 
 export interface GetSnippetList {
-  (): Promise<SnippetItem[] | undefined>
+  (params: { tagId?: Tag['id'] }): Promise<SnippetItem[] | undefined>
 }
 
 export type SnippetDetail = Omit<Snippet, 'excerpt'> & { tags: Tag[] }

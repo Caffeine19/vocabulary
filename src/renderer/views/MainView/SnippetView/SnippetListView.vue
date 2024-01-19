@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import Search16 from '@/components/Icon/Search16.vue'
@@ -23,13 +23,16 @@ const { snippetList, snippetDetail } = storeToRefs(snippetStore)
 
 onMounted(async () => {
   await snippetStore.getSnippetList()
-  const initId = snippetList.value[0]?.id
-  if (initId) snippetStore.getSnippetDetail(initId)
 })
 
 const onSnippetItemClick = (id: ISnippetItem['id']) => {
   snippetStore.getSnippetDetail(id)
 }
+
+watch(snippetList, () => {
+  const initId = snippetList.value[0]?.id
+  if (initId) snippetStore.getSnippetDetail(initId)
+})
 </script>
 
 <template>

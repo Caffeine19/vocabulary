@@ -17,7 +17,7 @@ const electronAPI: ElectronAPI = {
   maximize: () => ipcRenderer.invoke(IPCMainEvent.maximize),
   close: () => ipcRenderer.invoke(IPCMainEvent.close),
 
-  getSnippetList: () => ipcRenderer.invoke(IPCMainEvent.getSnippetList),
+  getSnippetList: (params) => ipcRenderer.invoke(IPCMainEvent.getSnippetList, params),
   getSnippetDetail: (id) => ipcRenderer.invoke(IPCMainEvent.getSnippetDetail, id),
   updateSnippetContent: (id, content) =>
     ipcRenderer.invoke(IPCMainEvent.updateSnippetContent, id, content),

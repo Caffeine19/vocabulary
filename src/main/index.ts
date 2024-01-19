@@ -88,8 +88,8 @@ app.whenReady().then(() => {
     BrowserWindow.getFocusedWindow()?.close()
   })
 
-  ipcMain.handle(IPCMainEvent.getSnippetList, async () => {
-    const res = await getSnippetList()
+  ipcMain.handle(IPCMainEvent.getSnippetList, async (_, params) => {
+    const res = await getSnippetList(params)
     return res
   })
 

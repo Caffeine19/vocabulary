@@ -1,18 +1,29 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import type { SnippetDetail, SnippetItem } from '../../shared/snippet'
 
+import { useTagStore } from './tag'
+
 export const useSnippetStore = defineStore('snippet', () => {
+  const tagStore = useTagStore()
+
   const snippetList = ref<SnippetItem[]>([])
   const getSnippetList = async () => {
+    const { selectedTagId } = tagStore
     try {
-      const res = await window.electronAPI.getSnippetList()
+      const res = await window.electronAPI.getSnippetList({
+        tagId: selectedTagId
+      })
       if (res) snippetList.value = res
     } catch (error) {
       console.log('🚀 ~ getSnippetList ~ error:', error)
     }
   }
+  watch(
+    () => tagStore.selectedTagId,
+    () => getSnippetList()
+  )
 
   const snippetDetail = ref<SnippetDetail | undefined>(undefined)
   const getSnippetDetail = async (id: SnippetItem['id']) => {
