@@ -29,9 +29,11 @@ const onUpdateCode = useDebounceFn((e) => {
         <div class="flex items-center space-x-1.5" v-if="snippetDetail?.tags.length">
           <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"></Tag>
         </div>
-        <Button label="delete" type="danger">
+        <Button label="Delete" type="danger">
           <template #icon>
-            <Trashcan16 class="dark:fill-primer-dark-white"></Trashcan16>
+            <Trashcan16
+              class="dark:fill-primer-dark-red-500 dark:group-hover:fill-primer-dark-white transition-colors"
+            ></Trashcan16>
           </template>
         </Button>
       </div>
@@ -47,7 +49,6 @@ const onUpdateCode = useDebounceFn((e) => {
 
 <style scoped>
 .v-button {
-  @apply px-1.5 py-0.5;
+  @apply py-0.5;
 }
 </style>
-<script setup lang="”ts”"></script>
