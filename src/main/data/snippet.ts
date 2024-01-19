@@ -1,6 +1,6 @@
 import prisma from './index'
 
-import { GetSnippetDetail, GetSnippetList } from '../../shared/snippet'
+import { GetSnippetDetail, GetSnippetList, UpdateSnippetContent } from '../../shared/snippet'
 
 export const getSnippetList: GetSnippetList = async () => {
   try {
@@ -45,5 +45,16 @@ export const getSnippetDetail: GetSnippetDetail = async (id) => {
     return res
   } catch (error) {
     console.log('🚀 ~ getSnippetDetail ~ error:', error)
+  }
+}
+
+export const updateSnippetContent: UpdateSnippetContent = async (id, content) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: { content }
+    })
+  } catch (error) {
+    console.log('🚀 ~ constupdateSnippetDetail:UpdateSnippetContent= ~ error:', error)
   }
 }

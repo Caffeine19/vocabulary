@@ -27,6 +27,7 @@
     "@electron-toolkit/utils": "^3.0.0",
     "@lezer/highlight": "^1.2.0",
     "@prisma/client": "5.8.1",
+    "@vueuse/core": "^10.7.2",
     "codemirror": "^6.0.1",
     "electron-updater": "^6.1.7",
     "pinia": "^2.1.7",

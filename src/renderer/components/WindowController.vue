@@ -9,7 +9,7 @@ export interface WindowControllerProps {
 defineProps<{ action: WindowControllerProps['action'] }>()
 </script>
 <template>
-  <button @click="action" class="cursor-pointer">
+  <button @click="action()" class="cursor-pointer">
     <slot name="icon"></slot>
   </button>
 </template>

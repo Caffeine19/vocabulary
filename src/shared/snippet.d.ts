@@ -12,3 +12,7 @@ export type SnippetDetail = Omit<Snippet, 'excerpt'> & { tags: Tag[] }
 export interface GetSnippetDetail {
   (id: Snippet['id']): Promise<SnippetDetail | null | undefined>
 }
+
+export interface UpdateSnippetContent {
+  (id: SnippetDetail['id'], content: SnippetDetail['content']): Promise<void>
+}

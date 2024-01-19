@@ -1,4 +1,4 @@
-import type { GetSnippetList, GetSnippetDetail } from './snippet'
+import type { GetSnippetList, GetSnippetDetail, UpdateSnippetContent } from './snippet'
 export interface ElectronAPI {
   close: () => void
   maximize: () => void
@@ -6,6 +6,7 @@ export interface ElectronAPI {
 
   getSnippetList: GetSnippetList
   getSnippetDetail: GetSnippetDetail
+  updateSnippetContent: UpdateSnippetContent
 }
 
 declare global {

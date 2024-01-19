@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
-import { getSnippetList, getSnippetDetail } from './data/snippet'
+import { getSnippetList, getSnippetDetail, updateSnippetContent } from './data/snippet'
 
 export enum IPCMainEvent {
   minimize = 'minimize',
@@ -11,7 +11,8 @@ export enum IPCMainEvent {
   close = 'close',
 
   getSnippetList = 'getSnippetList',
-  getSnippetDetail = 'getSnippetDetail'
+  getSnippetDetail = 'getSnippetDetail',
+  updateSnippetContent = 'updateSnippetContent'
 }
 
 function createWindow(): void {
@@ -93,6 +94,9 @@ app.whenReady().then(() => {
     console.log('🚀 ~ ipcMain.handle ~ id:', id)
     const res = await getSnippetDetail(id)
     return res
+  })
+  ipcMain.handle(IPCMainEvent.updateSnippetContent, async (_, id, content) => {
+    await updateSnippetContent(id, content)
   })
 })
 

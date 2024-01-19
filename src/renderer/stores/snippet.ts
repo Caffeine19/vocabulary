@@ -15,7 +15,7 @@ export const useSnippetStore = defineStore('snippet', () => {
   }
 
   const snippetDetail = ref<SnippetDetail | undefined>(undefined)
-  const getSnippetDetail = async (id: number) => {
+  const getSnippetDetail = async (id: SnippetItem['id']) => {
     console.log('🚀 ~ getSnippetDetail ~ id:', id)
     try {
       const res = await window.electronAPI.getSnippetDetail(id)
@@ -24,10 +24,23 @@ export const useSnippetStore = defineStore('snippet', () => {
       console.log('🚀 ~ getSnippetDetail ~ error:', error)
     }
   }
+
+  const updateSnippetContent = async (
+    id: SnippetDetail['id'],
+    content: SnippetDetail['content']
+  ) => {
+    try {
+      const res = await window.electronAPI.updateSnippetContent(id, content)
+      console.log('🚀 ~ useSnippetStore ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ updateSnippetContent ~ error:', error)
+    }
+  }
   return {
     snippetList,
     getSnippetList,
     snippetDetail,
-    getSnippetDetail
+    getSnippetDetail,
+    updateSnippetContent
   }
 })

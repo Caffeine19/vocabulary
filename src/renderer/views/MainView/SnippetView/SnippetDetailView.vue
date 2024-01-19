@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useDebounceFn } from '@vueuse/core'
+
 import Divider from '@/components/Divider.vue'
 import Tag from '@/components/Tag.vue'
 import Button from '@/components/Button.vue'
@@ -7,10 +10,14 @@ import Trashcan16 from '@/components/Icon/Trashcan16.vue'
 import CodeEditor from './CodeEditor.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
-import { storeToRefs } from 'pinia'
 
 const snippetStore = useSnippetStore()
 const { snippetDetail } = storeToRefs(snippetStore)
+
+const onUpdateCode = useDebounceFn((e) => {
+  if (!snippetDetail.value?.id) return
+  snippetStore.updateSnippetContent(snippetDetail.value.id, e)
+}, 300)
 </script>
 <template>
   <div class="basis-1/2 p-6 space-y-3 grow flex flex-col">
@@ -30,7 +37,11 @@ const { snippetDetail } = storeToRefs(snippetStore)
       </div>
     </div>
     <Divider></Divider>
-    <CodeEditor class="grow" :code="snippetDetail?.content || ''"></CodeEditor>
+    <CodeEditor
+      class="grow"
+      :code="snippetDetail?.content || ''"
+      @update:code="(e) => onUpdateCode(e)"
+    ></CodeEditor>
   </div>
 </template>
 
@@ -39,3 +50,4 @@ const { snippetDetail } = storeToRefs(snippetStore)
   @apply px-1.5 py-0.5;
 }
 </style>
+<script setup lang="”ts”"></script>
