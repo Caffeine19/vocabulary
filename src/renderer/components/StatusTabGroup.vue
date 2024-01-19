@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import StatusTab, { type StatusTabProps } from './StatusTab.vue'
 import Inbox24 from './Icon/Inbox24.vue'
+import Trash24 from './Icon/Trash24.vue'
+import Archive24 from './Icon/Archive24.vue'
+import Heart24 from './Icon/Heart24.vue'
+
 const StatusTabOptions: StatusTabProps[] = [
   {
     icon: Inbox24,
@@ -8,17 +12,17 @@ const StatusTabOptions: StatusTabProps[] = [
     num: 12
   },
   {
-    icon: Inbox24,
-    label: 'Archived',
+    icon: Archive24,
+    label: 'All',
     num: 38
   },
   {
-    icon: Inbox24,
-    label: 'Tags',
+    icon: Heart24,
+    label: 'Favorite',
     num: 33
   },
   {
-    icon: Inbox24,
+    icon: Trash24,
     label: 'Deleted',
     num: 9
   }

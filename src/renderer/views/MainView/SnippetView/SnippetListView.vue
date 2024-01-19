@@ -19,7 +19,7 @@ const searchKeyword = ref('')
 
 const snippetStore = useSnippetStore()
 
-const { snippetList } = storeToRefs(snippetStore)
+const { snippetList, snippetDetail } = storeToRefs(snippetStore)
 
 onMounted(async () => {
   await snippetStore.getSnippetList()
@@ -66,6 +66,7 @@ const onSnippetItemClick = (id: ISnippetItem['id']) => {
             <SnippetItem
               :snippet-item="snippet"
               @click="onSnippetItemClick(snippet.id)"
+              :active="snippetDetail?.id === snippet.id"
             ></SnippetItem>
             <Divider></Divider>
           </template>
