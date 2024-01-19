@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import { computed, toRefs, type PropType } from 'vue'
 
 import tinycolor from 'tinycolor2'
 
@@ -9,7 +9,9 @@ import type { Tag } from '@shared/Tag'
 defineOptions({ name: 'VTag' })
 const props = defineProps({ tag: { type: Object as PropType<Tag>, required: true } })
 
-const backgroundColor = tinycolor(props.tag.color).setAlpha(0.08).toRgbString()
+const { tag } = toRefs(props)
+
+const backgroundColor = computed(() => tinycolor(tag.value.color).setAlpha(0.08).toRgbString())
 </script>
 <template>
   <div
