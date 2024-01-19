@@ -7,13 +7,13 @@ import Tag from './Tag.vue'
 defineOptions({ name: 'VSnippetItem' })
 defineProps({
   snippetItem: { type: Object as PropType<SnippetItem>, required: true },
-  active: { type: Boolean }
+  selected: { type: Boolean }
 })
 </script>
 <template>
   <li
     class="px-3 py-1.5 transition-colors cursor-pointer"
-    :class="active ? 'dark:bg-primer-dark-gray-800' : 'dark:hover:bg-primer-dark-gray-800'"
+    :class="selected ? 'dark:bg-primer-dark-gray-800' : 'dark:hover:bg-primer-dark-gray-800'"
   >
     <div class="flex items-center justify-between">
       <span class="fira-code dark:text-primer-dark-gray-0 text-base font-normal">

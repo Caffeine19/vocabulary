@@ -27,16 +27,30 @@ model Post {
 }
 
 model Snippet {
-  id      Int     @id @default(autoincrement())
-  name    String  @unique
-  content String?
-  excerpt String?
-  tags    Tag[]
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  content   String?
+  excerpt   String?
+  favorited Boolean @default(false)
+  deleted   Boolean @default(false)
+
+  tags Tag[]
+
+  folderId Int?
+  folder   Folder? @relation(fields: [folderId], references: [id])
 }
 
 model Tag {
-  id      Int       @id @default(autoincrement())
-  name    String    @unique
-  color   String?
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  color String?
+
   snippet Snippet[]
+}
+
+model Folder {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  snippets Snippet[]
 }

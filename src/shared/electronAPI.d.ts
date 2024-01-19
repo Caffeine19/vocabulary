@@ -1,3 +1,4 @@
+import { GetTagList } from './Tag'
 import type { GetSnippetList, GetSnippetDetail, UpdateSnippetContent } from './snippet'
 export interface ElectronAPI {
   close: () => void
@@ -7,6 +8,8 @@ export interface ElectronAPI {
   getSnippetList: GetSnippetList
   getSnippetDetail: GetSnippetDetail
   updateSnippetContent: UpdateSnippetContent
+
+  getTagList: GetTagList
 }
 
 declare global {

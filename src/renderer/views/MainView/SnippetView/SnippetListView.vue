@@ -66,7 +66,7 @@ const onSnippetItemClick = (id: ISnippetItem['id']) => {
             <SnippetItem
               :snippet-item="snippet"
               @click="onSnippetItemClick(snippet.id)"
-              :active="snippetDetail?.id === snippet.id"
+              :selected="snippetDetail?.id === snippet.id"
             ></SnippetItem>
             <Divider></Divider>
           </template>

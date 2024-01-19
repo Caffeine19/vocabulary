@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 import { getSnippetList, getSnippetDetail, updateSnippetContent } from './data/snippet'
+import { getTagList } from './data/tag'
 
 export enum IPCMainEvent {
   minimize = 'minimize',
@@ -12,14 +13,16 @@ export enum IPCMainEvent {
 
   getSnippetList = 'getSnippetList',
   getSnippetDetail = 'getSnippetDetail',
-  updateSnippetContent = 'updateSnippetContent'
+  updateSnippetContent = 'updateSnippetContent',
+
+  getTagList = 'getTagList'
 }
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1200,
+    height: 900,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -97,6 +100,11 @@ app.whenReady().then(() => {
   })
   ipcMain.handle(IPCMainEvent.updateSnippetContent, async (_, id, content) => {
     await updateSnippetContent(id, content)
+  })
+
+  ipcMain.handle(IPCMainEvent.getTagList, async () => {
+    const res = await getTagList()
+    return res
   })
 })
 

@@ -8,7 +8,8 @@ export enum IPCMainEvent {
 
   getSnippetList = 'getSnippetList',
   getSnippetDetail = 'getSnippetDetail',
-  updateSnippetContent = 'updateSnippetContent'
+  updateSnippetContent = 'updateSnippetContent',
+  getTagList = 'getTagList'
 }
 
 const electronAPI: ElectronAPI = {
@@ -19,7 +20,9 @@ const electronAPI: ElectronAPI = {
   getSnippetList: () => ipcRenderer.invoke(IPCMainEvent.getSnippetList),
   getSnippetDetail: (id) => ipcRenderer.invoke(IPCMainEvent.getSnippetDetail, id),
   updateSnippetContent: (id, content) =>
-    ipcRenderer.invoke(IPCMainEvent.updateSnippetContent, id, content)
+    ipcRenderer.invoke(IPCMainEvent.updateSnippetContent, id, content),
+
+  getTagList: () => ipcRenderer.invoke(IPCMainEvent.getTagList)
 }
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI)
