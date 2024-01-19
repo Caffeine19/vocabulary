@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, shallowRef, nextTick } from 'vue'
+import { ref, shallowRef, nextTick } from 'vue'
 
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
@@ -19,10 +19,14 @@ const view = shallowRef<EditorView>()
 const onCodeReady = (payload: { view: any }) => {
   view.value = payload.view
 
-  const newState = getCodemirrorStates()
-  length.value = newState.length
-  lines.value = newState.lines
-  loc.value = newState.loc
+  // ??? why
+  setTimeout(() => {
+    const newState = getCodemirrorStates()
+    console.log('🚀 ~ onCodeReady ~ newState:', newState)
+    length.value = newState.length
+    lines.value = newState.lines
+    loc.value = newState.loc
+  }, 1000)
 }
 
 const length = ref(0)
@@ -57,15 +61,12 @@ const onCodeChange = (value: string, viewUpdate: ViewUpdate) => {
   console.log('🚀 ~ onCodeChange ~ value:', value, viewUpdate.state.doc)
   nextTick(() => {
     const newState = getCodemirrorStates()
+    console.log('🚀 ~ nextTick ~ newState:', newState)
     length.value = newState.length
     lines.value = newState.lines
     loc.value = newState.loc
   })
 }
-
-onMounted(() => {
-  setTimeout(getCodemirrorStates, 3000)
-})
 </script>
 <template>
   <Box>
