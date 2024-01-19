@@ -96,6 +96,9 @@ onMounted(() => {
 
 <style>
 .cm-editor {
-  @apply fira-code text-sm font-normal;
+  @apply text-sm font-normal;
+}
+.cm-line {
+  @apply fira-code;
 }
 </style>
