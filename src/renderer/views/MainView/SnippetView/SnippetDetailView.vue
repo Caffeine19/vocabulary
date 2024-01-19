@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
-
 import Divider from '@/components/Divider.vue'
 import Tag from '@/components/Tag.vue'
 import Button from '@/components/Button.vue'
@@ -8,21 +6,21 @@ import Trashcan16 from '@/components/Icon/Trashcan16.vue'
 
 import CodeEditor from './CodeEditor.vue'
 
-const tag = {
-  id: 1,
-  color: '#3FB950',
-  name: 'hi'
-}
+import { useSnippetStore } from '@renderer/stores/snippet'
+import { storeToRefs } from 'pinia'
+
+const snippetStore = useSnippetStore()
+const { snippetDetail } = storeToRefs(snippetStore)
 </script>
 <template>
   <div class="basis-1/2 p-6 space-y-3 grow flex flex-col">
     <div class="space-y-2.5">
       <span class="fira-code text-base font-normal dark:text-primer-dark-white">
-        define store
+        {{ snippetDetail?.name || 'untitled' }}
       </span>
       <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-1.5">
-          <Tag :tag="tag"></Tag>
+        <div class="flex items-center space-x-1.5" v-if="snippetDetail?.tags.length">
+          <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"></Tag>
         </div>
         <Button label="delete" type="danger">
           <template #icon>
@@ -32,7 +30,7 @@ const tag = {
       </div>
     </div>
     <Divider></Divider>
-    <CodeEditor class="grow"></CodeEditor>
+    <CodeEditor class="grow" :code="snippetDetail?.content || ''"></CodeEditor>
   </div>
 </template>
 

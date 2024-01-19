@@ -6,7 +6,8 @@ export enum IPCMainEvent {
   maximize = 'maximize',
   close = 'close',
 
-  getSnippetList = 'getSnippetList'
+  getSnippetList = 'getSnippetList',
+  getSnippetDetail = 'getSnippetDetail'
 }
 
 const electronAPI: ElectronAPI = {
@@ -14,7 +15,8 @@ const electronAPI: ElectronAPI = {
   maximize: () => ipcRenderer.invoke(IPCMainEvent.maximize),
   close: () => ipcRenderer.invoke(IPCMainEvent.close),
 
-  getSnippetList: () => ipcRenderer.invoke(IPCMainEvent.getSnippetList)
+  getSnippetList: () => ipcRenderer.invoke(IPCMainEvent.getSnippetList),
+  getSnippetDetail: (id) => ipcRenderer.invoke(IPCMainEvent.getSnippetDetail, id)
 }
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI)

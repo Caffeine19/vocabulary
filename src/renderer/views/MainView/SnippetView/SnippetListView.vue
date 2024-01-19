@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import Search16 from '@/components/Icon/Search16.vue'
@@ -13,14 +13,18 @@ import SnippetItem from '@/components/SnippetItem.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
 
-const searchKeyword = ref('')
+import { type SnippetItem as ISnippetItem } from '@shared/snippet'
 
-const preview = "const searchKeyword = ref('')"
+const searchKeyword = ref('')
 
 const snippetStore = useSnippetStore()
 
 const { snippetList } = storeToRefs(snippetStore)
 onMounted(() => snippetStore.getSnippetList())
+
+const onSnippetItemClick = (id: ISnippetItem['id']) => {
+  snippetStore.getSnippetDetail(id)
+}
 </script>
 
 <template>
@@ -54,7 +58,10 @@ onMounted(() => snippetStore.getSnippetList())
       <template #main>
         <ul>
           <template v-for="snippet in snippetList" :key="snippet.id">
-            <SnippetItem :snippet-item="snippet"></SnippetItem>
+            <SnippetItem
+              :snippet-item="snippet"
+              @click="onSnippetItemClick(snippet.id)"
+            ></SnippetItem>
             <Divider></Divider>
           </template>
         </ul>

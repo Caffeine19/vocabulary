@@ -9,7 +9,9 @@ import GithubDark from '@/theme/GithubDark'
 import Box from '@/components/Box.vue'
 import Copy24 from '@/components/Icon/Copy24.vue'
 
-const code = ref(`console.log('Hello, world!')`)
+withDefaults(defineProps<{ code?: string }>(), { code: 'hi' })
+defineEmits<{ 'update:code': [e: string] }>()
+
 const extensions = [javascript(), GithubDark, EditorView.lineWrapping]
 
 // Codemirror EditorView instance ref
@@ -32,12 +34,12 @@ const getCodemirrorStates = () => {
   if (!view.value) return { length: 0, lines: 0, loc: 0 }
 
   const state = view.value.state
-  const ranges = state.selection.ranges
-  const selected = ranges.reduce(
-    (r: any, range: { to: any; from: number }) => r + range.to - range.from,
-    0
-  )
-  const cursor = ranges[0].anchor
+  // const ranges = state.selection.ranges
+  // const selected = ranges.reduce(
+  //   (r: any, range: { to: any; from: number }) => r + range.to - range.from,
+  //   0
+  // )
+  // const cursor = ranges[0].anchor
   const length = state.doc.length
   const lines = state.doc.lines
   const text = (state.doc as any).text as string[]
@@ -77,7 +79,8 @@ onMounted(() => {
     </template>
     <template #main>
       <codemirror
-        v-model="code"
+        :model-value="code"
+        @update:model-value="(e) => $emit('update:code', e)"
         placeholder="Code goes here..."
         :style="{ padding: '0.5rem' }"
         :autofocus="true"
