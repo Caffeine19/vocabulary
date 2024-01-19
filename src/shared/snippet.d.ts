@@ -1,5 +1,5 @@
 import type { Snippet as PrismaSnippet } from '@prisma/client'
-import type { Tag } from './Tag'
+import type { Tag, TagItem } from './Tag'
 
 export type Snippet = PrismaSnippet
 export type SnippetItem = Omit<Snippet, 'content'> & { tags: Tag[] }
@@ -15,4 +15,8 @@ export interface GetSnippetDetail {
 
 export interface UpdateSnippetContent {
   (id: SnippetDetail['id'], content: SnippetDetail['content']): Promise<void>
+}
+
+export interface ConnectSnippetWithTag {
+  (id: SnippetDetail['id'], tagId: TagItem['id']): Promise<void>
 }

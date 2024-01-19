@@ -9,6 +9,8 @@ export enum IPCMainEvent {
   getSnippetList = 'getSnippetList',
   getSnippetDetail = 'getSnippetDetail',
   updateSnippetContent = 'updateSnippetContent',
+  connectSnippetWithTag = 'connectSnippetWithTag',
+
   getTagList = 'getTagList'
 }
 
@@ -21,6 +23,8 @@ const electronAPI: ElectronAPI = {
   getSnippetDetail: (id) => ipcRenderer.invoke(IPCMainEvent.getSnippetDetail, id),
   updateSnippetContent: (id, content) =>
     ipcRenderer.invoke(IPCMainEvent.updateSnippetContent, id, content),
+  connectSnippetWithTag: (id, tagId) =>
+    ipcRenderer.invoke(IPCMainEvent.connectSnippetWithTag, id, tagId),
 
   getTagList: () => ipcRenderer.invoke(IPCMainEvent.getTagList)
 }

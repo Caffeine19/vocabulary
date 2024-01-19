@@ -3,7 +3,12 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
-import { getSnippetList, getSnippetDetail, updateSnippetContent } from './data/snippet'
+import {
+  getSnippetList,
+  getSnippetDetail,
+  updateSnippetContent,
+  connectSnippetWithTag
+} from './data/snippet'
 import { getTagList } from './data/tag'
 
 export enum IPCMainEvent {
@@ -14,6 +19,7 @@ export enum IPCMainEvent {
   getSnippetList = 'getSnippetList',
   getSnippetDetail = 'getSnippetDetail',
   updateSnippetContent = 'updateSnippetContent',
+  connectSnippetWithTag = 'connectSnippetWithTag',
 
   getTagList = 'getTagList'
 }
@@ -73,6 +79,7 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 
+  //window
   ipcMain.on(IPCMainEvent.minimize, () => {
     BrowserWindow.getFocusedWindow()?.minimize()
   })
@@ -88,6 +95,7 @@ app.whenReady().then(() => {
     BrowserWindow.getFocusedWindow()?.close()
   })
 
+  //snippet
   ipcMain.handle(IPCMainEvent.getSnippetList, async (_, params) => {
     const res = await getSnippetList(params)
     return res
@@ -101,7 +109,11 @@ app.whenReady().then(() => {
   ipcMain.handle(IPCMainEvent.updateSnippetContent, async (_, id, content) => {
     await updateSnippetContent(id, content)
   })
+  ipcMain.handle(IPCMainEvent.connectSnippetWithTag, async (_, id, tagId) => {
+    await connectSnippetWithTag(id, tagId)
+  })
 
+  //tag
   ipcMain.handle(IPCMainEvent.getTagList, async () => {
     const res = await getTagList()
     return res

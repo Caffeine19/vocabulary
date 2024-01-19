@@ -47,6 +47,8 @@ export const useSnippetStore = defineStore('snippet', () => {
       console.log('🚀 ~ updateSnippetContent ~ error:', error)
     }
   }
+
+  const connectSnippetWithTag = () => {}
   return {
     snippetList,
     getSnippetList,

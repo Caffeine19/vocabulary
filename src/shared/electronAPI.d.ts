@@ -1,5 +1,10 @@
 import { GetTagList } from './Tag'
-import type { GetSnippetList, GetSnippetDetail, UpdateSnippetContent } from './snippet'
+import type {
+  GetSnippetList,
+  GetSnippetDetail,
+  UpdateSnippetContent,
+  ConnectSnippetWithTag
+} from './snippet'
 export interface ElectronAPI {
   close: () => void
   maximize: () => void
@@ -8,6 +13,7 @@ export interface ElectronAPI {
   getSnippetList: GetSnippetList
   getSnippetDetail: GetSnippetDetail
   updateSnippetContent: UpdateSnippetContent
+  connectSnippetWithTag: ConnectSnippetWithTag
 
   getTagList: GetTagList
 }

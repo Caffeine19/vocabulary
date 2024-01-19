@@ -1,6 +1,13 @@
 import prisma from './index'
 
-import { GetSnippetDetail, GetSnippetList, UpdateSnippetContent } from '../../shared/snippet'
+import {
+  ConnectSnippetWithTag,
+  GetSnippetDetail,
+  GetSnippetList,
+  UpdateSnippetContent
+} from '../../shared/snippet'
+import { TagItem } from '../../shared/Tag'
+import { Snippet } from '@prisma/client'
 
 export const getSnippetList: GetSnippetList = async ({ tagId }) => {
   try {
@@ -62,7 +69,26 @@ export const updateSnippetContent: UpdateSnippetContent = async (id, content) =>
       where: { id },
       data: { content }
     })
+    console.log('🚀 ~ constupdateSnippetContent:UpdateSnippetContent= ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ constupdateSnippetDetail:UpdateSnippetContent= ~ error:', error)
+  }
+}
+
+export const connectSnippetWithTag: ConnectSnippetWithTag = async (id, tagId) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: {
+        tags: {
+          connect: {
+            id: tagId
+          }
+        }
+      }
+    })
+    console.log('🚀 ~ connectSnippetWithTag ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ error:', error)
   }
 }
