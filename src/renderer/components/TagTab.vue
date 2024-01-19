@@ -13,7 +13,10 @@ defineProps({
 })
 </script>
 <template>
-  <li class="group flex items-center space-x-1 w-full cursor-pointer">
+  <li
+    class="group flex items-center space-x-1 w-full"
+    :class="selected ? 'cursor-default' : 'cursor-pointer'"
+  >
     <div
       class="w-1 h-6 rounded-md dark:bg-primer-dark-blue-500"
       :class="selected ? 'opacity-100' : 'opacity-0'"
