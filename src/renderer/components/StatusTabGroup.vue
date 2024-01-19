@@ -32,6 +32,10 @@ const StatusTabOptions: StatusTabProps[] = [
       :icon="tab.icon"
       :label="tab.label"
       :num="tab.num"
-    ></StatusTab>
+    >
+      <template #icon>
+        <component :is="tab.icon" class="dark:fill-primer-dark-gray-400"></component>
+      </template>
+    </StatusTab>
   </ul>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Component } from 'vue'
+import { type Component } from 'vue'
 
 import Badge from './Badge.vue'
 
@@ -18,7 +18,7 @@ defineProps<StatusTabProps>()
       class="rounded-lg flex justify-between items-center px-2 py-1.5 space-x-6 bg-transparent dark:hover:bg-primer-dark-gray-200/[0.08] transition-colors"
     >
       <div class="flex space-x-3 items-center">
-        {{ icon }}
+        <slot name="icon"></slot>
         <span class="dark:text-primer-dark-gray-100 font-normal text-lg fira-code">
           {{ label }}
         </span>

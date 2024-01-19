@@ -8,7 +8,7 @@ defineOptions({ name: 'VNav' })
 </script>
 <template>
   <nav class="p-6 space-y-6 overflow-auto">
-    <!-- <StatusTabGroup></StatusTabGroup> -->
+    <StatusTabGroup></StatusTabGroup>
     <Divider></Divider>
     <div class="space-y-2.5">
       <span class="dark:text-primer-dark-gray-0 text-sm font-normal fira-code">Folders</span>
