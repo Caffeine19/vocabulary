@@ -1,0 +1,37 @@
+<script setup lang="ts">
+import StatusTab, { type StatusTabProps } from './StatusTab.vue'
+import Inbox24 from './Icon/Inbox24.vue'
+const StatusTabOptions: StatusTabProps[] = [
+  {
+    icon: Inbox24,
+    label: 'Inbox',
+    num: 12
+  },
+  {
+    icon: Inbox24,
+    label: 'Archived',
+    num: 38
+  },
+  {
+    icon: Inbox24,
+    label: 'Tags',
+    num: 33
+  },
+  {
+    icon: Inbox24,
+    label: 'Deleted',
+    num: 9
+  }
+]
+</script>
+<template>
+  <ul>
+    <StatusTab
+      v-for="(tab, index) in StatusTabOptions"
+      :key="index"
+      :icon="tab.icon"
+      :label="tab.label"
+      :num="tab.num"
+    ></StatusTab>
+  </ul>
+</template>

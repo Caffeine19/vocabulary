@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 
-import TitleBar from './components/TitleBar'
+import TitleBar from './components/TitleBar.vue'
 </script>
 <template>
   <div class="flex flex-col w-screen h-screen overflow-hidden">

@@ -1,17 +1,16 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
+  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "include": [
-    "vite.config.*",
-    "vitest.config.*",
-    "cypress.config.*",
-    "nightwatch.conf.*",
-    "playwright.config.*"
+    "electron.vite.config.*",
+    "src/main/*",
+    "src/preload/*",
+    "src/main/**/*",
+    "src/shared/**/*"
   ],
   "compilerOptions": {
     "composite": true,
-    "noEmit": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "types": ["node"]
+    "types": [
+      "electron-vite/node"
+    ]
   }
 }

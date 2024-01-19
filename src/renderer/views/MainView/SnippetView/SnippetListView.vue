@@ -10,30 +10,10 @@ import Box from '@/components/Box.vue'
 import Divider from '@/components/Divider.vue'
 import Button from '@/components/Button.vue'
 import SnippetItem from '@/components/SnippetItem.vue'
-import type { TagOption } from '@/components/Tag.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
 
 const searchKeyword = ref('')
-
-const tagList = reactive<TagOption[]>([
-  {
-    color: '#3FB950',
-    background: 'rgba(63,185,80,0.1)',
-    label: 'vue'
-  },
-
-  {
-    color: 'rgba(121, 192, 255, 1)',
-    background: 'rgba(121, 192, 255, 0.1)',
-    label: 'TypeScript'
-  },
-  {
-    color: 'rgba(255, 155, 206, 1)',
-    background: 'rgba(255, 155, 206, 0.1)',
-    label: 'SCSS'
-  }
-])
 
 const preview = "const searchKeyword = ref('')"
 
@@ -74,13 +54,7 @@ onMounted(() => snippetStore.getSnippetList())
       <template #main>
         <ul>
           <template v-for="snippet in snippetList" :key="snippet.id">
-            <SnippetItem
-              :id="snippet.id"
-              :name="snippet.name"
-              :tags="snippet.tags"
-              :preview="snippet.excerpt"
-              :excerpt="snippet.excerpt"
-            ></SnippetItem>
+            <SnippetItem :snippet-item="snippet"></SnippetItem>
             <Divider></Divider>
           </template>
         </ul>

@@ -7,7 +7,7 @@ import { type ViewUpdate, EditorView } from '@codemirror/view'
 import GithubDark from '@/theme/GithubDark'
 
 import Box from '@/components/Box.vue'
-import Copy24 from '@/components/Icon/Copy24'
+import Copy24 from '@/components/Icon/Copy24.vue'
 
 const code = ref(`console.log('Hello, world!')`)
 const extensions = [javascript(), GithubDark, EditorView.lineWrapping]
