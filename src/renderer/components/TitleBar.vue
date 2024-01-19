@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Logo from './Logo.vue'
+import WIndowControllerGroup from './WIndowControllerGroup.vue'
 </script>
 <template>
   <header
@@ -11,7 +12,7 @@ import Logo from './Logo.vue'
       <p class="dark:text-primer-dark-gray-0 fira-code text-xl">VOCABULARY</p>
     </div>
 
-    <!-- <WindowController style="-webkit-app-region: no-drag"></WindowController> -->
+    <WIndowControllerGroup style="-webkit-app-region: no-drag"></WIndowControllerGroup>
   </header>
   <div></div>
 </template>

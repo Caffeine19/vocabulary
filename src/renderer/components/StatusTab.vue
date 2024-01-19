@@ -9,7 +9,7 @@ export interface StatusTabProps {
   num: number
 }
 defineOptions({ name: 'VStatusTab' })
-defineProps<StatusTabProps>()
+defineProps<Omit<StatusTabProps, 'icon'>>()
 </script>
 <template>
   <li>

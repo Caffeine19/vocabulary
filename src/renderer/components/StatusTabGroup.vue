@@ -29,7 +29,6 @@ const StatusTabOptions: StatusTabProps[] = [
     <StatusTab
       v-for="(tab, index) in StatusTabOptions"
       :key="index"
-      :icon="tab.icon"
       :label="tab.label"
       :num="tab.num"
     >
