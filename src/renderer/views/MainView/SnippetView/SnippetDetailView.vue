@@ -1,23 +1,32 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
+import { ref } from 'vue'
 
 import Divider from '@/components/Divider.vue'
 import Tag from '@/components/Tag.vue'
 import Button from '@/components/Button.vue'
 import Trashcan16 from '@/components/Icon/Trashcan16.vue'
+import Plus24 from '@renderer/components/Icon/Plus24.vue'
+import SelectMenu from '@renderer/components/SelectMenu.vue'
 
 import CodeEditor from './CodeEditor.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
+import { useTagStore } from '@renderer/stores/tag'
 
 const snippetStore = useSnippetStore()
 const { snippetDetail } = storeToRefs(snippetStore)
+
+const tagStore = useTagStore()
+const { tagList } = storeToRefs(tagStore)
 
 const onUpdateCode = useDebounceFn((e) => {
   if (!snippetDetail.value?.id) return
   snippetStore.updateSnippetContent(snippetDetail.value.id, e)
 }, 300)
+
+const isSelectMenuShow = ref(false)
 </script>
 <template>
   <div class="basis-1/2 p-6 space-y-3 grow flex flex-col">
@@ -27,8 +36,23 @@ const onUpdateCode = useDebounceFn((e) => {
       </span>
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-1.5" v-if="snippetDetail?.tags.length">
-          <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"></Tag>
+          <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"> </Tag>
+          <SelectMenu title="Select Tag" v-model:is-show="isSelectMenuShow" :options="tagList">
+            <template #trigger>
+              <button @click="isSelectMenuShow = !isSelectMenuShow">
+                <Plus24
+                  class="dark:fill-primer-dark-gray-400 dark:hover:fill-primer-dark-gray-0 transition-colors"
+                ></Plus24>
+              </button>
+            </template>
+            <template #menuItem="{ option }">
+              <div>
+                <Tag :tag="option" class="w-fit"></Tag>
+              </div>
+            </template>
+          </SelectMenu>
         </div>
+
         <Button label="Delete" type="danger">
           <template #icon>
             <Trashcan16

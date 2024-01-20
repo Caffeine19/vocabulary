@@ -16,6 +16,7 @@ export default {
         },
         'primer-dark-white': '#FFFFFF',
         'primer-dark-blue': {
+          400: '#388BFD',
           500: '#1F6FEB'
         },
         'primer-dark-green': {

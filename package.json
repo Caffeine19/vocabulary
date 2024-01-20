@@ -17,7 +17,8 @@
     "postinstall": "electron-builder install-app-deps",
     "build:win": "npm run build && electron-builder --win --config",
     "build:mac": "npm run build && electron-builder --mac --config",
-    "build:linux": "npm run build && electron-builder --linux --config"
+    "build:linux": "npm run build && electron-builder --linux --config",
+    "vue-devtools": "./node_modules/.bin/vue-devtools"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.1",
@@ -57,6 +58,7 @@
     "prettier": "^3.1.1",
     "prisma": "^5.8.1",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
     "vue": "^3.4.5",
