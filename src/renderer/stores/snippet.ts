@@ -4,6 +4,7 @@ import { ref, watch } from 'vue'
 import type { SnippetDetail, SnippetItem } from '../../shared/snippet'
 
 import { useTagStore } from './tag'
+import { TagItem } from '@shared/Tag'
 
 export const useSnippetStore = defineStore('snippet', () => {
   const tagStore = useTagStore()
@@ -48,12 +49,20 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
 
-  const connectSnippetWithTag = () => {}
+  const connectSnippetWithTag = async (id: SnippetDetail['id'], tagId: TagItem['id']) => {
+    try {
+      const res = await window.electronAPI.connectSnippetWithTag(id, tagId)
+      console.log('🚀 ~ connectSnippetWithTag ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ connectSnippetWithTag ~ error:', error)
+    }
+  }
   return {
     snippetList,
     getSnippetList,
     snippetDetail,
     getSnippetDetail,
-    updateSnippetContent
+    updateSnippetContent,
+    connectSnippetWithTag
   }
 })

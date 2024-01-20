@@ -64,7 +64,7 @@ const filteredOptions = computed(() => {
 })
 </script>
 <template>
-  <div ref="triggerWrapRef">
+  <div ref="triggerWrapRef" class="flex items-center justify-center">
     <slot name="trigger"></slot>
   </div>
   <Teleport to="body">
@@ -100,8 +100,9 @@ const filteredOptions = computed(() => {
               class="px-4 py-2 border-b dark:border-primer-dark-gray-700 dark:bg-primer-dark-gray-800 dark:hover:bg-primer-dark-gray-400/10 transition-colors last:border-b-0 cursor-pointer"
               v-for="(option, index) in filteredOptions"
               :key="index"
+              @click="$emit('select', option)"
             >
-              <slot name="menuItem" :option="option" @click="$emit('select', option)"> </slot>
+              <slot name="menuItem" :option="option"> </slot>
             </li>
           </ul>
         </div>
@@ -112,7 +113,7 @@ const filteredOptions = computed(() => {
 <style>
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease-out;
 }
 
 .v-enter-from,
