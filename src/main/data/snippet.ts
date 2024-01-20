@@ -6,8 +6,6 @@ import {
   GetSnippetList,
   UpdateSnippetContent
 } from '../../shared/snippet'
-import { TagItem } from '../../shared/Tag'
-import { Snippet } from '@prisma/client'
 
 export const getSnippetList: GetSnippetList = async ({ tagId }) => {
   try {
@@ -22,14 +20,23 @@ export const getSnippetList: GetSnippetList = async ({ tagId }) => {
             name: true,
             color: true
           }
-        }
+        },
+        deleted: true,
+        folderId: true,
+        folder: true,
+        favorited: true
       },
+
       where: {
-        tags: {
-          some: {
-            id: tagId
-          }
-        }
+        ...(tagId
+          ? {
+              tags: {
+                some: {
+                  id: tagId
+                }
+              }
+            }
+          : {})
       }
     })
     console.log('🚀 ~ constgetSnippetList:GetSnippetList= ~ res:', res)
@@ -53,7 +60,11 @@ export const getSnippetDetail: GetSnippetDetail = async (id) => {
             name: true,
             color: true
           }
-        }
+        },
+        favorited: true,
+        deleted: true,
+        folder: true,
+        folderId: true
       }
     })
     console.log('🚀 ~ constgetSnippetDetail:GetSnippetDetail= ~ res:', res)

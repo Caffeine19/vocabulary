@@ -33,17 +33,26 @@ const createSnippetBatch = async () => {
     {
       name: 'vue ts init',
       content: '<script setup lang=”ts”></script><template></template><style scoped></style>',
-      excerpt: '<script setup lang=”ts”></script><template></template><style scoped></style>'
+      excerpt: '<script setup lang=”ts”></script><template></template><style scoped></style>',
+      tags: {
+        connect: [{ id: 1 }, { id: 3 }]
+      }
     },
     {
       name: 'define store',
       content: 'export const snippetStore=defineStore(‘snippet’,()=>{const snippetList})',
-      excerpt: 'export const snippetStore=defineStore(‘snippet’,()=>{const snippetList})'
+      excerpt: 'export const snippetStore=defineStore(‘snippet’,()=>{const snippetList})',
+      tags: {
+        connect: [{ id: 1 }, { id: 3 }, { id: 4 }]
+      }
     },
     {
       name: 'define color',
       content: '$primary-color: #007bff;$secondary-color: #6c757d;',
-      excerpt: '$primary-color: #007bff;$secondary-color: #6c757d;'
+      excerpt: '$primary-color: #007bff;$secondary-color: #6c757d;',
+      tags: {
+        connect: [{ id: 2 }]
+      }
     }
   ]
   try {
@@ -55,5 +64,8 @@ const createSnippetBatch = async () => {
   }
 }
 
-createSnippetBatch()
-createTagBatch()
+const seed = async () => {
+  await createTagBatch()
+  await createSnippetBatch()
+}
+seed()
