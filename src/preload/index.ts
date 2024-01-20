@@ -15,9 +15,9 @@ export enum IPCMainEvent {
 }
 
 const electronAPI: ElectronAPI = {
-  minimize: () => ipcRenderer.invoke(IPCMainEvent.minimize),
-  maximize: () => ipcRenderer.invoke(IPCMainEvent.maximize),
-  close: () => ipcRenderer.invoke(IPCMainEvent.close),
+  minimize: () => ipcRenderer.send(IPCMainEvent.minimize),
+  maximize: () => ipcRenderer.send(IPCMainEvent.maximize),
+  close: () => ipcRenderer.send(IPCMainEvent.close),
 
   getSnippetList: (params) => ipcRenderer.invoke(IPCMainEvent.getSnippetList, params),
   getSnippetDetail: (id) => ipcRenderer.invoke(IPCMainEvent.getSnippetDetail, id),
