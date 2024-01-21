@@ -18,7 +18,7 @@ const backgroundColor = computed(() => tinycolor(tag.value.color).setAlpha(0.08)
     class="rounded-full flex items-center space-x-1.5 py-0.5 px-1.5"
     :style="{ background: backgroundColor }"
   >
-    <Tag16 class="fill-" :style="{ fill: tag.color }"></Tag16>
+    <Tag16 :style="{ fill: tag.color }"></Tag16>
     <span class="fira-code text-sm font-normal" :style="{ color: tag.color || '' }"
       >{{ tag.name }}
     </span>

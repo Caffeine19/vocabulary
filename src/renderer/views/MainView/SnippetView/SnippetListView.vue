@@ -29,10 +29,13 @@ const onSnippetItemClick = (id: ISnippetItem['id']) => {
   snippetStore.getSnippetDetail(id)
 }
 
-watch(snippetList, () => {
-  const initId = snippetList.value[0]?.id
-  if (initId) snippetStore.getSnippetDetail(initId)
-})
+watch(
+  () => snippetList.value.length,
+  () => {
+    const initId = snippetList.value[0]?.id
+    if (initId) snippetStore.getSnippetDetail(initId)
+  }
+)
 </script>
 
 <template>

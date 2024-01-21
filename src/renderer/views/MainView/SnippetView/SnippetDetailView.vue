@@ -34,6 +34,7 @@ const onTagSelect = async (tag: TagItem) => {
   //refresh
   await snippetStore.getSnippetList()
   await snippetStore.getSnippetDetail(snippetDetail.value.id)
+  await tagStore.getTagList()
 }
 </script>
 <template>
