@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import Search16 from '@/components/Icon/Search16.vue'
@@ -15,8 +15,6 @@ import { useSnippetStore } from '@/stores/snippet'
 
 import { type SnippetItem as ISnippetItem } from '@shared/snippet'
 
-const searchKeyword = ref('')
-
 const snippetStore = useSnippetStore()
 
 const { snippetList, snippetDetail } = storeToRefs(snippetStore)
@@ -29,10 +27,19 @@ const onSnippetItemClick = (id: ISnippetItem['id']) => {
   snippetStore.getSnippetDetail(id)
 }
 
+const searchKeyword = ref('')
+const filteredSnippet = computed(() => {
+  return snippetList.value.filter(
+    (s) =>
+      s.name?.toLowerCase().includes(searchKeyword.value.toLowerCase()) ||
+      s.excerpt?.toLowerCase().includes(searchKeyword.value.toLowerCase())
+  )
+})
+
 watch(
-  () => snippetList.value.length,
+  () => filteredSnippet.value.length,
   () => {
-    const initId = snippetList.value[0]?.id
+    const initId = filteredSnippet.value[0]?.id
     if (initId) snippetStore.getSnippetDetail(initId)
   }
 )
@@ -78,7 +85,7 @@ const onNewSnippetButtonClick = async () => {
 
       <template #main>
         <ul>
-          <template v-for="snippet in snippetList" :key="snippet.id">
+          <template v-for="snippet in filteredSnippet" :key="snippet.id">
             <SnippetItem
               :snippet-item="snippet"
               @click="onSnippetItemClick(snippet.id)"
