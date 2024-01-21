@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref, watch, nextTick, computed } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 import X16 from './Icon/X16.vue'
 import Search16 from './Icon/Search16.vue'
@@ -13,7 +14,7 @@ const props = defineProps<{
   options: any[]
 }>()
 
-defineEmits<{ 'update:isShow': [e: boolean]; select: [e: any] }>()
+const emits = defineEmits<{ 'update:isShow': [e: boolean]; select: [e: any] }>()
 
 const position = reactive({
   top: 0,
@@ -24,6 +25,8 @@ const topGap = 20
 
 const triggerWrapRef = ref<HTMLElement | null>(null)
 const menuRef = ref<HTMLElement | null>(null)
+
+onClickOutside(menuRef, () => emits('update:isShow', false))
 
 watch(
   () => props.isShow,
@@ -41,15 +44,15 @@ watch(
           window.innerWidth
         )
 
-        let newLeft = triggerRect.left
-        if (newLeft + menuRef.value.clientWidth > window.innerWidth - 50) {
-          newLeft = triggerRect.right - menuRef.value.clientWidth
+        let newLeft = 0
+        if (triggerRect.left + menuRef.value.clientWidth > window.innerWidth - 50) {
+          newLeft = triggerRect.width - menuRef.value.clientWidth
         }
         position.left = newLeft
 
-        let newTop = triggerRect.bottom
-        if (newTop + menuRef.value.clientHeight > window.innerHeight - 50) {
-          newTop = triggerRect.top - menuRef.value.clientHeight - topGap
+        let newTop = triggerRect.height + topGap
+        if (triggerRect.bottom + menuRef.value.clientHeight > window.innerHeight - 50) {
+          newTop = -(menuRef.value.clientHeight + topGap)
         }
         position.top = newTop
       }
@@ -64,13 +67,14 @@ const filteredOptions = computed(() => {
 })
 </script>
 <template>
-  <div ref="triggerWrapRef" class="flex items-center justify-center">
-    <slot name="trigger"></slot>
-  </div>
-  <Teleport to="body">
+  <div class="relative">
+    <div ref="triggerWrapRef" class="flex items-center justify-center">
+      <slot name="trigger"></slot>
+    </div>
+
     <Transition>
       <div
-        class="flex flex-col rounded-xl dark:bg-primer-dark-gray-800 fixed z-10 border dark:border-primer-dark-gray-600 overflow-clip"
+        class="flex flex-col rounded-xl dark:bg-primer-dark-gray-800 absolute z-10 border dark:border-primer-dark-gray-600 overflow-clip"
         style="box-shadow: 0px 8px 24px 0px #010409"
         :style="{ top: position.top + 'px', left: position.left + 'px' }"
         v-show="isShow"
@@ -88,7 +92,7 @@ const filteredOptions = computed(() => {
         </div>
         <div class="flex flex-col">
           <div class="p-2 dark:border-primer-dark-gray-700 border-b">
-            <Input v-model:value="keyWord" placeholder="Search Tags">
+            <Input v-model:value="keyWord" placeholder="Search Tags" class="min-w-48">
               <template #icon>
                 <Search16
                   class="absolute top-1/2 -translate-y-1/2 left-2.5 dark:fill-primer-dark-gray-400"
@@ -108,7 +112,7 @@ const filteredOptions = computed(() => {
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </div>
 </template>
 <style>
 .v-enter-active,
