@@ -36,6 +36,16 @@ watch(
     if (initId) snippetStore.getSnippetDetail(initId)
   }
 )
+
+const onNewSnippetButtonClick = async () => {
+  try {
+    const res = await snippetStore.createBlankSnippet()
+    if (!res?.id) return
+    await snippetStore.getSnippetList()
+  } catch (error) {
+    console.log('🚀 ~ onNewSnippetButtonClick ~ error:', error)
+  }
+}
 </script>
 
 <template>
@@ -48,7 +58,7 @@ watch(
           ></Search16>
         </template>
       </Input>
-      <Button label="New Snippet" type="primary">
+      <Button label="New Snippet" type="primary" @click="onNewSnippetButtonClick">
         <template #icon>
           <Pencil16 class="dark:fill-primer-dark-white"></Pencil16>
         </template>

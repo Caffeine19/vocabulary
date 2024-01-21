@@ -27,12 +27,13 @@ model Post {
 }
 
 model Snippet {
-  id        Int     @id @default(autoincrement())
-  name      String  @unique
+  id        Int      @id @default(autoincrement())
+  name      String?
   content   String?
   excerpt   String?
-  favorited Boolean @default(false)
-  deleted   Boolean @default(false)
+  favorited Boolean  @default(false)
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
 
   tags Tag[]
 
@@ -41,16 +42,18 @@ model Snippet {
 }
 
 model Tag {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  color String?
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  color     String?
+  createdAt DateTime @default(now())
 
   snippet Snippet[]
 }
 
 model Folder {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
 
   snippets Snippet[]
 }

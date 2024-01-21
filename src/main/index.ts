@@ -7,7 +7,8 @@ import {
   getSnippetList,
   getSnippetDetail,
   updateSnippetContent,
-  connectSnippetWithTag
+  connectSnippetWithTag,
+  createSnippet
 } from './data/snippet'
 import { getTagList } from './data/tag'
 
@@ -20,6 +21,7 @@ export enum IPCMainEvent {
   getSnippetDetail = 'getSnippetDetail',
   updateSnippetContent = 'updateSnippetContent',
   connectSnippetWithTag = 'connectSnippetWithTag',
+  createSnippet = 'createSnippet',
 
   getTagList = 'getTagList'
 }
@@ -36,6 +38,7 @@ function createWindow(): void {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     },
+    trafficLightPosition: { x: 16, y: 20 },
     titleBarStyle: 'hidden'
   })
 
@@ -111,6 +114,10 @@ app.whenReady().then(() => {
   })
   ipcMain.handle(IPCMainEvent.connectSnippetWithTag, async (_, id, tagId) => {
     await connectSnippetWithTag(id, tagId)
+  })
+  ipcMain.handle(IPCMainEvent.createSnippet, async (_, params) => {
+    const res = await createSnippet(params)
+    return res
   })
 
   //tag

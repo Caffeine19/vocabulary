@@ -57,12 +57,23 @@ export const useSnippetStore = defineStore('snippet', () => {
       console.log('🚀 ~ connectSnippetWithTag ~ error:', error)
     }
   }
+
+  const createBlankSnippet = async () => {
+    try {
+      const res = await window.electronAPI.createSnippet({ name: '', content: '', excerpt: '' })
+      return res
+    } catch (error) {
+      console.log('🚀 ~ createBlankSnippet ~ error:', error)
+      throw error
+    }
+  }
   return {
     snippetList,
     getSnippetList,
     snippetDetail,
     getSnippetDetail,
     updateSnippetContent,
-    connectSnippetWithTag
+    connectSnippetWithTag,
+    createBlankSnippet
   }
 })

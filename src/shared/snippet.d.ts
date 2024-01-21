@@ -20,3 +20,7 @@ export interface UpdateSnippetContent {
 export interface ConnectSnippetWithTag {
   (id: SnippetDetail['id'], tagId: TagItem['id']): Promise<void>
 }
+
+export interface CreateSnippet {
+  (params: Pick<Snippet, 'name' | 'content' | 'excerpt'>): Promise<Snippet | undefined>
+}

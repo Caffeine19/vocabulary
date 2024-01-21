@@ -17,7 +17,7 @@ defineProps({
   >
     <div class="flex items-center justify-between">
       <span class="fira-code dark:text-primer-dark-gray-0 text-base font-normal">
-        {{ snippetItem.name }}
+        {{ snippetItem.name || 'Untitled' }}
       </span>
       <div class="flex items-center space-x-1.5" v-if="snippetItem.tags.length > 0">
         <Tag v-for="(tag, index) in snippetItem.tags" :key="index" :tag="tag"></Tag>
@@ -25,7 +25,7 @@ defineProps({
     </div>
     <div>
       <span class="text-xs font-normal fira-code dark:text-primer-dark-gray-400">
-        {{ snippetItem.excerpt }}
+        {{ snippetItem.excerpt || 'No content yet' }}
       </span>
     </div>
   </li>

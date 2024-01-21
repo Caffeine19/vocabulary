@@ -2,6 +2,7 @@ import prisma from './index'
 
 import {
   ConnectSnippetWithTag,
+  CreateSnippet,
   GetSnippetDetail,
   GetSnippetList,
   UpdateSnippetContent
@@ -14,17 +15,12 @@ export const getSnippetList: GetSnippetList = async ({ tagId }) => {
         id: true,
         name: true,
         excerpt: true,
-        tags: {
-          select: {
-            id: true,
-            name: true,
-            color: true
-          }
-        },
+        tags: true,
         deleted: true,
         folderId: true,
         folder: true,
-        favorited: true
+        favorited: true,
+        createdAt: true
       },
 
       where: {
@@ -37,6 +33,10 @@ export const getSnippetList: GetSnippetList = async ({ tagId }) => {
               }
             }
           : {})
+      },
+
+      orderBy: {
+        createdAt: 'desc'
       }
     })
     console.log('🚀 ~ constgetSnippetList:GetSnippetList= ~ res:', res)
@@ -54,15 +54,10 @@ export const getSnippetDetail: GetSnippetDetail = async (id) => {
         id: true,
         name: true,
         content: true,
-        tags: {
-          select: {
-            id: true,
-            name: true,
-            color: true
-          }
-        },
+        tags: true,
         favorited: true,
         deleted: true,
+        createdAt: true,
         folder: true,
         folderId: true
       }
@@ -101,5 +96,32 @@ export const connectSnippetWithTag: ConnectSnippetWithTag = async (id, tagId) =>
     console.log('🚀 ~ connectSnippetWithTag ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ error:', error)
+  }
+}
+
+export const createSnippet: CreateSnippet = async ({ name, content, excerpt }) => {
+  try {
+    const res = await prisma.snippet.create({
+      data: {
+        name,
+        content,
+        excerpt
+      },
+      select: {
+        id: true,
+        name: true,
+        excerpt: true,
+        content: true,
+        createdAt: true,
+        tags: true,
+        deleted: true,
+        folderId: true,
+        folder: true,
+        favorited: true
+      }
+    })
+    return res
+  } catch (error) {
+    console.log('🚀 ~ createSnippet ~ error:', error)
   }
 }
