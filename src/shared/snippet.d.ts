@@ -46,3 +46,7 @@ export interface DeleteSnippet {
 export interface DestroySnippet {
   (id: SnippetDetail['id']): Promise<void>
 }
+
+export interface UpdateSnippetFavorite {
+  (id: SnippetDetail['id'], favorite: SnippetDetail['favorite']): Promise<void>
+}

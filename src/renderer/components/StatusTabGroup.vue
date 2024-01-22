@@ -60,7 +60,7 @@ const onStatusClick = (label: SnippetStatus) => {
       :selected="selectedStatus === tab.label"
     >
       <template #icon>
-        <component :is="tab.icon" class="dark:fill-primer-dark-gray-400"></component>
+        <component :is="tab.icon" class="dark:fill-primer-dark-gray-400 w-5 h-5"></component>
       </template>
     </StatusTab>
   </ul>

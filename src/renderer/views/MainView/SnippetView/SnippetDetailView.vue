@@ -12,6 +12,9 @@ import SelectMenu from '@renderer/components/SelectMenu.vue'
 import CodeEditor from './CodeEditor.vue'
 import FileDirectory16 from '@renderer/components/Icon/FileDirectory16.vue'
 import TriangleDown16 from '@renderer/components/Icon/TriangleDown16.vue'
+import IconButton from '@renderer/components/IconButton.vue'
+import Heart24 from '@renderer/components/Icon/Heart24.vue'
+import HeartFill16 from '@renderer/components/Icon/HeartFill16.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -50,6 +53,17 @@ const onDeleteButtonClick = async () => {
     console.log('🚀 ~ onDeleteButtonClick ~ error:', error)
   }
 }
+
+const onFavoriteButtonClick = async () => {
+  try {
+    if (!snippetDetail.value?.id) return
+    await snippetStore.updateSnippetFavorite(snippetDetail.value.id)
+    snippetStore.getSnippetList()
+    snippetStore.getStatusSnippetCount()
+  } catch (error) {
+    console.log('🚀 ~ onFavoriteButtonClick ~ error:', error)
+  }
+}
 </script>
 <template>
   <div class="basis-1/2 p-6 pb-4 space-y-3 grow flex flex-col">
@@ -58,6 +72,13 @@ const onDeleteButtonClick = async () => {
         <span class="fira-code text-base font-normal dark:text-primer-dark-white">
           {{ snippetDetail?.name || 'untitled' }}
         </span>
+
+        <IconButton>
+          <template #icon="{ iconStyle }">
+            <Heart24 class="w-4 h-4" :class="iconStyle" v-if="!snippetDetail?.favorite"></Heart24>
+            <HeartFill16 class="w-4 h-4 dark:fill-primer-dark-red-400" v-else></HeartFill16>
+          </template>
+        </IconButton>
       </div>
 
       <div class="flex items-center justify-between">

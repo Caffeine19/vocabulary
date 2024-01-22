@@ -8,7 +8,9 @@ import {
   GetSnippetDetail,
   GetSnippetList,
   GetSnippetStatusCount,
-  UpdateSnippetContent
+  SnippetDetail,
+  UpdateSnippetContent,
+  UpdateSnippetFavorite
 } from '../../shared/snippet'
 
 export const getSnippetList: GetSnippetList = async ({ tagId, status }) => {
@@ -188,5 +190,14 @@ export const destroySnippet: DestroySnippet = async (id) => {
     console.log('🚀 ~ constdestroySnippet:DestroySnippet= ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ constdestorySnippet:DestroySnippet= ~ error:', error)
+  }
+}
+
+export const updateSnippetFavorite: UpdateSnippetFavorite = async (id, favorite) => {
+  try {
+    const res = await prisma.snippet.update({ where: { id }, data: { favorite } })
+    console.log('🚀 ~ constupdateSnippetFavorite:UpdateSnippetFavorite= ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ updateSnippetFavorite ~ error:', error)
   }
 }
