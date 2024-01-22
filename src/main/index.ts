@@ -10,7 +10,8 @@ import {
   connectSnippetWithTag,
   createSnippet,
   deleteSnippet,
-  destroySnippet
+  destroySnippet,
+  getSnippetStatusCount
 } from './data/snippet'
 import { getTagList } from './data/tag'
 
@@ -21,6 +22,7 @@ export enum IPCMainEvent {
 
   getSnippetList = 'getSnippetList',
   getSnippetDetail = 'getSnippetDetail',
+  getSnippetStatusCount = 'getSnippetStatusCount',
   updateSnippetContent = 'updateSnippetContent',
   connectSnippetWithTag = 'connectSnippetWithTag',
   createSnippet = 'createSnippet',
@@ -107,7 +109,10 @@ app.whenReady().then(() => {
     const res = await getSnippetList(params)
     return res
   })
-
+  ipcMain.handle(IPCMainEvent.getSnippetStatusCount, async () => {
+    const res = await getSnippetStatusCount()
+    return res
+  })
   ipcMain.handle(IPCMainEvent.getSnippetDetail, async (_, id) => {
     console.log('🚀 ~ ipcMain.handle ~ id:', id)
     const res = await getSnippetDetail(id)

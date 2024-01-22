@@ -6,7 +6,8 @@ import type {
   ConnectSnippetWithTag,
   CreateSnippet,
   DeleteSnippet,
-  DestroySnippet
+  DestroySnippet,
+  GetSnippetStatusCount
 } from './snippet'
 export interface ElectronAPI {
   close: () => void
@@ -15,6 +16,7 @@ export interface ElectronAPI {
 
   getSnippetList: GetSnippetList
   getSnippetDetail: GetSnippetDetail
+  getSnippetStatusCount: GetSnippetStatusCount
   updateSnippetContent: UpdateSnippetContent
   connectSnippetWithTag: ConnectSnippetWithTag
   createSnippet: CreateSnippet

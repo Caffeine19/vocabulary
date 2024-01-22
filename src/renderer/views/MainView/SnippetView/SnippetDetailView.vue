@@ -11,6 +11,7 @@ import Plus24 from '@renderer/components/Icon/Plus24.vue'
 import SelectMenu from '@renderer/components/SelectMenu.vue'
 import CodeEditor from './CodeEditor.vue'
 import FileDirectory16 from '@renderer/components/Icon/FileDirectory16.vue'
+import TriangleDown16 from '@renderer/components/Icon/TriangleDown16.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -43,6 +44,7 @@ const onDeleteButtonClick = async () => {
     if (!snippetDetail.value?.id) return
     await snippetStore.deleteSnippet(snippetDetail.value.id)
     snippetStore.getSnippetList()
+    snippetStore.getStatusSnippetCount()
     tagStore.getTagList()
   } catch (error) {
     console.log('🚀 ~ onDeleteButtonClick ~ error:', error)
@@ -92,7 +94,10 @@ const onDeleteButtonClick = async () => {
       @update:code="(e) => onUpdateCode(e)"
     ></CodeEditor>
     <div class="flex items-center justify-between">
-      <Button :label="snippetDetail?.folder?.name || 'inbox'" type="secondary" :plain="true">
+      <Button :label="snippetDetail?.folder?.name || 'Inbox'" type="secondary" :plain="true">
+        <template #rightIcon="{ iconStyle }">
+          <TriangleDown16 :class="iconStyle"></TriangleDown16>
+        </template>
         <template #leftIcon="{ iconStyle }">
           <FileDirectory16 :class="iconStyle"></FileDirectory16>
         </template>

@@ -7,10 +7,11 @@ import {
   DestroySnippet,
   GetSnippetDetail,
   GetSnippetList,
+  GetSnippetStatusCount,
   UpdateSnippetContent
 } from '../../shared/snippet'
 
-export const getSnippetList: GetSnippetList = async ({ tagId }) => {
+export const getSnippetList: GetSnippetList = async ({ tagId, status }) => {
   try {
     const res = await prisma.snippet.findMany({
       select: {
@@ -21,7 +22,7 @@ export const getSnippetList: GetSnippetList = async ({ tagId }) => {
         deleted: true,
         folderId: true,
         folder: true,
-        favorited: true,
+        favorite: true,
         createdAt: true
       },
 
@@ -35,7 +36,14 @@ export const getSnippetList: GetSnippetList = async ({ tagId }) => {
               }
             }
           : {}),
-        deleted: false
+
+        ...(status === 'deleted'
+          ? { deleted: true }
+          : status === 'favorite'
+            ? { favorite: true, deleted: false }
+            : status === 'inbox'
+              ? { folderId: null, deleted: false }
+              : { deleted: false })
       },
 
       orderBy: {
@@ -49,6 +57,30 @@ export const getSnippetList: GetSnippetList = async ({ tagId }) => {
   }
 }
 
+export const getSnippetStatusCount: GetSnippetStatusCount = async () => {
+  try {
+    const getInboxCount = () => prisma.snippet.count({ where: { deleted: false, folderId: null } })
+    const getAllCount = () => prisma.snippet.count({ where: { deleted: false } })
+    const getFavoriteCount = () =>
+      prisma.snippet.count({ where: { deleted: false, favorite: true } })
+    const getDeletedCount = () => prisma.snippet.count({ where: { deleted: true } })
+
+    const res = await Promise.all([
+      getInboxCount(),
+      getAllCount(),
+      getFavoriteCount(),
+      getDeletedCount()
+    ])
+    console.log('🚀 ~ constgetSnippetStatusCount:GetSnippetStatusCount= ~ res:', res)
+
+    const [inbox, all, favorite, deleted] = res
+
+    return { inbox, all, favorite, deleted }
+  } catch (error) {
+    console.log('🚀 ~ getSnippetStatusCount ~ error:', error)
+  }
+}
+
 export const getSnippetDetail: GetSnippetDetail = async (id) => {
   try {
     const res = await prisma.snippet.findUnique({
@@ -58,7 +90,7 @@ export const getSnippetDetail: GetSnippetDetail = async (id) => {
         name: true,
         content: true,
         tags: true,
-        favorited: true,
+        favorite: true,
         deleted: true,
         createdAt: true,
         folder: true,
@@ -120,7 +152,7 @@ export const createSnippet: CreateSnippet = async ({ name, content, excerpt }) =
         deleted: true,
         folderId: true,
         folder: true,
-        favorited: true
+        favorite: true
       }
     })
     return res

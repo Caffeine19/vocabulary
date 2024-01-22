@@ -31,7 +31,7 @@ model Snippet {
   name      String?
   content   String?
   excerpt   String?
-  favorited Boolean  @default(false)
+  favorite  Boolean  @default(false)
   deleted   Boolean  @default(false)
   createdAt DateTime @default(now())
 

@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 
-import type { SnippetDetail, SnippetItem } from '../../shared/snippet'
+import type {
+  SnippetDetail,
+  SnippetItem,
+  SnippetStatus,
+  SnippetStatusCount
+} from '../../shared/snippet'
 
 import { useTagStore } from './tag'
 import { TagItem } from '@shared/Tag'
@@ -9,12 +14,25 @@ import { TagItem } from '@shared/Tag'
 export const useSnippetStore = defineStore('snippet', () => {
   const tagStore = useTagStore()
 
+  const statusCount = ref<SnippetStatusCount>()
+  const getStatusSnippetCount = async () => {
+    try {
+      const res = await window.electronAPI.getSnippetStatusCount()
+      if (res) statusCount.value = res
+    } catch (error) {
+      console.log('🚀 ~ getStatusSnippetCount ~ error:', error)
+    }
+  }
+
+  const selectedStatus = ref<SnippetStatus>('inbox')
+
   const snippetList = ref<SnippetItem[]>([])
   const getSnippetList = async () => {
     const { selectedTagId } = tagStore
     try {
       const res = await window.electronAPI.getSnippetList({
-        tagId: selectedTagId
+        tagId: selectedTagId,
+        status: selectedStatus.value
       })
       if (res) snippetList.value = res
     } catch (error) {
@@ -22,7 +40,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
   watch(
-    () => tagStore.selectedTagId,
+    () => [tagStore.selectedTagId, selectedStatus.value],
     () => getSnippetList()
   )
 
@@ -88,6 +106,9 @@ export const useSnippetStore = defineStore('snippet', () => {
   return {
     snippetList,
     getSnippetList,
+    statusCount,
+    selectedStatus,
+    getStatusSnippetCount,
     snippetDetail,
     getSnippetDetail,
     updateSnippetContent,

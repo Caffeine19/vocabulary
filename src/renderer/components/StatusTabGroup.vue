@@ -1,40 +1,63 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
 import StatusTab, { type StatusTabProps } from './StatusTab.vue'
 import Inbox24 from './Icon/Inbox24.vue'
 import Trash24 from './Icon/Trash24.vue'
 import Archive24 from './Icon/Archive24.vue'
 import Heart24 from './Icon/Heart24.vue'
 
-const StatusTabOptions: StatusTabProps[] = [
+import { useSnippetStore } from '@renderer/stores/snippet'
+import { computed, onMounted } from 'vue'
+import { SnippetStatus } from '@shared/snippet'
+import { useTagStore } from '@renderer/stores/tag'
+
+const snippetStore = useSnippetStore()
+const { statusCount, selectedStatus } = storeToRefs(snippetStore)
+
+const StatusTabOptions = computed<(StatusTabProps & { label: SnippetStatus })[]>(() => [
   {
     icon: Inbox24,
-    label: 'Inbox',
-    num: 12
+    label: 'inbox',
+    num: statusCount.value?.inbox || 0
   },
   {
     icon: Archive24,
-    label: 'All',
-    num: 38
+    label: 'all',
+    num: statusCount.value?.all || 0
   },
   {
     icon: Heart24,
-    label: 'Favorite',
-    num: 33
+    label: 'favorite',
+    num: statusCount.value?.favorite || 0
   },
   {
     icon: Trash24,
-    label: 'Deleted',
-    num: 9
+    label: 'deleted',
+    num: statusCount.value?.deleted || 0
   }
-]
+])
+onMounted(() => {
+  snippetStore.getStatusSnippetCount()
+})
+
+const tagStore = useTagStore()
+const { selectedTag } = storeToRefs(tagStore)
+
+const onStatusClick = (label: SnippetStatus) => {
+  selectedStatus.value = label
+  selectedTag.value = undefined
+}
 </script>
 <template>
-  <ul>
+  <ul class="space-y-1.5">
     <StatusTab
       v-for="(tab, index) in StatusTabOptions"
       :key="index"
       :label="tab.label"
       :num="tab.num"
+      @click="onStatusClick(tab.label)"
+      :selected="selectedStatus === tab.label"
     >
       <template #icon>
         <component :is="tab.icon" class="dark:fill-primer-dark-gray-400"></component>

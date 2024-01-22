@@ -4,8 +4,20 @@ import type { Tag, TagItem } from './Tag'
 export type Snippet = PrismaSnippet
 export type SnippetItem = Omit<Snippet, 'content'> & { tags: Tag[] }
 
+export type SnippetStatus = 'inbox' | 'all' | 'favorite' | 'deleted'
+
 export interface GetSnippetList {
-  (params: { tagId?: Tag['id'] }): Promise<SnippetItem[] | undefined>
+  (params: { tagId?: Tag['id']; status?: SnippetStatus }): Promise<SnippetItem[] | undefined>
+}
+
+export type SnippetStatusCount = {
+  [key: string]: number
+} & { [key in SnippetStatus]: number }
+
+type a = keyof SnippetStatusCount
+
+export interface GetSnippetStatusCount {
+  (): Promise<SnippetStatusCount | undefined>
 }
 
 export type SnippetDetail = Omit<Snippet, 'excerpt'> & { tags: Tag[]; folder: Folder | null }

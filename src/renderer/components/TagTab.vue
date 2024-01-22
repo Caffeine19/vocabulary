@@ -22,7 +22,7 @@ defineProps({
       :class="selected ? 'opacity-100' : 'opacity-0'"
     ></div>
     <div
-      class="flex items-center justify-between px-2 py-1.5 rounded-md grow transition-colors"
+      class="flex items-center justify-between px-2 py-1.5 rounded-md grow transition-colors space-x-4"
       :class="
         selected
           ? ' dark:bg-primer-dark-gray-200/[0.08] dark:group-hover:bg-primer-dark-gray-200/[0.12] '

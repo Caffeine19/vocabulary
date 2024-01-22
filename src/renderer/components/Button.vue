@@ -22,11 +22,9 @@ const dangerStyle = {
   icon: 'dark:fill-primer-dark-red-400 dark:group-hover:fill-primer-dark-white'
 }
 const secondaryStyle = {
-  button:
-    (props.plain
-      ? 'dark:bg-transparent dark:hover:bg-primer-dark-gray-700'
-      : 'dark:bg-primer-dark-gray-700 dark:hover:bg-primer-dark-gray-600 ') +
-    ' dark:border-primer-dark-gray-0/10 dark:hover:border-primer-dark-gray-300',
+  button: props.plain
+    ? 'dark:bg-transparent dark:hover:bg-primer-dark-gray-700 dark:border-primer-dark-gray-600 dark:hover:border-primer-dark-gray-300'
+    : 'dark:bg-primer-dark-gray-700 dark:hover:bg-primer-dark-gray-600 dark:border-primer-dark-gray-0/10 dark:hover:border-primer-dark-gray-300',
   label: 'dark:text-primer-dark-gray-100',
   icon: 'dark:fill-primer-dark-gray-400'
 }
