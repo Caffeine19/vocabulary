@@ -134,13 +134,16 @@ export const connectSnippetWithTag: ConnectSnippetWithTag = async (id, tagId) =>
   }
 }
 
-export const createSnippet: CreateSnippet = async ({ name, content, excerpt }) => {
+export const createSnippet: CreateSnippet = async ({ name, content, excerpt, tagId }) => {
   try {
     const res = await prisma.snippet.create({
       data: {
         name,
         content,
-        excerpt
+        excerpt,
+        tags: {
+          connect: [{ id: tagId }]
+        }
       },
       select: {
         id: true,

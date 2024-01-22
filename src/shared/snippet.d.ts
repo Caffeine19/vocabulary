@@ -34,7 +34,9 @@ export interface ConnectSnippetWithTag {
 }
 
 export interface CreateSnippet {
-  (params: Pick<Snippet, 'name' | 'content' | 'excerpt'>): Promise<Snippet | undefined>
+  (
+    params: Pick<Snippet, 'name' | 'content' | 'excerpt'> & { tagId?: Tag['id'] }
+  ): Promise<Snippet | undefined>
 }
 
 export interface DeleteSnippet {
