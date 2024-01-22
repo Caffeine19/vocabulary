@@ -66,8 +66,8 @@ const onNewSnippetButtonClick = async () => {
         </template>
       </Input>
       <Button label="New Snippet" type="primary" @click="onNewSnippetButtonClick">
-        <template #icon>
-          <Pencil16 class="dark:fill-primer-dark-white"></Pencil16>
+        <template #rightIcon="{ iconStyle }">
+          <Pencil16 :class="iconStyle"></Pencil16>
         </template>
       </Button>
     </div>

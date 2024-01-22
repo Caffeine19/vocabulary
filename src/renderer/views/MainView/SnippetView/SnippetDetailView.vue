@@ -10,6 +10,7 @@ import Trashcan16 from '@/components/Icon/Trashcan16.vue'
 import Plus24 from '@renderer/components/Icon/Plus24.vue'
 import SelectMenu from '@renderer/components/SelectMenu.vue'
 import CodeEditor from './CodeEditor.vue'
+import FileDirectory16 from '@renderer/components/Icon/FileDirectory16.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -91,24 +92,18 @@ const onDeleteButtonClick = async () => {
       @update:code="(e) => onUpdateCode(e)"
     ></CodeEditor>
     <div class="flex items-center justify-between">
-      <div>
-        <span class="fira-code text-base font-normal dark:text-primer-dark-gray-400">{{
-          snippetDetail?.folderId || 'no folder'
-        }}</span>
-      </div>
+      <Button :label="snippetDetail?.folder?.name || 'inbox'" type="secondary" :plain="true">
+        <template #leftIcon="{ iconStyle }">
+          <FileDirectory16 :class="iconStyle"></FileDirectory16>
+        </template>
+      </Button>
       <Button label="Delete" type="danger" @click="onDeleteButtonClick">
-        <template #icon>
-          <Trashcan16
-            class="dark:fill-primer-dark-red-500 dark:group-hover:fill-primer-dark-white transition-colors"
-          ></Trashcan16>
+        <template #leftIcon="{ iconStyle }">
+          <Trashcan16 :class="iconStyle"></Trashcan16>
         </template>
       </Button>
     </div>
   </div>
 </template>
 
-<style scoped>
-.v-button {
-  @apply py-0.5;
-}
-</style>
+<style scoped></style>

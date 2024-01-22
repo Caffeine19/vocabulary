@@ -1,4 +1,4 @@
-import type { Snippet as PrismaSnippet } from '@prisma/client'
+import type { Folder, Snippet as PrismaSnippet } from '@prisma/client'
 import type { Tag, TagItem } from './Tag'
 
 export type Snippet = PrismaSnippet
@@ -8,7 +8,7 @@ export interface GetSnippetList {
   (params: { tagId?: Tag['id'] }): Promise<SnippetItem[] | undefined>
 }
 
-export type SnippetDetail = Omit<Snippet, 'excerpt'> & { tags: Tag[] }
+export type SnippetDetail = Omit<Snippet, 'excerpt'> & { tags: Tag[]; folder: Folder | null }
 export interface GetSnippetDetail {
   (id: Snippet['id']): Promise<SnippetDetail | null | undefined>
 }
