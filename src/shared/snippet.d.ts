@@ -24,3 +24,11 @@ export interface ConnectSnippetWithTag {
 export interface CreateSnippet {
   (params: Pick<Snippet, 'name' | 'content' | 'excerpt'>): Promise<Snippet | undefined>
 }
+
+export interface DeleteSnippet {
+  (id: SnippetDetail['id']): Promise<void>
+}
+
+export interface DestroySnippet {
+  (id: SnippetDetail['id']): Promise<void>
+}

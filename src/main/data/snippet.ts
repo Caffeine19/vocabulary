@@ -3,6 +3,8 @@ import prisma from './index'
 import {
   ConnectSnippetWithTag,
   CreateSnippet,
+  DeleteSnippet,
+  DestroySnippet,
   GetSnippetDetail,
   GetSnippetList,
   UpdateSnippetContent
@@ -32,7 +34,8 @@ export const getSnippetList: GetSnippetList = async ({ tagId }) => {
                 }
               }
             }
-          : {})
+          : {}),
+        deleted: false
       },
 
       orderBy: {
@@ -123,5 +126,32 @@ export const createSnippet: CreateSnippet = async ({ name, content, excerpt }) =
     return res
   } catch (error) {
     console.log('🚀 ~ createSnippet ~ error:', error)
+  }
+}
+
+export const deleteSnippet: DeleteSnippet = async (id) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: {
+        id
+      },
+      data: {
+        deleted: true
+      }
+    })
+    console.log('🚀 ~ deleteSnippet:DeleteSnippet ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ deleteSnippet ~ error:', error)
+  }
+}
+
+export const destroySnippet: DestroySnippet = async (id) => {
+  try {
+    const res = await prisma.snippet.delete({
+      where: { id }
+    })
+    console.log('🚀 ~ constdestroySnippet:DestroySnippet= ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ constdestorySnippet:DestroySnippet= ~ error:', error)
   }
 }

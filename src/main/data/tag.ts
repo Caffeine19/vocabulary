@@ -9,9 +9,14 @@ export const getTagList: GetTagList = async () => {
         id: true,
         name: true,
         color: true,
+        createdAt: true,
         _count: {
           select: {
-            snippet: true
+            snippet: {
+              where: {
+                deleted: false
+              }
+            }
           }
         }
       }

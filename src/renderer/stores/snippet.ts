@@ -67,6 +67,24 @@ export const useSnippetStore = defineStore('snippet', () => {
       throw error
     }
   }
+
+  const deleteSnippet = async (id: SnippetDetail['id']) => {
+    try {
+      const res = await window.electronAPI.deleteSnippet(id)
+      console.log('🚀 ~ deleteSnippet ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ deleteSnippet ~ error:', error)
+    }
+  }
+
+  const destroySnippet = async (id: SnippetDetail['id']) => {
+    try {
+      const res = await window.electronAPI.destroySnippet(id)
+      console.log('🚀 ~ destroySnippet ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ destroySnippet ~ error:', error)
+    }
+  }
   return {
     snippetList,
     getSnippetList,
@@ -74,6 +92,8 @@ export const useSnippetStore = defineStore('snippet', () => {
     getSnippetDetail,
     updateSnippetContent,
     connectSnippetWithTag,
-    createBlankSnippet
+    createBlankSnippet,
+    deleteSnippet,
+    destroySnippet
   }
 })

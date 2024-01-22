@@ -33,19 +33,35 @@ const onTagSelect = async (tag: TagItem) => {
   await snippetStore.connectSnippetWithTag(snippetDetail.value.id, tag.id)
   //refresh
   await snippetStore.getSnippetList()
-  await snippetStore.getSnippetDetail(snippetDetail.value.id)
-  await tagStore.getTagList()
+  snippetStore.getSnippetDetail(snippetDetail.value.id)
+  tagStore.getTagList()
+}
+
+const onDeleteButtonClick = async () => {
+  try {
+    if (!snippetDetail.value?.id) return
+    await snippetStore.deleteSnippet(snippetDetail.value.id)
+    snippetStore.getSnippetList()
+    tagStore.getTagList()
+  } catch (error) {
+    console.log('🚀 ~ onDeleteButtonClick ~ error:', error)
+  }
 }
 </script>
 <template>
-  <div class="basis-1/2 p-6 space-y-3 grow flex flex-col">
+  <div class="basis-1/2 p-6 pb-4 space-y-3 grow flex flex-col">
     <div class="space-y-2.5">
-      <span class="fira-code text-base font-normal dark:text-primer-dark-white">
-        {{ snippetDetail?.name || 'untitled' }}
-      </span>
       <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-1.5" v-if="snippetDetail?.tags.length">
-          <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"> </Tag>
+        <span class="fira-code text-base font-normal dark:text-primer-dark-white">
+          {{ snippetDetail?.name || 'untitled' }}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-1.5">
+          <template v-if="snippetDetail?.tags.length">
+            <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"> </Tag>
+          </template>
 
           <SelectMenu
             title="Select Tag"
@@ -67,22 +83,27 @@ const onTagSelect = async (tag: TagItem) => {
             </template>
           </SelectMenu>
         </div>
-
-        <Button label="Delete" type="danger">
-          <template #icon>
-            <Trashcan16
-              class="dark:fill-primer-dark-red-500 dark:group-hover:fill-primer-dark-white transition-colors"
-            ></Trashcan16>
-          </template>
-        </Button>
       </div>
     </div>
-    <Divider></Divider>
     <CodeEditor
       class="grow"
       :code="snippetDetail?.content || ''"
       @update:code="(e) => onUpdateCode(e)"
     ></CodeEditor>
+    <div class="flex items-center justify-between">
+      <div>
+        <span class="fira-code text-base font-normal dark:text-primer-dark-gray-400">{{
+          snippetDetail?.folderId || 'no folder'
+        }}</span>
+      </div>
+      <Button label="Delete" type="danger" @click="onDeleteButtonClick">
+        <template #icon>
+          <Trashcan16
+            class="dark:fill-primer-dark-red-500 dark:group-hover:fill-primer-dark-white transition-colors"
+          ></Trashcan16>
+        </template>
+      </Button>
+    </div>
   </div>
 </template>
 

@@ -8,7 +8,9 @@ import {
   getSnippetDetail,
   updateSnippetContent,
   connectSnippetWithTag,
-  createSnippet
+  createSnippet,
+  deleteSnippet,
+  destroySnippet
 } from './data/snippet'
 import { getTagList } from './data/tag'
 
@@ -22,6 +24,8 @@ export enum IPCMainEvent {
   updateSnippetContent = 'updateSnippetContent',
   connectSnippetWithTag = 'connectSnippetWithTag',
   createSnippet = 'createSnippet',
+  deleteSnippet = 'deleteSnippet',
+  destroySnippet = 'destroySnippet',
 
   getTagList = 'getTagList'
 }
@@ -117,6 +121,14 @@ app.whenReady().then(() => {
   })
   ipcMain.handle(IPCMainEvent.createSnippet, async (_, params) => {
     const res = await createSnippet(params)
+    return res
+  })
+  ipcMain.handle(IPCMainEvent.deleteSnippet, async (_, id) => {
+    const res = await deleteSnippet(id)
+    return res
+  })
+  ipcMain.handle(IPCMainEvent.destroySnippet, async (_, id) => {
+    const res = await destroySnippet(id)
     return res
   })
 
