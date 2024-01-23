@@ -15,6 +15,7 @@ import TriangleDown16 from '@renderer/components/Icon/TriangleDown16.vue'
 import IconButton from '@renderer/components/IconButton.vue'
 import Heart24 from '@renderer/components/Icon/Heart24.vue'
 import HeartFill16 from '@renderer/components/Icon/HeartFill16.vue'
+import Check16 from '@renderer/components/Icon/Check16.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -114,8 +115,14 @@ const onFolderSelect = async (folder: FolderItem) => {
               </Button>
             </template>
             <template #menuItem="{ option }">
-              <li class="dark:text-primer-dark-gray-0 fira-code text-sm">
-                {{ option.name }}
+              <li class="flex items-center space-x-4">
+                <Check16
+                  class="dark:fill-primer-dark-gray-0 transition-opacity"
+                  :class="option.id === snippetDetail?.folderId ? 'opacity-100' : 'opacity-0'"
+                ></Check16>
+                <span class="dark:text-primer-dark-gray-0 fira-code text-sm">
+                  {{ option.name }}
+                </span>
               </li>
             </template>
           </SelectMenu>
