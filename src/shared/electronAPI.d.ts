@@ -1,4 +1,5 @@
 import { GetTagList } from './Tag'
+import { GetFolderList } from './folder'
 import type {
   GetSnippetList,
   GetSnippetDetail,
@@ -7,7 +8,8 @@ import type {
   CreateSnippet,
   DeleteSnippet,
   DestroySnippet,
-  GetSnippetStatusCount
+  GetSnippetStatusCount,
+  MoveSnippetIntoFolder
 } from './snippet'
 export interface ElectronAPI {
   close: () => void
@@ -22,8 +24,11 @@ export interface ElectronAPI {
   createSnippet: CreateSnippet
   deleteSnippet: DeleteSnippet
   destroySnippet: DestroySnippet
+  moveSnippetIntoFolder: MoveSnippetIntoFolder
 
   getTagList: GetTagList
+
+  getFolderList: GetFolderList
 }
 
 declare global {

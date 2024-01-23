@@ -8,6 +8,7 @@ import {
   GetSnippetDetail,
   GetSnippetList,
   GetSnippetStatusCount,
+  MoveSnippetIntoFolder,
   SnippetDetail,
   UpdateSnippetContent,
   UpdateSnippetFavorite
@@ -199,5 +200,23 @@ export const updateSnippetFavorite: UpdateSnippetFavorite = async (id, favorite)
     console.log('🚀 ~ constupdateSnippetFavorite:UpdateSnippetFavorite= ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ updateSnippetFavorite ~ error:', error)
+  }
+}
+
+export const moveSnippetIntoFolder: MoveSnippetIntoFolder = async (id, folderId) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: {
+        folder: {
+          connect: {
+            id: folderId
+          }
+        }
+      }
+    })
+    console.log('🚀 ~ constmoveSnippetIntoFolder:MoveSnippetIntoFolder= ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ moveSnippetIntoFolder ~ error:', error)
   }
 }

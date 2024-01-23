@@ -14,6 +14,7 @@ import {
   getSnippetStatusCount
 } from './data/snippet'
 import { getTagList } from './data/tag'
+import { getFolderList } from './data/folder'
 
 export enum IPCMainEvent {
   minimize = 'minimize',
@@ -28,8 +29,11 @@ export enum IPCMainEvent {
   createSnippet = 'createSnippet',
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
+  moveSnippetIntoFolder = 'moveSnippetIntoFolder',
 
-  getTagList = 'getTagList'
+  getTagList = 'getTagList',
+
+  getFolderList = 'getFolderList'
 }
 
 function createWindow(): void {
@@ -140,6 +144,12 @@ app.whenReady().then(() => {
   //tag
   ipcMain.handle(IPCMainEvent.getTagList, async () => {
     const res = await getTagList()
+    return res
+  })
+
+  //folder
+  ipcMain.handle(IPCMainEvent.getFolderList, async () => {
+    const res = await getFolderList()
     return res
   })
 })

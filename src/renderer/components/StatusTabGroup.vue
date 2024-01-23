@@ -11,6 +11,7 @@ import { useSnippetStore } from '@renderer/stores/snippet'
 import { computed, onMounted } from 'vue'
 import { SnippetStatus } from '@shared/snippet'
 import { useTagStore } from '@renderer/stores/tag'
+import { useFolderStore } from '@renderer/stores/folder'
 
 const snippetStore = useSnippetStore()
 const { statusCount, selectedStatus } = storeToRefs(snippetStore)
@@ -42,11 +43,12 @@ onMounted(() => {
 })
 
 const tagStore = useTagStore()
-const { selectedTag } = storeToRefs(tagStore)
+const folderStore = useFolderStore()
 
 const onStatusClick = (label: SnippetStatus) => {
   selectedStatus.value = label
-  selectedTag.value = undefined
+  tagStore.unsetSelectedTag()
+  folderStore.unsetSelectedFolder()
 }
 </script>
 <template>

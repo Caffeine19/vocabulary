@@ -3,9 +3,10 @@ import FileDirectoryFill16 from './Icon/FileDirectoryFill16.vue'
 
 defineOptions({ name: 'VFolderTab' })
 defineProps<{ label: string; selected: boolean }>()
+defineEmits<{ click: [e: MouseEvent] }>()
 </script>
 <template>
-  <li class="group flex items-center space-x-1 w-full">
+  <li class="group flex items-center space-x-1 w-full" @click="(e) => $emit('click', e)">
     <div
       class="w-1 h-6 rounded-md dark:bg-primer-dark-blue-500"
       :class="selected ? 'opacity-100' : 'opacity-0'"

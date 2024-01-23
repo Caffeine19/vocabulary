@@ -8,11 +8,15 @@ import type {
   SnippetStatusCount
 } from '../../shared/snippet'
 
+import type { TagItem } from '@shared/Tag'
+import type { FolderItem } from '@shared/folder'
+
 import { useTagStore } from './tag'
-import { TagItem } from '@shared/Tag'
+import { useFolderStore } from './folder'
 
 export const useSnippetStore = defineStore('snippet', () => {
   const tagStore = useTagStore()
+  const folderStore = useFolderStore()
 
   const statusCount = ref<SnippetStatusCount>()
   const getStatusSnippetCount = async () => {
@@ -40,7 +44,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
   watch(
-    () => [tagStore.selectedTagId, selectedStatus.value],
+    () => [tagStore.selectedTagId, folderStore.selectedFolderId, selectedStatus.value],
     () => getSnippetList()
   )
 
@@ -108,6 +112,16 @@ export const useSnippetStore = defineStore('snippet', () => {
       console.log('🚀 ~ destroySnippet ~ error:', error)
     }
   }
+
+  const moveSnippetIntoFolder = (id: SnippetDetail['id'], folderId: FolderItem['id']) => {
+    try {
+      const res = window.electronAPI.moveSnippetIntoFolder(id, folderId)
+      console.log('🚀 ~ moveSnippetIntoFolder ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ moveSnippetIntoFolder ~ error:', error)
+    }
+  }
+
   return {
     snippetList,
     getSnippetList,
@@ -120,6 +134,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     connectSnippetWithTag,
     createBlankSnippet,
     deleteSnippet,
-    destroySnippet
+    destroySnippet,
+    moveSnippetIntoFolder
   }
 })
