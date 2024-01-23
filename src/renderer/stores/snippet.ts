@@ -113,9 +113,9 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
 
-  const moveSnippetIntoFolder = (id: SnippetDetail['id'], folderId: FolderItem['id']) => {
+  const moveSnippetIntoFolder = async (id: SnippetDetail['id'], folderId: FolderItem['id']) => {
     try {
-      const res = window.electronAPI.moveSnippetIntoFolder(id, folderId)
+      const res = await window.electronAPI.moveSnippetIntoFolder(id, folderId)
       console.log('🚀 ~ moveSnippetIntoFolder ~ res:', res)
     } catch (error) {
       console.log('🚀 ~ moveSnippetIntoFolder ~ error:', error)

@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
 import { ref } from 'vue'
 
-import Divider from '@/components/Divider.vue'
+// import Divider from '@/components/Divider.vue'
 import Tag from '@/components/Tag.vue'
 import Button from '@/components/Button.vue'
 import Trashcan16 from '@/components/Icon/Trashcan16.vue'
@@ -18,8 +18,10 @@ import HeartFill16 from '@renderer/components/Icon/HeartFill16.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
+import { useFolderStore } from '@renderer/stores/folder'
 
 import type { TagItem } from '@shared/Tag'
+import type { FolderItem } from '@shared/folder'
 
 const snippetStore = useSnippetStore()
 const { snippetDetail } = storeToRefs(snippetStore)
@@ -32,7 +34,7 @@ const onUpdateCode = useDebounceFn((e) => {
   snippetStore.updateSnippetContent(snippetDetail.value.id, e)
 }, 300)
 
-const isSelectMenuShow = ref(false)
+const isTagMenuShow = ref(false)
 const onTagSelect = async (tag: TagItem) => {
   if (!snippetDetail.value) return
   await snippetStore.connectSnippetWithTag(snippetDetail.value.id, tag.id)
@@ -64,6 +66,16 @@ const onFavoriteButtonClick = async () => {
     console.log('🚀 ~ onFavoriteButtonClick ~ error:', error)
   }
 }
+
+const folderStore = useFolderStore()
+const { folderList } = storeToRefs(folderStore)
+
+const isFolderMenuShow = ref(false)
+const onFolderSelect = async (folder: FolderItem) => {
+  if (!snippetDetail.value?.id) return
+  await snippetStore.moveSnippetIntoFolder(snippetDetail.value.id, folder.id)
+  snippetStore.getSnippetDetail(snippetDetail.value.id)
+}
 </script>
 <template>
   <div class="basis-1/2 p-6 pb-4 space-y-3 grow flex flex-col">
@@ -73,12 +85,41 @@ const onFavoriteButtonClick = async () => {
           {{ snippetDetail?.name || 'untitled' }}
         </span>
 
-        <IconButton>
-          <template #icon="{ iconStyle }">
-            <Heart24 class="w-4 h-4" :class="iconStyle" v-if="!snippetDetail?.favorite"></Heart24>
-            <HeartFill16 class="w-4 h-4 dark:fill-primer-dark-red-400" v-else></HeartFill16>
-          </template>
-        </IconButton>
+        <div class="flex items-center space-x-2">
+          <IconButton>
+            <template #icon="{ iconStyle }">
+              <Heart24 class="w-4 h-4" :class="iconStyle" v-if="!snippetDetail?.favorite"></Heart24>
+              <HeartFill16 class="w-4 h-4 dark:fill-primer-dark-red-400" v-else></HeartFill16>
+            </template>
+          </IconButton>
+          <SelectMenu
+            title="Select Folder"
+            v-model:is-show="isFolderMenuShow"
+            :options="folderList"
+            @select="(folder) => onFolderSelect(folder)"
+          >
+            <template #trigger>
+              <Button
+                :label="snippetDetail?.folder?.name || 'Inbox'"
+                type="secondary"
+                :plain="true"
+                @click="isFolderMenuShow = !isFolderMenuShow"
+              >
+                <template #rightIcon="{ iconStyle }">
+                  <TriangleDown16 :class="iconStyle"></TriangleDown16>
+                </template>
+                <template #leftIcon="{ iconStyle }">
+                  <FileDirectory16 :class="iconStyle"></FileDirectory16>
+                </template>
+              </Button>
+            </template>
+            <template #menuItem="{ option }">
+              <li class="dark:text-primer-dark-gray-0 fira-code text-sm">
+                {{ option.name }}
+              </li>
+            </template>
+          </SelectMenu>
+        </div>
       </div>
 
       <div class="flex items-center justify-between">
@@ -89,12 +130,12 @@ const onFavoriteButtonClick = async () => {
 
           <SelectMenu
             title="Select Tag"
-            v-model:is-show="isSelectMenuShow"
+            v-model:is-show="isTagMenuShow"
             :options="tagList"
             @select="(tag) => onTagSelect(tag)"
           >
             <template #trigger>
-              <button @click="isSelectMenuShow = !isSelectMenuShow">
+              <button @click="isTagMenuShow = !isTagMenuShow">
                 <Plus24
                   class="dark:fill-primer-dark-gray-400 dark:hover:fill-primer-dark-gray-0 transition-colors"
                 ></Plus24>
@@ -115,14 +156,6 @@ const onFavoriteButtonClick = async () => {
       @update:code="(e) => onUpdateCode(e)"
     ></CodeEditor>
     <div class="flex items-center justify-between">
-      <Button :label="snippetDetail?.folder?.name || 'Inbox'" type="secondary" :plain="true">
-        <template #rightIcon="{ iconStyle }">
-          <TriangleDown16 :class="iconStyle"></TriangleDown16>
-        </template>
-        <template #leftIcon="{ iconStyle }">
-          <FileDirectory16 :class="iconStyle"></FileDirectory16>
-        </template>
-      </Button>
       <Button label="Delete" type="danger" @click="onDeleteButtonClick">
         <template #leftIcon="{ iconStyle }">
           <Trashcan16 :class="iconStyle"></Trashcan16>

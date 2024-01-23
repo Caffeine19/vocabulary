@@ -11,7 +11,8 @@ import {
   createSnippet,
   deleteSnippet,
   destroySnippet,
-  getSnippetStatusCount
+  getSnippetStatusCount,
+  moveSnippetIntoFolder
 } from './data/snippet'
 import { getTagList } from './data/tag'
 import { getFolderList } from './data/folder'
@@ -139,6 +140,9 @@ app.whenReady().then(() => {
   ipcMain.handle(IPCMainEvent.destroySnippet, async (_, id) => {
     const res = await destroySnippet(id)
     return res
+  })
+  ipcMain.handle(IPCMainEvent.moveSnippetIntoFolder, async (_, id, folderId) => {
+    await moveSnippetIntoFolder(id, folderId)
   })
 
   //tag
