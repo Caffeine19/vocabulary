@@ -9,7 +9,8 @@ import type {
   DeleteSnippet,
   DestroySnippet,
   GetSnippetStatusCount,
-  MoveSnippetIntoFolder
+  MoveSnippetIntoFolder,
+  MoveSnippetIntoInbox
 } from './snippet'
 export interface ElectronAPI {
   close: () => void
@@ -25,6 +26,7 @@ export interface ElectronAPI {
   deleteSnippet: DeleteSnippet
   destroySnippet: DestroySnippet
   moveSnippetIntoFolder: MoveSnippetIntoFolder
+  moveSnippetIntoInbox: MoveSnippetIntoInbox
 
   getTagList: GetTagList
 

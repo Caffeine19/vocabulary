@@ -124,6 +124,15 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
 
+  const moveSnippetIntoInbox = async (id: SnippetDetail['id']) => {
+    try {
+      const res = await window.electronAPI.moveSnippetIntoInbox(id)
+      console.log('🚀 ~ moveSnippetIntoInbox ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ moveSnippetIntoInbox ~ error:', error)
+    }
+  }
+
   return {
     snippetList,
     getSnippetList,
@@ -137,6 +146,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     createBlankSnippet,
     deleteSnippet,
     destroySnippet,
-    moveSnippetIntoFolder
+    moveSnippetIntoFolder,
+    moveSnippetIntoInbox
   }
 })

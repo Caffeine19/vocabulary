@@ -12,7 +12,8 @@ import {
   deleteSnippet,
   destroySnippet,
   getSnippetStatusCount,
-  moveSnippetIntoFolder
+  moveSnippetIntoFolder,
+  moveSnippetIntoInbox
 } from './data/snippet'
 import { getTagList } from './data/tag'
 import { getFolderList } from './data/folder'
@@ -31,6 +32,7 @@ export enum IPCMainEvent {
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
   moveSnippetIntoFolder = 'moveSnippetIntoFolder',
+  moveSnippetIntoInbox = 'moveSnippetIntoInbox',
 
   getTagList = 'getTagList',
 
@@ -143,6 +145,9 @@ app.whenReady().then(() => {
   })
   ipcMain.handle(IPCMainEvent.moveSnippetIntoFolder, async (_, id, folderId) => {
     await moveSnippetIntoFolder(id, folderId)
+  })
+  ipcMain.handle(IPCMainEvent.moveSnippetIntoInbox, async (_, id) => {
+    await moveSnippetIntoInbox(id)
   })
 
   //tag

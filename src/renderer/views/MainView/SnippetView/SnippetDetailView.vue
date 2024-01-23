@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 // import Divider from '@/components/Divider.vue'
 import Tag from '@/components/Tag.vue'
@@ -16,6 +16,7 @@ import IconButton from '@renderer/components/IconButton.vue'
 import Heart24 from '@renderer/components/Icon/Heart24.vue'
 import HeartFill16 from '@renderer/components/Icon/HeartFill16.vue'
 import Check16 from '@renderer/components/Icon/Check16.vue'
+import Inbox16 from '@renderer/components/Icon/Inbox16.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -72,10 +73,20 @@ const folderStore = useFolderStore()
 const { folderList } = storeToRefs(folderStore)
 
 const isFolderMenuShow = ref(false)
-const onFolderSelect = async (folder: FolderItem) => {
+const folderOptions = computed(() => [{ id: undefined, name: 'Inbox' }, ...folderList.value])
+const onFolderSelect = async (folderId: FolderItem['id']) => {
   if (!snippetDetail.value?.id) return
-  await snippetStore.moveSnippetIntoFolder(snippetDetail.value.id, folder.id)
+
+  if (folderId === undefined) {
+    await snippetStore.moveSnippetIntoInbox(snippetDetail.value.id)
+    snippetStore.getStatusSnippetCount()
+  } else {
+    await snippetStore.moveSnippetIntoFolder(snippetDetail.value.id, folderId)
+  }
+
   snippetStore.getSnippetList()
+  snippetStore.getSnippetDetail(snippetDetail.value.id)
+  folderStore.getFolderList()
 
   isFolderMenuShow.value = false
 }
@@ -98,8 +109,8 @@ const onFolderSelect = async (folder: FolderItem) => {
           <SelectMenu
             title="Select Folder"
             v-model:is-show="isFolderMenuShow"
-            :options="folderList"
-            @select="(folder) => onFolderSelect(folder)"
+            :options="folderOptions"
+            @select="(folder) => onFolderSelect(folder.id)"
           >
             <template #trigger>
               <Button
@@ -117,14 +128,21 @@ const onFolderSelect = async (folder: FolderItem) => {
               </Button>
             </template>
             <template #menuItem="{ option }">
-              <li class="flex items-center space-x-4">
+              <li class="flex items-center space-x-4 justify-between">
+                <div class="flex items-center space-x-4">
+                  <component
+                    :is="option.id === undefined ? Inbox16 : FileDirectory16"
+                    class="dark:fill-primer-dark-gray-400"
+                  ></component>
+                  <span class="dark:text-primer-dark-gray-0 fira-code text-sm">
+                    {{ option.name }}
+                  </span>
+                </div>
+
                 <Check16
                   class="dark:fill-primer-dark-gray-0 transition-opacity"
                   :class="option.id === snippetDetail?.folderId ? 'opacity-100' : 'opacity-0'"
                 ></Check16>
-                <span class="dark:text-primer-dark-gray-0 fira-code text-sm">
-                  {{ option.name }}
-                </span>
               </li>
             </template>
           </SelectMenu>

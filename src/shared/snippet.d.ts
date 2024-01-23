@@ -59,3 +59,7 @@ export interface UpdateSnippetFavorite {
 export interface MoveSnippetIntoFolder {
   (id: SnippetItem['id'], folderId: Folder['id']): Promise<void>
 }
+
+export interface MoveSnippetIntoInbox {
+  (id: SnippetItem['id']): Promise<void>
+}

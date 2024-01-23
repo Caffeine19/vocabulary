@@ -226,3 +226,19 @@ export const moveSnippetIntoFolder: MoveSnippetIntoFolder = async (id, folderId)
     console.log('🚀 ~ moveSnippetIntoFolder ~ error:', error)
   }
 }
+
+export const moveSnippetIntoInbox = async (id) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: {
+        folder: {
+          disconnect: true
+        }
+      }
+    })
+    console.log('🚀 ~ moveSnippetInfoInbox ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ moveSnippetInfoInbox ~ error:', error)
+  }
+}
