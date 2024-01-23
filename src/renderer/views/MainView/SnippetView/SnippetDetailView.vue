@@ -75,7 +75,9 @@ const isFolderMenuShow = ref(false)
 const onFolderSelect = async (folder: FolderItem) => {
   if (!snippetDetail.value?.id) return
   await snippetStore.moveSnippetIntoFolder(snippetDetail.value.id, folder.id)
-  snippetStore.getSnippetDetail(snippetDetail.value.id)
+  snippetStore.getSnippetList()
+
+  isFolderMenuShow.value = false
 }
 </script>
 <template>

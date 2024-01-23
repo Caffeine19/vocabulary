@@ -33,9 +33,11 @@ export const useSnippetStore = defineStore('snippet', () => {
   const snippetList = ref<SnippetItem[]>([])
   const getSnippetList = async () => {
     const { selectedTagId } = tagStore
+    const { selectedFolderId } = folderStore
     try {
       const res = await window.electronAPI.getSnippetList({
         tagId: selectedTagId,
+        folderId: selectedFolderId,
         status: selectedStatus.value
       })
       if (res) snippetList.value = res

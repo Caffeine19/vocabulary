@@ -8,7 +8,11 @@ export type SnippetItem = Omit<Snippet, 'content'> & { tags: Tag[] }
 export type SnippetStatus = 'inbox' | 'all' | 'favorite' | 'deleted'
 
 export interface GetSnippetList {
-  (params: { tagId?: Tag['id']; status?: SnippetStatus }): Promise<SnippetItem[] | undefined>
+  (params: {
+    tagId?: Tag['id']
+    folderId?: Folder['id']
+    status?: SnippetStatus
+  }): Promise<SnippetItem[] | undefined>
 }
 
 export type SnippetStatusCount = {

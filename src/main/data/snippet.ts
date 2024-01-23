@@ -14,7 +14,7 @@ import {
   UpdateSnippetFavorite
 } from '../../shared/snippet'
 
-export const getSnippetList: GetSnippetList = async ({ tagId, status }) => {
+export const getSnippetList: GetSnippetList = async ({ tagId, status, folderId }) => {
   try {
     const res = await prisma.snippet.findMany({
       select: {
@@ -37,6 +37,12 @@ export const getSnippetList: GetSnippetList = async ({ tagId, status }) => {
                   id: tagId
                 }
               }
+            }
+          : {}),
+
+        ...(folderId
+          ? {
+              folderId
             }
           : {}),
 
