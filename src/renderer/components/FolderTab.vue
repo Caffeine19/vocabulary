@@ -2,7 +2,7 @@
 import FileDirectoryFill16 from './Icon/FileDirectoryFill16.vue'
 
 defineOptions({ name: 'VFolderTab' })
-defineProps<{ label: string; selected: boolean }>()
+defineProps<{ label: string; selected: boolean; indent: number }>()
 defineEmits<{ click: [e: MouseEvent] }>()
 </script>
 <template>
@@ -19,6 +19,7 @@ defineEmits<{ click: [e: MouseEvent] }>()
             ? ' dark:bg-primer-dark-gray-200/[0.08] dark:group-hover:bg-primer-dark-gray-200/[0.12] '
             : ' dark:group-hover:bg-primer-dark-gray-200/[0.12] '
         "
+        :style="{ paddingLeft: indent + 'px' }"
       >
         <FileDirectoryFill16 class="dark:fill-primer-dark-gray-400"></FileDirectoryFill16>
         <span class="dark:text-primer-dark-gray-100 text-sm font-normal fira-code">{{
