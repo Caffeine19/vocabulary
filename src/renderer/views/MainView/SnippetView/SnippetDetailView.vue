@@ -100,52 +100,58 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
         </span>
 
         <div class="flex items-center space-x-2">
-          <IconButton>
-            <template #icon="{ iconStyle }">
-              <Heart24 class="w-4 h-4" :class="iconStyle" v-if="!snippetDetail?.favorite"></Heart24>
-              <HeartFill16 class="w-4 h-4 dark:fill-primer-dark-red-400" v-else></HeartFill16>
-            </template>
-          </IconButton>
-          <SelectMenu
-            title="Select Folder"
-            v-model:is-show="isFolderMenuShow"
-            :options="folderOptions"
-            @select="(folder) => onFolderSelect(folder.id)"
-          >
-            <template #trigger>
-              <Button
-                :label="snippetDetail?.folder?.name || 'Inbox'"
-                type="secondary"
-                :plain="true"
-                @click="isFolderMenuShow = !isFolderMenuShow"
-              >
-                <template #rightIcon="{ iconStyle }">
-                  <TriangleDown16 :class="iconStyle"></TriangleDown16>
-                </template>
-                <template #leftIcon="{ iconStyle }">
-                  <FileDirectory16 :class="iconStyle"></FileDirectory16>
-                </template>
-              </Button>
-            </template>
-            <template #menuItem="{ option }">
-              <li class="flex items-center space-x-4 justify-between">
-                <div class="flex items-center space-x-4">
-                  <component
-                    :is="option.id === undefined ? Inbox16 : FileDirectory16"
-                    class="dark:fill-primer-dark-gray-400"
-                  ></component>
-                  <span class="dark:text-primer-dark-gray-0 fira-code text-sm">
-                    {{ option.name }}
-                  </span>
-                </div>
+          <template v-if="!snippetDetail?.deleted">
+            <IconButton>
+              <template #icon="{ iconStyle }">
+                <Heart24
+                  class="w-4 h-4"
+                  :class="iconStyle"
+                  v-if="!snippetDetail?.favorite"
+                ></Heart24>
+                <HeartFill16 class="w-4 h-4 dark:fill-primer-dark-red-400" v-else></HeartFill16>
+              </template>
+            </IconButton>
+            <SelectMenu
+              title="Select Folder"
+              v-model:is-show="isFolderMenuShow"
+              :options="folderOptions"
+              @select="(folder) => onFolderSelect(folder.id)"
+            >
+              <template #trigger>
+                <Button
+                  :label="snippetDetail?.folder?.name || 'Inbox'"
+                  type="secondary"
+                  :plain="true"
+                  @click="isFolderMenuShow = !isFolderMenuShow"
+                >
+                  <template #rightIcon="{ iconStyle }">
+                    <TriangleDown16 :class="iconStyle"></TriangleDown16>
+                  </template>
+                  <template #leftIcon="{ iconStyle }">
+                    <FileDirectory16 :class="iconStyle"></FileDirectory16>
+                  </template>
+                </Button>
+              </template>
+              <template #menuItem="{ option }">
+                <li class="flex items-center space-x-4 justify-between">
+                  <div class="flex items-center space-x-4">
+                    <component
+                      :is="option.id === undefined ? Inbox16 : FileDirectory16"
+                      class="dark:fill-primer-dark-gray-400"
+                    ></component>
+                    <span class="dark:text-primer-dark-gray-0 fira-code text-sm">
+                      {{ option.name }}
+                    </span>
+                  </div>
 
-                <Check16
-                  class="dark:fill-primer-dark-gray-0 transition-opacity"
-                  :class="option.id === snippetDetail?.folderId ? 'opacity-100' : 'opacity-0'"
-                ></Check16>
-              </li>
-            </template>
-          </SelectMenu>
+                  <Check16
+                    class="dark:fill-primer-dark-gray-0 transition-opacity"
+                    :class="option.id === snippetDetail?.folderId ? 'opacity-100' : 'opacity-0'"
+                  ></Check16>
+                </li>
+              </template>
+            </SelectMenu>
+          </template>
         </div>
       </div>
 

@@ -9,6 +9,8 @@ export const getFolderList: GetFolderList = async () => {
         id: true,
         name: true,
         createdAt: true,
+        parentId: true,
+
         _count: {
           select: {
             snippets: {
