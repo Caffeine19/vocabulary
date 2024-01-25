@@ -9,6 +9,7 @@ import type {
   DeleteSnippet,
   DestroySnippet,
   GetSnippetStatusCount,
+  UpdateSnippetFavorite,
   MoveSnippetIntoFolder,
   MoveSnippetIntoInbox
 } from './snippet'
@@ -25,6 +26,7 @@ export interface ElectronAPI {
   createSnippet: CreateSnippet
   deleteSnippet: DeleteSnippet
   destroySnippet: DestroySnippet
+  updateSnippetFavorite: UpdateSnippetFavorite
   moveSnippetIntoFolder: MoveSnippetIntoFolder
   moveSnippetIntoInbox: MoveSnippetIntoInbox
 

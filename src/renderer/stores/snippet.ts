@@ -115,6 +115,17 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
 
+  const updateSnippetFavorite = async (
+    id: SnippetDetail['id'],
+    favorite: SnippetDetail['favorite']
+  ) => {
+    try {
+      const res = await window.electronAPI.updateSnippetFavorite(id, favorite)
+      console.log('🚀 ~ useSnippetStore ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ updateSnippetFavorite ~ error:', error)
+    }
+  }
   const moveSnippetIntoFolder = async (id: SnippetDetail['id'], folderId: FolderItem['id']) => {
     try {
       const res = await window.electronAPI.moveSnippetIntoFolder(id, folderId)
@@ -146,6 +157,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     createBlankSnippet,
     deleteSnippet,
     destroySnippet,
+    updateSnippetFavorite,
     moveSnippetIntoFolder,
     moveSnippetIntoInbox
   }

@@ -12,6 +12,7 @@ import {
   deleteSnippet,
   destroySnippet,
   getSnippetStatusCount,
+  updateSnippetFavorite,
   moveSnippetIntoFolder,
   moveSnippetIntoInbox
 } from './data/snippet'
@@ -31,6 +32,7 @@ export enum IPCMainEvent {
   createSnippet = 'createSnippet',
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
+  updateSnippetFavorite = 'updateSnippetFavorite',
   moveSnippetIntoFolder = 'moveSnippetIntoFolder',
   moveSnippetIntoInbox = 'moveSnippetIntoInbox',
 
@@ -142,6 +144,9 @@ app.whenReady().then(() => {
   ipcMain.handle(IPCMainEvent.destroySnippet, async (_, id) => {
     const res = await destroySnippet(id)
     return res
+  })
+  ipcMain.handle(IPCMainEvent.updateSnippetFavorite, async (_, id, favorite) => {
+    await updateSnippetFavorite(id, favorite)
   })
   ipcMain.handle(IPCMainEvent.moveSnippetIntoFolder, async (_, id, folderId) => {
     await moveSnippetIntoFolder(id, folderId)

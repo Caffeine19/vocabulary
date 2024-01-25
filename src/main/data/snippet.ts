@@ -11,7 +11,8 @@ import {
   MoveSnippetIntoFolder,
   SnippetDetail,
   UpdateSnippetContent,
-  UpdateSnippetFavorite
+  UpdateSnippetFavorite,
+  UpdateSnippetName
 } from '../../shared/snippet'
 
 export const getSnippetList: GetSnippetList = async ({ tagId, status, folderId }) => {
@@ -122,6 +123,18 @@ export const updateSnippetContent: UpdateSnippetContent = async (id, content) =>
     console.log('🚀 ~ constupdateSnippetContent:UpdateSnippetContent= ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ constupdateSnippetDetail:UpdateSnippetContent= ~ error:', error)
+  }
+}
+
+export const updateSnippetName: UpdateSnippetName = async (id, name) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: { name }
+    })
+    console.log('🚀 ~ updateSnippetName ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ updateSnippetName ~ error:', error)
   }
 }
 

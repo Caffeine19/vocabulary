@@ -15,6 +15,7 @@ import TriangleDown16 from '@renderer/components/Icon/TriangleDown16.vue'
 import IconButton from '@renderer/components/IconButton.vue'
 import Heart24 from '@renderer/components/Icon/Heart24.vue'
 import HeartFill16 from '@renderer/components/Icon/HeartFill16.vue'
+import Input from '@renderer/components/Input.vue'
 import Check16 from '@renderer/components/Icon/Check16.vue'
 import Inbox16 from '@renderer/components/Icon/Inbox16.vue'
 
@@ -61,7 +62,10 @@ const onDeleteButtonClick = async () => {
 const onFavoriteButtonClick = async () => {
   try {
     if (!snippetDetail.value?.id) return
-    await snippetStore.updateSnippetFavorite(snippetDetail.value.id)
+    await snippetStore.updateSnippetFavorite(snippetDetail.value.id, !snippetDetail.value.favorite)
+
+    snippetDetail.value.favorite = !snippetDetail.value.favorite
+
     snippetStore.getSnippetList()
     snippetStore.getStatusSnippetCount()
   } catch (error) {
@@ -95,20 +99,21 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
   <div class="basis-1/2 p-6 pb-4 space-y-3 grow flex flex-col">
     <div class="space-y-2.5">
       <div class="flex items-center justify-between">
-        <span class="fira-code text-base font-normal dark:text-primer-dark-white">
-          {{ snippetDetail?.name || 'untitled' }}
-        </span>
+        <input
+          :value="snippetDetail?.name || ''"
+          placeholder="untitled"
+          class="fira-code text-base font-normal dark:text-primer-dark-white dark:placeholder-primer-dark-gray-400 bg-transparent outline-transparent"
+        />
 
         <div class="flex items-center space-x-2">
           <template v-if="!snippetDetail?.deleted">
-            <IconButton>
+            <IconButton @click="onFavoriteButtonClick">
               <template #icon="{ iconStyle }">
-                <Heart24
-                  class="w-4 h-4"
-                  :class="iconStyle"
-                  v-if="!snippetDetail?.favorite"
-                ></Heart24>
-                <HeartFill16 class="w-4 h-4 dark:fill-primer-dark-red-400" v-else></HeartFill16>
+                <HeartFill16
+                  class="w-4 h-4 dark:fill-primer-dark-pink-200"
+                  v-if="snippetDetail?.favorite"
+                ></HeartFill16>
+                <Heart24 class="w-4 h-4" :class="iconStyle" v-else></Heart24>
               </template>
             </IconButton>
             <SelectMenu

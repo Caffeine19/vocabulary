@@ -14,6 +14,7 @@ export enum IPCMainEvent {
   createSnippet = 'createSnippet',
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
+  updateSnippetFavorite = 'updateSnippetFavorite',
   moveSnippetIntoFolder = 'moveSnippetIntoFolder',
   moveSnippetIntoInbox = 'moveSnippetIntoInbox',
 
@@ -37,6 +38,8 @@ const electronAPI: ElectronAPI = {
   createSnippet: (params) => ipcRenderer.invoke(IPCMainEvent.createSnippet, params),
   deleteSnippet: (id) => ipcRenderer.invoke(IPCMainEvent.deleteSnippet, id),
   destroySnippet: (id) => ipcRenderer.invoke(IPCMainEvent.destroySnippet, id),
+  updateSnippetFavorite: (id, favorite) =>
+    ipcRenderer.invoke(IPCMainEvent.updateSnippetFavorite, id, favorite),
   moveSnippetIntoFolder: (id, folderId) =>
     ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoFolder, id, folderId),
   moveSnippetIntoInbox: (id) => ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoInbox, id),
