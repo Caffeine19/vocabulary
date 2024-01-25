@@ -64,8 +64,26 @@ const createSnippetBatch = async () => {
   }
 }
 
+const createFolderBatch = async () => {
+  const newVal = [
+    { name: 'react-native' },
+    { name: 'electron' },
+    { name: 'echarts' },
+    { name: 'dayjs' },
+    { name: 'lodash' }
+  ]
+  try {
+    const taskArr = newVal.map((item) => prisma.folder.create({ data: item }))
+    const res = await Promise.all(taskArr)
+    console.log('🚀 ~ createFolderBatch ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ createFolderBatch ~ error:', error)
+  }
+}
+
 const seed = async () => {
-  await createTagBatch()
-  await createSnippetBatch()
+  // await createTagBatch()
+  // await createSnippetBatch()
+  await createFolderBatch()
 }
 seed()

@@ -6,9 +6,9 @@ import TagTab from './TagTab.vue'
 
 import { useTagStore } from '@renderer/stores/tag'
 import { useSnippetStore } from '@renderer/stores/snippet'
+import { useFolderStore } from '@renderer/stores/folder'
 
 import { TagItem } from '@shared/Tag'
-
 defineOptions({ name: 'VTagTabGroup' })
 
 const tagStore = useTagStore()
@@ -18,9 +18,12 @@ onMounted(() => tagStore.getTagList())
 const snippetStore = useSnippetStore()
 const { selectedStatus } = storeToRefs(snippetStore)
 
+const folderStore = useFolderStore()
+
 const onTagClick = (tag: TagItem) => {
   tagStore.setSelectedTag(tag)
   selectedStatus.value = 'all'
+  folderStore.unsetSelectedFolder()
 }
 </script>
 <template>

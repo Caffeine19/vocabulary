@@ -12,9 +12,12 @@ import {
   deleteSnippet,
   destroySnippet,
   getSnippetStatusCount,
-  updateSnippetFavorite
+  updateSnippetFavorite,
+  moveSnippetIntoFolder,
+  moveSnippetIntoInbox
 } from './data/snippet'
 import { getTagList } from './data/tag'
+import { getFolderList } from './data/folder'
 
 export enum IPCMainEvent {
   minimize = 'minimize',
@@ -30,8 +33,12 @@ export enum IPCMainEvent {
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
   updateSnippetFavorite = 'updateSnippetFavorite',
+  moveSnippetIntoFolder = 'moveSnippetIntoFolder',
+  moveSnippetIntoInbox = 'moveSnippetIntoInbox',
 
-  getTagList = 'getTagList'
+  getTagList = 'getTagList',
+
+  getFolderList = 'getFolderList'
 }
 
 function createWindow(): void {
@@ -141,10 +148,22 @@ app.whenReady().then(() => {
   ipcMain.handle(IPCMainEvent.updateSnippetFavorite, async (_, id, favorite) => {
     await updateSnippetFavorite(id, favorite)
   })
+  ipcMain.handle(IPCMainEvent.moveSnippetIntoFolder, async (_, id, folderId) => {
+    await moveSnippetIntoFolder(id, folderId)
+  })
+  ipcMain.handle(IPCMainEvent.moveSnippetIntoInbox, async (_, id) => {
+    await moveSnippetIntoInbox(id)
+  })
 
   //tag
   ipcMain.handle(IPCMainEvent.getTagList, async () => {
     const res = await getTagList()
+    return res
+  })
+
+  //folder
+  ipcMain.handle(IPCMainEvent.getFolderList, async () => {
+    const res = await getFolderList()
     return res
   })
 })

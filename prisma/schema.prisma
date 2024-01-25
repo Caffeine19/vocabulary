@@ -55,5 +55,9 @@ model Folder {
   name      String   @unique
   createdAt DateTime @default(now())
 
+  parentId Int?
+  parent   Folder?  @relation("children", fields: [parentId], references: [id])
+  children Folder[] @relation("children")
+
   snippets Snippet[]
 }

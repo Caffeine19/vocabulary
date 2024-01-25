@@ -8,13 +8,14 @@ import {
   GetSnippetDetail,
   GetSnippetList,
   GetSnippetStatusCount,
+  MoveSnippetIntoFolder,
   SnippetDetail,
   UpdateSnippetContent,
   UpdateSnippetFavorite,
   UpdateSnippetName
 } from '../../shared/snippet'
 
-export const getSnippetList: GetSnippetList = async ({ tagId, status }) => {
+export const getSnippetList: GetSnippetList = async ({ tagId, status, folderId }) => {
   try {
     const res = await prisma.snippet.findMany({
       select: {
@@ -37,6 +38,12 @@ export const getSnippetList: GetSnippetList = async ({ tagId, status }) => {
                   id: tagId
                 }
               }
+            }
+          : {}),
+
+        ...(folderId
+          ? {
+              folderId
             }
           : {}),
 
@@ -212,5 +219,39 @@ export const updateSnippetFavorite: UpdateSnippetFavorite = async (id, favorite)
     console.log('🚀 ~ constupdateSnippetFavorite:UpdateSnippetFavorite= ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ updateSnippetFavorite ~ error:', error)
+  }
+}
+
+export const moveSnippetIntoFolder: MoveSnippetIntoFolder = async (id, folderId) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: {
+        folder: {
+          connect: {
+            id: folderId
+          }
+        }
+      }
+    })
+    console.log('🚀 ~ constmoveSnippetIntoFolder:MoveSnippetIntoFolder= ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ moveSnippetIntoFolder ~ error:', error)
+  }
+}
+
+export const moveSnippetIntoInbox = async (id) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: {
+        folder: {
+          disconnect: true
+        }
+      }
+    })
+    console.log('🚀 ~ moveSnippetInfoInbox ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ moveSnippetInfoInbox ~ error:', error)
   }
 }

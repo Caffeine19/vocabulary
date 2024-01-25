@@ -1,5 +1,6 @@
-import type { Folder, Snippet as PrismaSnippet } from '@prisma/client'
+import type { Snippet as PrismaSnippet } from '@prisma/client'
 import type { Tag, TagItem } from './Tag'
+import type { Folder } from './folder'
 
 export type Snippet = PrismaSnippet
 export type SnippetItem = Omit<Snippet, 'content'> & { tags: Tag[] }
@@ -7,7 +8,11 @@ export type SnippetItem = Omit<Snippet, 'content'> & { tags: Tag[] }
 export type SnippetStatus = 'inbox' | 'all' | 'favorite' | 'deleted'
 
 export interface GetSnippetList {
-  (params: { tagId?: Tag['id']; status?: SnippetStatus }): Promise<SnippetItem[] | undefined>
+  (params: {
+    tagId?: Tag['id']
+    folderId?: Folder['id']
+    status?: SnippetStatus
+  }): Promise<SnippetItem[] | undefined>
 }
 
 export type SnippetStatusCount = {
@@ -53,4 +58,12 @@ export interface DestroySnippet {
 
 export interface UpdateSnippetFavorite {
   (id: SnippetDetail['id'], favorite: SnippetDetail['favorite']): Promise<void>
+}
+
+export interface MoveSnippetIntoFolder {
+  (id: SnippetItem['id'], folderId: Folder['id']): Promise<void>
+}
+
+export interface MoveSnippetIntoInbox {
+  (id: SnippetItem['id']): Promise<void>
 }

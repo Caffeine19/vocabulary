@@ -1,19 +1,82 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 
-import FolderTab from './FolderTab.vue'
+// import FolderTab from './FolderTab.vue'
+import FolderTree from './FolderTree.vue'
+
+import { useFolderStore } from '@renderer/stores/folder'
+
+import { FolderItem } from '@shared/folder'
+
+import { useSnippetStore } from '@renderer/stores/snippet'
+import { useTagStore } from '@renderer/stores/tag'
 
 defineOptions({ name: 'VFolderTabGroup' })
 
-const folderList = ref(['react-native', 'electron', 'echarts', 'vue3', 'vue2', 'dayjs'])
+const folderStore = useFolderStore()
+const { folderList, selectedFolderId } = storeToRefs(folderStore)
+onMounted(() => {
+  folderStore.getFolderList()
+})
+
+const snippetStore = useSnippetStore()
+const { selectedStatus } = storeToRefs(snippetStore)
+
+const tagStore = useTagStore()
+
+const onFolderClick = (folder: FolderNode) => {
+  folderStore.setSelectedFolder(folder)
+  selectedStatus.value = 'all'
+  tagStore.unsetSelectedTag()
+}
+
+export type FolderNode = FolderItem & { children: FolderNode[] | null }
+
+// 递归转换为树形结构
+function buildFolderTree(
+  folders: FolderItem[],
+  parentId: FolderItem['parentId'] = null
+): FolderNode[] | null {
+  const children: FolderNode[] = folders
+    .filter((folder) => folder.parentId === parentId)
+    .map((folder) => ({
+      ...folder,
+      children: buildFolderTree(folders, folder.id)
+    }))
+
+  return children.length > 0 ? children : null
+}
+
+// 构建树形结构
+const folderTree = computed(() => buildFolderTree(folderList.value))
+console.log('🚀 ~ folderTree:', folderTree)
 </script>
 <template>
   <ul class="flex flex-col space-y-1 items-stretch">
-    <FolderTab
-      v-for="(folder, index) in folderList"
-      :key="index"
-      :label="folder"
-      :selected="index === 2"
-    ></FolderTab>
+    <FolderTree
+      v-for="folder in folderTree"
+      :folder-node="folder"
+      :key="folder.id"
+      @click-folder-node="(folderNode) => onFolderClick(folderNode)"
+      :selected-folder-id="selectedFolderId"
+    ></FolderTree>
+    <!-- <FolderTab
+      v-for="folder in folderTree"
+      :key="folder.id"
+      :label="folder.name"
+      :selected="folder.id === selectedFolderId"
+      @click="onFolderClick(folder)"
+    >
+      <ul v-if="folder.children" class="pl-4">
+        <FolderTab
+          v-for="childFolder in folder.children"
+          :key="childFolder.id"
+          :label="childFolder.name"
+          :selected="childFolder.id === selectedFolderId"
+          @click="onFolderClick(childFolder)"
+        ></FolderTab>
+      </ul>
+    </FolderTab> -->
   </ul>
 </template>

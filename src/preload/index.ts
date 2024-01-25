@@ -15,8 +15,12 @@ export enum IPCMainEvent {
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
   updateSnippetFavorite = 'updateSnippetFavorite',
+  moveSnippetIntoFolder = 'moveSnippetIntoFolder',
+  moveSnippetIntoInbox = 'moveSnippetIntoInbox',
 
-  getTagList = 'getTagList'
+  getTagList = 'getTagList',
+
+  getFolderList = 'getFolderList'
 }
 
 const electronAPI: ElectronAPI = {
@@ -36,8 +40,13 @@ const electronAPI: ElectronAPI = {
   destroySnippet: (id) => ipcRenderer.invoke(IPCMainEvent.destroySnippet, id),
   updateSnippetFavorite: (id, favorite) =>
     ipcRenderer.invoke(IPCMainEvent.updateSnippetFavorite, id, favorite),
+  moveSnippetIntoFolder: (id, folderId) =>
+    ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoFolder, id, folderId),
+  moveSnippetIntoInbox: (id) => ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoInbox, id),
 
-  getTagList: () => ipcRenderer.invoke(IPCMainEvent.getTagList)
+  getTagList: () => ipcRenderer.invoke(IPCMainEvent.getTagList),
+
+  getFolderList: () => ipcRenderer.invoke(IPCMainEvent.getFolderList)
 }
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI)
