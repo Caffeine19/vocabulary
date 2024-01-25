@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
+import { useStorage } from '@vueuse/core'
 // import FolderTab from './FolderTab.vue'
 import FolderTree from './FolderTree.vue'
 
@@ -11,6 +12,7 @@ import { FolderItem } from '@shared/folder'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
+import { Folder } from '@prisma/client'
 
 defineOptions({ name: 'VFolderTabGroup' })
 
@@ -51,6 +53,14 @@ function buildFolderTree(
 // 构建树形结构
 const folderTree = computed(() => buildFolderTree(folderList.value))
 console.log('🚀 ~ folderTree:', folderTree)
+
+const openedFolderList = useStorage<Folder['id'][]>('openedFolderList', [])
+const openFolder = (id: Folder['id']) => {
+  openedFolderList.value.push(id)
+}
+const closeFolder = (id: Folder['id']) => {
+  openedFolderList.value = openedFolderList.value.filter((f) => f !== id)
+}
 </script>
 <template>
   <ul class="flex flex-col space-y-1 items-stretch">
@@ -60,6 +70,7 @@ console.log('🚀 ~ folderTree:', folderTree)
       :key="folder.id"
       @click-folder-node="(folderNode) => onFolderClick(folderNode)"
       :selected-folder-id="selectedFolderId"
+      :opened-folder-list="openedFolderList"
     ></FolderTree>
     <!-- <FolderTab
       v-for="folder in folderTree"

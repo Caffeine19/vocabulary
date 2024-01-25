@@ -2,7 +2,7 @@
 import FileDirectoryFill16 from './Icon/FileDirectoryFill16.vue'
 
 defineOptions({ name: 'VFolderTab' })
-defineProps<{ label: string; selected: boolean; indent: number }>()
+defineProps<{ label: string; selected: boolean; indent: number; isOpen: boolean }>()
 defineEmits<{ click: [e: MouseEvent] }>()
 </script>
 <template>
