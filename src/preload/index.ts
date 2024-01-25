@@ -14,6 +14,7 @@ export enum IPCMainEvent {
   createSnippet = 'createSnippet',
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
+  updateSnippetFavorite = 'updateSnippetFavorite',
 
   getTagList = 'getTagList'
 }
@@ -33,6 +34,8 @@ const electronAPI: ElectronAPI = {
   createSnippet: (params) => ipcRenderer.invoke(IPCMainEvent.createSnippet, params),
   deleteSnippet: (id) => ipcRenderer.invoke(IPCMainEvent.deleteSnippet, id),
   destroySnippet: (id) => ipcRenderer.invoke(IPCMainEvent.destroySnippet, id),
+  updateSnippetFavorite: (id, favorite) =>
+    ipcRenderer.invoke(IPCMainEvent.updateSnippetFavorite, id, favorite),
 
   getTagList: () => ipcRenderer.invoke(IPCMainEvent.getTagList)
 }

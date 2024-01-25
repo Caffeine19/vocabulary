@@ -15,6 +15,7 @@ import TriangleDown16 from '@renderer/components/Icon/TriangleDown16.vue'
 import IconButton from '@renderer/components/IconButton.vue'
 import Heart24 from '@renderer/components/Icon/Heart24.vue'
 import HeartFill16 from '@renderer/components/Icon/HeartFill16.vue'
+import Input from '@renderer/components/Input.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -57,7 +58,10 @@ const onDeleteButtonClick = async () => {
 const onFavoriteButtonClick = async () => {
   try {
     if (!snippetDetail.value?.id) return
-    await snippetStore.updateSnippetFavorite(snippetDetail.value.id)
+    await snippetStore.updateSnippetFavorite(snippetDetail.value.id, !snippetDetail.value.favorite)
+
+    snippetDetail.value.favorite = !snippetDetail.value.favorite
+
     snippetStore.getSnippetList()
     snippetStore.getStatusSnippetCount()
   } catch (error) {
@@ -69,16 +73,31 @@ const onFavoriteButtonClick = async () => {
   <div class="basis-1/2 p-6 pb-4 space-y-3 grow flex flex-col">
     <div class="space-y-2.5">
       <div class="flex items-center justify-between">
-        <span class="fira-code text-base font-normal dark:text-primer-dark-white">
-          {{ snippetDetail?.name || 'untitled' }}
-        </span>
+        <input
+          :value="snippetDetail?.name || ''"
+          placeholder="untitled"
+          class="fira-code text-base font-normal dark:text-primer-dark-white dark:placeholder-primer-dark-gray-400 bg-transparent outline-transparent"
+        />
 
-        <IconButton>
-          <template #icon="{ iconStyle }">
-            <Heart24 class="w-4 h-4" :class="iconStyle" v-if="!snippetDetail?.favorite"></Heart24>
-            <HeartFill16 class="w-4 h-4 dark:fill-primer-dark-red-400" v-else></HeartFill16>
-          </template>
-        </IconButton>
+        <div class="flex items-center space-x-2">
+          <IconButton @click="onFavoriteButtonClick">
+            <template #icon="{ iconStyle }">
+              <HeartFill16
+                class="w-4 h-4 dark:fill-primer-dark-pink-200"
+                v-if="snippetDetail?.favorite"
+              ></HeartFill16>
+              <Heart24 class="w-4 h-4" :class="iconStyle" v-else></Heart24>
+            </template>
+          </IconButton>
+          <Button :label="snippetDetail?.folder?.name || 'Inbox'" type="secondary" :plain="true">
+            <template #rightIcon="{ iconStyle }">
+              <TriangleDown16 :class="iconStyle"></TriangleDown16>
+            </template>
+            <template #leftIcon="{ iconStyle }">
+              <FileDirectory16 :class="iconStyle"></FileDirectory16>
+            </template>
+          </Button>
+        </div>
       </div>
 
       <div class="flex items-center justify-between">
@@ -115,14 +134,6 @@ const onFavoriteButtonClick = async () => {
       @update:code="(e) => onUpdateCode(e)"
     ></CodeEditor>
     <div class="flex items-center justify-between">
-      <Button :label="snippetDetail?.folder?.name || 'Inbox'" type="secondary" :plain="true">
-        <template #rightIcon="{ iconStyle }">
-          <TriangleDown16 :class="iconStyle"></TriangleDown16>
-        </template>
-        <template #leftIcon="{ iconStyle }">
-          <FileDirectory16 :class="iconStyle"></FileDirectory16>
-        </template>
-      </Button>
       <Button label="Delete" type="danger" @click="onDeleteButtonClick">
         <template #leftIcon="{ iconStyle }">
           <Trashcan16 :class="iconStyle"></Trashcan16>

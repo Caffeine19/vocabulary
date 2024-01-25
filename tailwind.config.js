@@ -28,6 +28,10 @@ export default {
         'primer-dark-red': {
           400: '#F85149',
           500: '#DA3633'
+        },
+        'primer-dark-pink': {
+          200: '#FF9BCE',
+          400: '#DB61A2'
         }
       }
     }

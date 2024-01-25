@@ -29,6 +29,10 @@ export interface UpdateSnippetContent {
   (id: SnippetDetail['id'], content: SnippetDetail['content']): Promise<void>
 }
 
+export interface UpdateSnippetName {
+  (id: SnippetDetail['id'], name: SnippetDetail['name']): Promise<void>
+}
+
 export interface ConnectSnippetWithTag {
   (id: SnippetDetail['id'], tagId: TagItem['id']): Promise<void>
 }

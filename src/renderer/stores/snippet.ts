@@ -108,6 +108,18 @@ export const useSnippetStore = defineStore('snippet', () => {
       console.log('🚀 ~ destroySnippet ~ error:', error)
     }
   }
+
+  const updateSnippetFavorite = async (
+    id: SnippetDetail['id'],
+    favorite: SnippetDetail['favorite']
+  ) => {
+    try {
+      const res = await window.electronAPI.updateSnippetFavorite(id, favorite)
+      console.log('🚀 ~ useSnippetStore ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ updateSnippetFavorite ~ error:', error)
+    }
+  }
   return {
     snippetList,
     getSnippetList,
@@ -120,6 +132,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     connectSnippetWithTag,
     createBlankSnippet,
     deleteSnippet,
-    destroySnippet
+    destroySnippet,
+    updateSnippetFavorite
   }
 })

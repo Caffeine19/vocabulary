@@ -11,7 +11,8 @@ import {
   createSnippet,
   deleteSnippet,
   destroySnippet,
-  getSnippetStatusCount
+  getSnippetStatusCount,
+  updateSnippetFavorite
 } from './data/snippet'
 import { getTagList } from './data/tag'
 
@@ -28,6 +29,7 @@ export enum IPCMainEvent {
   createSnippet = 'createSnippet',
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
+  updateSnippetFavorite = 'updateSnippetFavorite',
 
   getTagList = 'getTagList'
 }
@@ -135,6 +137,9 @@ app.whenReady().then(() => {
   ipcMain.handle(IPCMainEvent.destroySnippet, async (_, id) => {
     const res = await destroySnippet(id)
     return res
+  })
+  ipcMain.handle(IPCMainEvent.updateSnippetFavorite, async (_, id, favorite) => {
+    await updateSnippetFavorite(id, favorite)
   })
 
   //tag
