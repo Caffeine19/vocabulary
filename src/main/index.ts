@@ -14,7 +14,8 @@ import {
   getSnippetStatusCount,
   updateSnippetFavorite,
   moveSnippetIntoFolder,
-  moveSnippetIntoInbox
+  moveSnippetIntoInbox,
+  updateSnippetName
 } from './data/snippet'
 import { getTagList } from './data/tag'
 import { getFolderList } from './data/folder'
@@ -28,6 +29,7 @@ export enum IPCMainEvent {
   getSnippetDetail = 'getSnippetDetail',
   getSnippetStatusCount = 'getSnippetStatusCount',
   updateSnippetContent = 'updateSnippetContent',
+  updateSnippetName = 'updateSnippetName',
   connectSnippetWithTag = 'connectSnippetWithTag',
   createSnippet = 'createSnippet',
   deleteSnippet = 'deleteSnippet',
@@ -129,6 +131,9 @@ app.whenReady().then(() => {
   })
   ipcMain.handle(IPCMainEvent.updateSnippetContent, async (_, id, content) => {
     await updateSnippetContent(id, content)
+  })
+  ipcMain.handle(IPCMainEvent.updateSnippetName, async (_, id, name) => {
+    await updateSnippetName(id, name)
   })
   ipcMain.handle(IPCMainEvent.connectSnippetWithTag, async (_, id, tagId) => {
     await connectSnippetWithTag(id, tagId)

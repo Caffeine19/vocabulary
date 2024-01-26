@@ -17,7 +17,7 @@ const indent = 24
 </script>
 <template>
   <FolderTab
-    :label="folderNode.name"
+    :folder="folderNode"
     :selected="selectedFolderId === folderNode.id"
     @click="$emit('clickFolderNode', folderNode)"
     :indent="accIndent"

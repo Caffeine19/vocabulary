@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import FileDirectoryFill16 from './Icon/FileDirectoryFill16.vue'
+import TriangleDown16 from './Icon/TriangleDown16.vue'
+import FileDirectory16 from './Icon/FileDirectory16.vue'
+
+import { FolderItem } from '@shared/folder'
+import { PropType } from 'vue'
 
 defineOptions({ name: 'VFolderTab' })
-defineProps<{ label: string; selected: boolean; indent: number; isOpen: boolean }>()
+defineProps({
+  selected: Boolean,
+  indent: Number,
+  isOpen: Boolean,
+  folder: Object as PropType<FolderItem>
+})
 defineEmits<{ click: [e: MouseEvent] }>()
 </script>
 <template>
@@ -21,9 +31,20 @@ defineEmits<{ click: [e: MouseEvent] }>()
         "
         :style="{ paddingLeft: indent + 'px' }"
       >
-        <FileDirectoryFill16 class="dark:fill-primer-dark-gray-400"></FileDirectoryFill16>
+        <TriangleDown16
+          class="dark:fill-primer-dark-gray-400"
+          :class="isOpen ? '' : '-rotate-90'"
+        ></TriangleDown16>
+
+        <component
+          :is="
+            folder?.snippetCount || folder?.childrenCount ? FileDirectoryFill16 : FileDirectory16
+          "
+          class="dark:fill-primer-dark-gray-400 w-4 h-4"
+        ></component>
+
         <span class="dark:text-primer-dark-gray-100 text-sm font-normal fira-code">{{
-          label
+          folder?.name
         }}</span>
       </div>
     </div>

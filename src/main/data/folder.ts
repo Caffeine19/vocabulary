@@ -17,7 +17,8 @@ export const getFolderList: GetFolderList = async () => {
               where: {
                 deleted: false
               }
-            }
+            },
+            children: true
           }
         }
       }
@@ -25,7 +26,8 @@ export const getFolderList: GetFolderList = async () => {
     const newVal = res.map(({ _count, ...other }) => {
       return {
         ...other,
-        snippetCount: _count.snippets
+        snippetCount: _count.snippets,
+        childrenCount: _count.children
       }
     })
     console.log('🚀 ~ newVal ~ newVal:', newVal)

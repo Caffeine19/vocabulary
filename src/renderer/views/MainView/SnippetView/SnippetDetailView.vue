@@ -32,10 +32,16 @@ const { snippetDetail } = storeToRefs(snippetStore)
 const tagStore = useTagStore()
 const { tagList } = storeToRefs(tagStore)
 
-const onUpdateCode = useDebounceFn((e) => {
+const onUpdateCode = useDebounceFn(async (e) => {
   if (!snippetDetail.value?.id) return
-  snippetStore.updateSnippetContent(snippetDetail.value.id, e)
+  await snippetStore.updateSnippetContent(snippetDetail.value.id, e)
+  // await snippetStore.getSnippetList()
 }, 300)
+
+const onChangeName = useDebounceFn((e) => {
+  if (!snippetDetail.value?.id) return
+  snippetStore.updateSnippetName(snippetDetail.value.id, e)
+})
 
 const isTagMenuShow = ref(false)
 const onTagSelect = async (tag: TagItem) => {
@@ -98,11 +104,12 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
 <template>
   <div class="basis-1/2 p-6 pb-4 space-y-3 grow flex flex-col">
     <div class="space-y-2.5">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between space-x-6">
         <input
           :value="snippetDetail?.name || ''"
+          @change="(e) => onChangeName((e.target as HTMLInputElement).value)"
           placeholder="untitled"
-          class="fira-code text-base font-normal dark:text-primer-dark-white dark:placeholder-primer-dark-gray-400 bg-transparent outline-transparent"
+          class="fira-code text-base font-normal dark:text-primer-dark-white dark:placeholder-primer-dark-gray-400 bg-transparent outline-none py-1 border-b border-transparent focus:dark:border-primer-dark-blue-400 transition-colors grow"
         />
 
         <div class="flex items-center space-x-2">
