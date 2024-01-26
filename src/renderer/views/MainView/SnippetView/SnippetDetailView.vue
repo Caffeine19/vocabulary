@@ -18,6 +18,7 @@ import HeartFill16 from '@renderer/components/Icon/HeartFill16.vue'
 import Input from '@renderer/components/Input.vue'
 import Check16 from '@renderer/components/Icon/Check16.vue'
 import Inbox16 from '@renderer/components/Icon/Inbox16.vue'
+import Fire16 from '@renderer/components/Icon/Fire16.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -65,6 +66,17 @@ const onDeleteButtonClick = async () => {
   }
 }
 
+const onDestroyButtonClick = async () => {
+  try {
+    if (!snippetDetail.value?.id) return
+    await snippetStore.destroySnippet(snippetDetail.value.id)
+    snippetStore.getSnippetList()
+    snippetStore.getStatusSnippetCount()
+  } catch (error) {
+    console.log('🚀 ~ onDestoryButtonClick ~ error:', error)
+  }
+}
+
 const onFavoriteButtonClick = async () => {
   try {
     if (!snippetDetail.value?.id) return
@@ -107,6 +119,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
       <div class="flex items-center justify-between space-x-6">
         <input
           :value="snippetDetail?.name || ''"
+          :disabled="snippetDetail?.deleted"
           @change="(e) => onChangeName((e.target as HTMLInputElement).value)"
           placeholder="untitled"
           class="fira-code text-base font-normal dark:text-primer-dark-white dark:placeholder-primer-dark-gray-400 bg-transparent outline-none py-1 border-b border-transparent focus:dark:border-primer-dark-blue-400 transition-colors grow"
@@ -174,6 +187,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
           </template>
 
           <SelectMenu
+            v-show="!snippetDetail?.deleted"
             title="Select Tag"
             v-model:is-show="isTagMenuShow"
             :options="tagList"
@@ -199,13 +213,26 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
       class="grow"
       :code="snippetDetail?.content || ''"
       @update:code="(e) => onUpdateCode(e)"
+      :disabled="snippetDetail?.deleted"
     ></CodeEditor>
     <div class="flex items-center justify-between">
-      <Button label="Delete" type="danger" @click="onDeleteButtonClick">
-        <template #leftIcon="{ iconStyle }">
-          <Trashcan16 :class="iconStyle"></Trashcan16>
-        </template>
-      </Button>
+      <div>
+        <Button
+          v-if="!snippetDetail?.deleted"
+          label="Delete"
+          type="danger"
+          @click="onDeleteButtonClick"
+        >
+          <template #leftIcon="{ iconStyle }">
+            <Trashcan16 :class="iconStyle"></Trashcan16>
+          </template>
+        </Button>
+        <Button v-else label="Destroy" type="danger" @click="onDestroyButtonClick">
+          <template #leftIcon="{ iconStyle }">
+            <Fire16 :class="iconStyle"></Fire16>
+          </template>
+        </Button>
+      </div>
     </div>
   </div>
 </template>

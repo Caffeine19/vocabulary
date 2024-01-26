@@ -9,7 +9,7 @@ import GithubDark from '@/theme/GithubDark'
 import Box from '@/components/Box.vue'
 import Copy24 from '@/components/Icon/Copy24.vue'
 
-withDefaults(defineProps<{ code?: string }>(), { code: 'hi' })
+withDefaults(defineProps<{ code?: string; disabled?: boolean }>(), { code: 'hi', disabled: false })
 defineEmits<{ 'update:code': [e: string] }>()
 
 const extensions = [javascript(), GithubDark, EditorView.lineWrapping]
@@ -90,6 +90,7 @@ const onCodeChange = (value: string, viewUpdate: ViewUpdate) => {
         :extensions="extensions"
         @ready="onCodeReady"
         @change="onCodeChange"
+        :disabled="disabled"
       />
     </template>
   </Box>

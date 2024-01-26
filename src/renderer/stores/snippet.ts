@@ -51,6 +51,7 @@ export const useSnippetStore = defineStore('snippet', () => {
   )
 
   const snippetDetail = ref<SnippetDetail | undefined>(undefined)
+
   const getSnippetDetail = async (id: SnippetItem['id']) => {
     console.log('🚀 ~ getSnippetDetail ~ id:', id)
     try {
