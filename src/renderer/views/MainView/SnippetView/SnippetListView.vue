@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import Search16 from '@/components/Icon/Search16.vue'
@@ -35,14 +35,6 @@ const filteredSnippet = computed(() => {
       s.excerpt?.toLowerCase().includes(searchKeyword.value.toLowerCase())
   )
 })
-
-watch(
-  () => filteredSnippet.value.length,
-  () => {
-    const initId = filteredSnippet.value[0]?.id
-    if (initId) snippetStore.getSnippetDetail(initId)
-  }
-)
 
 const onNewSnippetButtonClick = async () => {
   try {

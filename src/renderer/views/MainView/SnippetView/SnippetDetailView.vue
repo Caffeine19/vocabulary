@@ -19,6 +19,7 @@ import Input from '@renderer/components/Input.vue'
 import Check16 from '@renderer/components/Icon/Check16.vue'
 import Inbox16 from '@renderer/components/Icon/Inbox16.vue'
 import Fire16 from '@renderer/components/Icon/Fire16.vue'
+import History16 from '@renderer/components/Icon/History16.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -88,6 +89,13 @@ const onFavoriteButtonClick = async () => {
     snippetStore.getStatusSnippetCount()
   } catch (error) {
     console.log('🚀 ~ onFavoriteButtonClick ~ error:', error)
+  }
+}
+
+const onRecoverButtonClick = () => {
+  try {
+  } catch (error) {
+    console.log('🚀 ~ onRecoverButtonClick ~ error:', error)
   }
 }
 
@@ -176,6 +184,13 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
                 </li>
               </template>
             </SelectMenu>
+          </template>
+          <template v-else>
+            <IconButton @click="">
+              <template #icon="{ iconStyle }">
+                <History16 :class="iconStyle"> </History16>
+              </template>
+            </IconButton>
           </template>
         </div>
       </div>
