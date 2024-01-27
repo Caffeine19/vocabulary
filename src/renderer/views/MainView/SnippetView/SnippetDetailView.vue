@@ -40,9 +40,10 @@ const onUpdateCode = useDebounceFn(async (e) => {
   // await snippetStore.getSnippetList()
 }, 300)
 
-const onChangeName = useDebounceFn((e) => {
+const onChangeName = useDebounceFn(async (e) => {
   if (!snippetDetail.value?.id) return
-  snippetStore.updateSnippetName(snippetDetail.value.id, e)
+  await snippetStore.updateSnippetName(snippetDetail.value.id, e)
+  snippetStore.getSnippetList()
 })
 
 const isTagMenuShow = ref(false)
