@@ -2,10 +2,16 @@
 import { computed } from 'vue'
 defineOptions({ name: 'VButton' })
 const props = withDefaults(
-  defineProps<{ type?: 'primary' | 'danger' | 'secondary'; label: string; plain?: boolean }>(),
+  defineProps<{
+    type?: 'primary' | 'danger' | 'secondary'
+    label: string
+    plain?: boolean
+    size?: 'md' | 'sm'
+  }>(),
   {
     type: 'primary',
-    plain: false
+    plain: false,
+    size: 'md'
   }
 )
 defineEmits<{ click: [e: MouseEvent] }>()
@@ -29,26 +35,41 @@ const secondaryStyle = {
   icon: 'dark:fill-primer-dark-gray-400'
 }
 
-const styleConfig = {
+const typeStyleConfig = {
   primary: primaryStyle,
   danger: dangerStyle,
   secondary: secondaryStyle
 }
+const typeStyle = computed(() => typeStyleConfig[props.type])
 
-const style = computed(() => styleConfig[props.type])
+const smStyle = {
+  button: 'space-x-1 px-2 py-1',
+  label: 'text-xs'
+}
+const mdStyle = {
+  button: 'space-x-2 px-3 py-1.5',
+  label: 'text-sm'
+}
+
+const sizeStyleConfig = {
+  sm: smStyle,
+  md: mdStyle
+}
+
+const sizeStyle = computed(() => sizeStyleConfig[props.size])
 </script>
 <template>
   <button
     @click="(e) => $emit('click', e)"
-    class="v-button flex items-center space-x-2 px-2.5 py-1 rounded-md 0 transition-colors group border"
-    :class="style.button"
+    class="v-button flex items-center rounded-md 0 transition-colors group border"
+    :class="typeStyle.button + ' ' + sizeStyle.button"
   >
-    <slot name="leftIcon" :iconStyle="style.icon + ' ' + 'transition-colors'"></slot>
+    <slot name="leftIcon" :iconStyle="typeStyle.icon + ' ' + 'transition-colors'"></slot>
     <span
-      class="v-button-label text-base font-normal fira-code transition-colors"
-      :class="style.label"
+      class="v-button-label font-semibold fira-code transition-colors"
+      :class="typeStyle.label + ' ' + sizeStyle.label"
       >{{ label }}</span
     >
-    <slot name="rightIcon" :iconStyle="style.icon + ' ' + 'transition-colors'"></slot>
+    <slot name="rightIcon" :iconStyle="typeStyle.icon + ' ' + 'transition-colors'"></slot>
   </button>
 </template>

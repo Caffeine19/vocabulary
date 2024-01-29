@@ -11,6 +11,8 @@ import {
   SnippetItem,
   SnippetStatus,
   SnippetStatusCount,
+  SortAttr,
+  SortDirection,
   UpdateSnippetContent,
   UpdateSnippetFavorite,
   UpdateSnippetName
@@ -22,11 +24,15 @@ import { Folder } from '@prisma/client'
 export const getSnippetList = async ({
   tagId,
   status,
-  folderId
+  folderId,
+  sortAttr,
+  sortDirection
 }: {
   tagId?: Tag['id']
   status?: SnippetStatus
   folderId?: Folder['id']
+  sortAttr?: SortAttr
+  sortDirection?: SortDirection
 }): Promise<SnippetItem[]> => {
   try {
     const res = await prisma.snippet.findMany({
@@ -69,7 +75,7 @@ export const getSnippetList = async ({
       },
 
       orderBy: {
-        createdAt: 'desc'
+        [sortAttr || 'createdAt']: sortDirection || 'desc'
       }
     })
     console.log('🚀 ~ constgetSnippetList:GetSnippetList= ~ res:', res)

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { reactive, ref, watch, nextTick, computed } from 'vue'
+import { reactive, ref, watch, nextTick } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
 import X16 from './Icon/X16.vue'
-import Search16 from './Icon/Search16.vue'
-import Input from './Input.vue'
+// import Search16 from './Icon/Search16.vue'
+// import Input from './Input.vue'
 
 defineOptions({ name: 'VSelectMenu' })
 
@@ -12,7 +12,7 @@ const props = withDefaults(
   defineProps<{
     title: string
     isShow: boolean
-    options: any[]
+    optionsSeries: any[][]
     searchable?: boolean
   }>(),
   {
@@ -20,7 +20,12 @@ const props = withDefaults(
   }
 )
 
-const emits = defineEmits<{ 'update:isShow': [e: boolean]; select: [e: any] }>()
+const emits = defineEmits<{
+  'update:isShow': [e: boolean]
+  select: [option: any, seriesIndex: number]
+  closeButtonClick: []
+  clickOutside: []
+}>()
 
 const position = reactive({
   top: 0,
@@ -32,7 +37,11 @@ const topGap = 20
 const triggerWrapRef = ref<HTMLElement | null>(null)
 const menuRef = ref<HTMLElement | null>(null)
 
-onClickOutside(menuRef, () => emits('update:isShow', false))
+onClickOutside(menuRef, () => {
+  console.log('🚀 ~ onClickOutside ~ menuRef:', menuRef)
+  emits('update:isShow', false)
+  emits('clickOutside')
+})
 
 watch(
   () => props.isShow,
@@ -65,12 +74,6 @@ watch(
     })
   }
 )
-
-const keyWord = ref('')
-
-const filteredOptions = computed(() => {
-  return props.options.filter((o) => o.name.toLowerCase().includes(keyWord.value.toLowerCase()))
-})
 </script>
 <template>
   <div class="relative">
@@ -90,31 +93,46 @@ const filteredOptions = computed(() => {
           <span class="dark:text-primer-dark-gray-0 font-semibold fira-code text-xs">
             {{ title }}</span
           >
-          <button @click="$emit('update:isShow', false)" class="group">
+          <button
+            @click="
+              () => {
+                $emit('update:isShow', false)
+                $emit('closeButtonClick')
+              }
+            "
+            class="group"
+          >
             <X16
               class="dark:fill-primer-dark-gray-400 group-hover:dark:fill-primer-dark-gray-0"
             ></X16>
           </button>
         </div>
-        <div class="flex flex-col">
-          <div class="p-2 dark:border-primer-dark-gray-700 border-b" v-if="searchable">
+        <div class="flex">
+          <!-- <div class="p-2 dark:border-primer-dark-gray-700 border-b" v-if="searchable">
             <Input v-model:value="keyWord" placeholder="Search Tags" class="min-w-48">
               <template #icon>
                 <Search16
                   class="absolute top-1/2 -translate-y-1/2 left-2.5 dark:fill-primer-dark-gray-400"
                 ></Search16> </template
             ></Input>
-          </div>
-          <ul>
+          </div> -->
+          <ul
+            v-for="(series, seriesIndex) in optionsSeries"
+            :key="seriesIndex"
+            class="first:border-r dark:border-primer-dark-gray-700"
+          >
             <li
-              class="px-4 py-2 border-b dark:border-primer-dark-gray-700 dark:bg-primer-dark-gray-800 dark:hover:bg-primer-dark-gray-400/10 transition-colors last:border-b-0 cursor-pointer"
-              v-for="(option, index) in filteredOptions"
+              class="px-4 py-2 dark:bg-primer-dark-gray-800 dark:hover:bg-primer-dark-gray-400/10 transition-colors cursor-pointer"
+              v-for="(option, index) in series"
               :key="index"
-              @click="$emit('select', option)"
+              @click="$emit('select', option, seriesIndex)"
             >
-              <slot name="menuItem" :option="option"> </slot>
+              <slot name="menuItem" :option="option" :seriesIndex="seriesIndex"> </slot>
             </li>
           </ul>
+        </div>
+        <div class="border-t dark:border-primer-dark-gray-700 p-3">
+          <slot name="footer"></slot>
         </div>
       </div>
     </Transition>

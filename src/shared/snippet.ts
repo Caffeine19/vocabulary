@@ -7,12 +7,16 @@ export type Snippet = PrismaSnippet
 export type SnippetItem = Omit<Snippet, 'content'> & { tags: Tag[] }
 
 export type SnippetStatus = 'inbox' | 'all' | 'favorite' | 'deleted'
+export type SortAttr = keyof Pick<Snippet, 'name' | 'createdAt'>
+export type SortDirection = 'asc' | 'desc'
 
 export interface GetSnippetList {
   (params: {
     tagId?: Tag['id']
     folderId?: Folder['id']
     status?: SnippetStatus
+    sortAttr?: SortAttr
+    sortDirection?: SortDirection
   }): Promise<Result<SnippetItem[] | undefined>>
 }
 

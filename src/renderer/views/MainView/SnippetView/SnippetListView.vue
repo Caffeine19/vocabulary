@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useManualRefHistory } from '@vueuse/core'
 
 import Search16 from '@/components/Icon/Search16.vue'
 import Pencil16 from '@/components/Icon/Pencil16.vue'
@@ -10,14 +11,17 @@ import Box from '@/components/Box.vue'
 import Divider from '@/components/Divider.vue'
 import Button from '@/components/Button.vue'
 import SnippetItem from '@/components/SnippetItem.vue'
+import SelectGroupMenu from '@renderer/components/SelectGroupMenu.vue'
+import Check16 from '@renderer/components/Icon/Check16.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
 
-import { type SnippetItem as ISnippetItem } from '@shared/snippet'
+import type { SnippetItem as ISnippetItem, SortAttr, SortDirection } from '@shared/snippet'
 
 const snippetStore = useSnippetStore()
 
-const { snippetList, snippetDetail, selectedStatus } = storeToRefs(snippetStore)
+const { snippetList, snippetDetail, selectedStatus, selectedAttr, selectedDirection } =
+  storeToRefs(snippetStore)
 
 onMounted(async () => {
   await snippetStore.getSnippetList()
@@ -44,6 +48,41 @@ const onNewSnippetButtonClick = async () => {
   } catch (error) {
     console.log('🚀 ~ onNewSnippetButtonClick ~ error:', error)
   }
+}
+
+const attr = ref(selectedAttr.value)
+const { commit: commitAttr, undo: undoAttr } = useManualRefHistory(attr)
+const direction = ref(selectedDirection.value)
+const { commit: commitDirection, undo: undoDirection } = useManualRefHistory(direction)
+
+const attrOptions: SortAttr[] = ['createdAt', 'name']
+const directionOptions: SortDirection[] = ['asc', 'desc']
+
+const isSortOptionsShow = ref(false)
+const onSortOptionSelect = (sortOption: SortAttr | SortDirection, seriesIndex: number) => {
+  console.log('🚀 ~ onSortOptionSelect ~ seriesIndex:', seriesIndex, sortOption)
+  if (seriesIndex === 0) {
+    direction.value = sortOption as SortDirection
+  } else if (seriesIndex === 1) {
+    attr.value = sortOption as SortAttr
+  }
+}
+
+const onApplyButtonClick = () => {
+  commitAttr()
+  commitDirection()
+
+  selectedAttr.value = attr.value
+  selectedDirection.value = direction.value
+
+  isSortOptionsShow.value = false
+}
+
+const onCancelButtonClick = () => {
+  undoAttr()
+  undoDirection()
+
+  isSortOptionsShow.value = false
 }
 </script>
 
@@ -85,10 +124,73 @@ const onNewSnippetButtonClick = async () => {
       <template #header>
         <div></div>
         <div>
-          <div class="flex items-center space-x-1.5">
-            <SortDesc16 class="dark:fill-primer-dark-gray-400"></SortDesc16>
-            <span class="fira-code text-sm dark:text-primer-dark-gray-400">Sort</span>
-          </div>
+          <SelectGroupMenu
+            title="Sort by"
+            :is-show="isSortOptionsShow"
+            :searchable="false"
+            :optionsSeries="[directionOptions, attrOptions]"
+            @select="(option, seriesIndex) => onSortOptionSelect(option, seriesIndex)"
+            @click-outside="
+              () => {
+                if (isSortOptionsShow) {
+                  isSortOptionsShow = false
+                  undoAttr()
+                  undoDirection()
+                }
+              }
+            "
+            @close-button-click="
+              () => {
+                if (isSortOptionsShow) {
+                  isSortOptionsShow = false
+                  undoAttr()
+                  undoDirection()
+                }
+              }
+            "
+          >
+            <template #trigger>
+              <button
+                class="flex items-center space-x-1.5 group"
+                @click="isSortOptionsShow = !isSortOptionsShow"
+              >
+                <SortDesc16
+                  class="dark:fill-primer-dark-gray-400 dark:group-hover:fill-primer-dark-gray-0 transition-colors"
+                ></SortDesc16>
+                <span
+                  class="fira-code text-sm dark:text-primer-dark-gray-400 dark:group-hover:text-primer-dark-gray-0 transition-colors"
+                  >Sort
+                </span>
+              </button>
+            </template>
+            <template #menuItem="{ option, seriesIndex }">
+              <li class="flex items-center space-x-4 min-w-28">
+                <Check16
+                  class="dark:fill-primer-dark-gray-0 transition-opacity"
+                  :class="
+                    (seriesIndex === 0 && option === direction) ||
+                    (seriesIndex === 1 && option === attr)
+                      ? 'opacity-100'
+                      : 'opacity-0'
+                  "
+                ></Check16>
+                <span class="whitespace-nowrap dark:text-primer-dark-gray-0 fira-code text-sm">
+                  {{ option }}
+                </span>
+              </li>
+            </template>
+            <template #footer>
+              <div class="flex space-x-4 justify-end">
+                <Button
+                  label="Cancel"
+                  type="secondary"
+                  size="sm"
+                  @click="onCancelButtonClick"
+                ></Button>
+                <Button label="Apply" size="sm" @click="onApplyButtonClick"></Button>
+              </div>
+            </template>
+          </SelectGroupMenu>
         </div>
       </template>
 

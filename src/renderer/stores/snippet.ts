@@ -2,10 +2,12 @@ import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 
 import type {
+  SortAttr,
   SnippetDetail,
   SnippetItem,
   SnippetStatus,
-  SnippetStatusCount
+  SnippetStatusCount,
+  SortDirection
 } from '../../shared/snippet'
 
 import type { TagItem } from '@shared/Tag'
@@ -30,6 +32,8 @@ export const useSnippetStore = defineStore('snippet', () => {
   }
 
   const selectedStatus = ref<SnippetStatus>('inbox')
+  const selectedAttr = ref<SortAttr>('createdAt')
+  const selectedDirection = ref<SortDirection>('desc')
 
   const snippetList = ref<SnippetItem[]>([])
   const getSnippetList = async () => {
@@ -39,7 +43,9 @@ export const useSnippetStore = defineStore('snippet', () => {
       const res = await window.electronAPI.getSnippetList({
         tagId: selectedTagId,
         folderId: selectedFolderId,
-        status: selectedStatus.value
+        status: selectedStatus.value,
+        sortAttr: selectedAttr.value,
+        sortDirection: selectedDirection.value
       })
       if (!res.success) throw new Error(res.msg)
       if (res.data) snippetList.value = res.data
@@ -48,7 +54,13 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
   watch(
-    () => [tagStore.selectedTagId, folderStore.selectedFolderId, selectedStatus.value],
+    () => [
+      tagStore.selectedTagId,
+      folderStore.selectedFolderId,
+      selectedStatus.value,
+      selectedAttr.value,
+      selectedDirection.value
+    ],
     () => getSnippetList()
   )
 
@@ -190,6 +202,8 @@ export const useSnippetStore = defineStore('snippet', () => {
     updateSnippetFavorite,
     moveSnippetIntoFolder,
     moveSnippetIntoInbox,
-    restoreSnippet
+    restoreSnippet,
+    selectedAttr,
+    selectedDirection
   }
 })
