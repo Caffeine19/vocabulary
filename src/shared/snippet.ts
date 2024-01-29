@@ -70,3 +70,7 @@ export interface MoveSnippetIntoFolder {
 export interface MoveSnippetIntoInbox {
   (id: SnippetItem['id']): Promise<void>
 }
+
+export interface RestoreSnippet {
+  (id: SnippetDetail['id']): Promise<Result<void>>
+}

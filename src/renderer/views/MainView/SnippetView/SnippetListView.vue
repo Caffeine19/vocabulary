@@ -17,7 +17,7 @@ import { type SnippetItem as ISnippetItem } from '@shared/snippet'
 
 const snippetStore = useSnippetStore()
 
-const { snippetList, snippetDetail } = storeToRefs(snippetStore)
+const { snippetList, snippetDetail, selectedStatus } = storeToRefs(snippetStore)
 
 onMounted(async () => {
   await snippetStore.getSnippetList()
@@ -57,8 +57,25 @@ const onNewSnippetButtonClick = async () => {
           ></Search16>
         </template>
       </Input>
-      <Button label="New Snippet" type="primary" @click="onNewSnippetButtonClick">
+
+      <Button
+        label="New Snippet"
+        type="primary"
+        @click="onNewSnippetButtonClick"
+        v-show="selectedStatus !== 'deleted'"
+      >
         <template #rightIcon="{ iconStyle }">
+          <Pencil16 :class="iconStyle"></Pencil16>
+        </template>
+      </Button>
+
+      <Button
+        label="Empty"
+        type="danger"
+        @click="onNewSnippetButtonClick"
+        v-show="selectedStatus === 'deleted'"
+      >
+        <template #leftIcon="{ iconStyle }">
           <Pencil16 :class="iconStyle"></Pencil16>
         </template>
       </Button>

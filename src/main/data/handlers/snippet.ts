@@ -3,6 +3,7 @@ import {
   GetSnippetDetail,
   GetSnippetList,
   GetSnippetStatusCount,
+  RestoreSnippet,
   UpdateSnippetContent,
   UpdateSnippetName
 } from '../../../shared/snippet'
@@ -11,6 +12,7 @@ import {
   getSnippetDetail,
   getSnippetList,
   getSnippetStatusCount,
+  restoreSnippet,
   updateSnippetContent,
   updateSnippetName
 } from '../services/snippet'
@@ -91,7 +93,21 @@ export const onUpdateSnippetName: AddParametersBefore<
 > = async (_, id, name) => {
   try {
     const res = await updateSnippetName(id, name)
+    return {
+      success: true,
+      data: res
+    }
+  } catch (error) {
+    return { msg: (error as Error).message, success: false }
+  }
+}
 
+export const onRestoreSnippet: AddParametersBefore<
+  RestoreSnippet,
+  [e: Electron.IpcMainInvokeEvent]
+> = async (_, id) => {
+  try {
+    const res = await restoreSnippet(id)
     return {
       success: true,
       data: res

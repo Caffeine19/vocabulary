@@ -63,6 +63,7 @@ const onDeleteButtonClick = async () => {
     snippetStore.getSnippetList()
     snippetStore.getStatusSnippetCount()
     tagStore.getTagList()
+    folderStore.getFolderList()
   } catch (error) {
     console.log('🚀 ~ onDeleteButtonClick ~ error:', error)
   }
@@ -93,8 +94,14 @@ const onFavoriteButtonClick = async () => {
   }
 }
 
-const onRecoverButtonClick = () => {
+const onRestoreButtonClick = async () => {
+  if (!snippetDetail.value?.id) return
   try {
+    await snippetStore.restoreSnippet(snippetDetail.value.id)
+    snippetStore.getSnippetList()
+    snippetStore.getStatusSnippetCount()
+    tagStore.getTagList()
+    folderStore.getFolderList()
   } catch (error) {
     console.log('🚀 ~ onRecoverButtonClick ~ error:', error)
   }
@@ -187,7 +194,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
             </SelectMenu>
           </template>
           <template v-else>
-            <IconButton @click="">
+            <IconButton @click="onRestoreButtonClick">
               <template #icon="{ iconStyle }">
                 <History16 :class="iconStyle"> </History16>
               </template>

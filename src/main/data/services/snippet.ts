@@ -285,3 +285,18 @@ export const moveSnippetIntoInbox = async (id: SnippetDetail['id']) => {
     throw error
   }
 }
+
+export const restoreSnippet = async (id: SnippetDetail['id']) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: {
+        deleted: false
+      }
+    })
+    console.log('🚀 ~ restoreSnippet ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ restoreSnippet ~ error:', error)
+    throw error
+  }
+}

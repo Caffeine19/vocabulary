@@ -18,6 +18,7 @@ export enum IPCMainEvent {
   updateSnippetFavorite = 'updateSnippetFavorite',
   moveSnippetIntoFolder = 'moveSnippetIntoFolder',
   moveSnippetIntoInbox = 'moveSnippetIntoInbox',
+  restoreSnippet = 'restoreSnippet',
 
   getTagList = 'getTagList',
 
@@ -45,6 +46,7 @@ const electronAPI: ElectronAPI = {
   moveSnippetIntoFolder: (id, folderId) =>
     ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoFolder, id, folderId),
   moveSnippetIntoInbox: (id) => ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoInbox, id),
+  restoreSnippet: (id) => ipcRenderer.invoke(IPCMainEvent.restoreSnippet, id),
 
   getTagList: () => ipcRenderer.invoke(IPCMainEvent.getTagList),
 

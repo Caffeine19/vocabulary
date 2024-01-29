@@ -162,6 +162,17 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
 
+  const restoreSnippet = async (id: SnippetDetail['id']) => {
+    try {
+      const res = await window.electronAPI.restoreSnippet(id)
+      console.log('🚀 ~ restoreSnippet ~ res:', res)
+      const { msg, success } = res
+      if (!success) throw new Error(msg)
+    } catch (error) {
+      console.log('🚀 ~ restoreSnippet ~ error:', error)
+    }
+  }
+
   return {
     snippetList,
     getSnippetList,
@@ -178,6 +189,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     destroySnippet,
     updateSnippetFavorite,
     moveSnippetIntoFolder,
-    moveSnippetIntoInbox
+    moveSnippetIntoInbox,
+    restoreSnippet
   }
 })

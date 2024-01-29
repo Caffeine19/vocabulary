@@ -18,6 +18,7 @@ import {
   onGetSnippetDetail,
   onGetSnippetList,
   onGetSnippetStatusCount,
+  onRestoreSnippet,
   onUpdateSnippetContent,
   onUpdateSnippetName
 } from './data/handlers/snippet'
@@ -39,6 +40,7 @@ export enum IPCMainEvent {
   updateSnippetFavorite = 'updateSnippetFavorite',
   moveSnippetIntoFolder = 'moveSnippetIntoFolder',
   moveSnippetIntoInbox = 'moveSnippetIntoInbox',
+  restoreSnippet = 'restoreSnippet',
 
   getTagList = 'getTagList',
 
@@ -147,6 +149,7 @@ app.whenReady().then(() => {
   ipcMain.handle(IPCMainEvent.moveSnippetIntoInbox, async (_, id) => {
     await moveSnippetIntoInbox(id)
   })
+  ipcMain.handle(IPCMainEvent.restoreSnippet, onRestoreSnippet)
 
   //tag
   ipcMain.handle(IPCMainEvent.getTagList, async () => {
