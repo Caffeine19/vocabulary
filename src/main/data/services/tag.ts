@@ -1,38 +1,36 @@
-import prisma from '.'
+import prisma from './index'
 
-import { GetFolderList } from '../../shared/folder'
+import type { GetTagList } from '../../../shared/Tag'
 
-export const getFolderList: GetFolderList = async () => {
+export const getTagList: GetTagList = async () => {
   try {
-    const res = await prisma.folder.findMany({
+    const res = await prisma.tag.findMany({
       select: {
         id: true,
         name: true,
+        color: true,
         createdAt: true,
-        parentId: true,
-
         _count: {
           select: {
-            snippets: {
+            snippet: {
               where: {
                 deleted: false
               }
-            },
-            children: true
+            }
           }
         }
       }
     })
+
     const newVal = res.map(({ _count, ...other }) => {
       return {
         ...other,
-        snippetCount: _count.snippets,
-        childrenCount: _count.children
+        snippetCount: _count.snippet
       }
     })
     console.log('🚀 ~ newVal ~ newVal:', newVal)
     return newVal
   } catch (error) {
-    console.log('🚀 ~ constgetFolderList:GetFolderList= ~ error:', error)
+    console.log('🚀 ~ getTagList ~ error:', error)
   }
 }

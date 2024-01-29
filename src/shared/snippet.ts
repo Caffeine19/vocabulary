@@ -1,6 +1,7 @@
 import type { Snippet as PrismaSnippet } from '@prisma/client'
 import type { Tag, TagItem } from './Tag'
 import type { Folder } from './folder'
+import type { Result } from './result'
 
 export type Snippet = PrismaSnippet
 export type SnippetItem = Omit<Snippet, 'content'> & { tags: Tag[] }
@@ -12,34 +13,32 @@ export interface GetSnippetList {
     tagId?: Tag['id']
     folderId?: Folder['id']
     status?: SnippetStatus
-  }): Promise<SnippetItem[] | undefined>
+  }): Promise<Result<SnippetItem[] | undefined>>
 }
 
 export type SnippetStatusCount = {
   [key: string]: number
 } & { [key in SnippetStatus]: number }
 
-type a = keyof SnippetStatusCount
-
 export interface GetSnippetStatusCount {
-  (): Promise<SnippetStatusCount | undefined>
+  (): Promise<Result<SnippetStatusCount | undefined>>
 }
 
 export type SnippetDetail = Omit<Snippet, 'excerpt'> & { tags: Tag[]; folder: Folder | null }
 export interface GetSnippetDetail {
-  (id: Snippet['id']): Promise<SnippetDetail | null | undefined>
+  (id: Snippet['id']): Promise<Result<SnippetDetail | null>>
 }
 
 export interface UpdateSnippetContent {
-  (id: SnippetDetail['id'], content: SnippetDetail['content']): Promise<void>
+  (id: SnippetDetail['id'], content: SnippetDetail['content']): Promise<Result<void>>
 }
 
 export interface UpdateSnippetName {
-  (id: SnippetDetail['id'], name: SnippetDetail['name']): Promise<void>
+  (id: SnippetDetail['id'], name: SnippetDetail['name']): Promise<Result<void>>
 }
 
 export interface UpdateSnippetName {
-  (id: SnippetDetail['id'], name: SnippetDetail['name']): Promise<void>
+  (id: SnippetDetail['id'], name: SnippetDetail['name']): Promise<Result<void>>
 }
 
 export interface ConnectSnippetWithTag {

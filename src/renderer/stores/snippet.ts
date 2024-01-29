@@ -22,7 +22,8 @@ export const useSnippetStore = defineStore('snippet', () => {
   const getStatusSnippetCount = async () => {
     try {
       const res = await window.electronAPI.getSnippetStatusCount()
-      if (res) statusCount.value = res
+      if (!res.success) throw new Error(res.msg)
+      if (res.data) statusCount.value = res.data
     } catch (error) {
       console.log('🚀 ~ getStatusSnippetCount ~ error:', error)
     }
@@ -40,7 +41,8 @@ export const useSnippetStore = defineStore('snippet', () => {
         folderId: selectedFolderId,
         status: selectedStatus.value
       })
-      if (res) snippetList.value = res
+      if (!res.success) throw new Error(res.msg)
+      if (res.data) snippetList.value = res.data
     } catch (error) {
       console.log('🚀 ~ getSnippetList ~ error:', error)
     }
@@ -56,7 +58,9 @@ export const useSnippetStore = defineStore('snippet', () => {
     console.log('🚀 ~ getSnippetDetail ~ id:', id)
     try {
       const res = await window.electronAPI.getSnippetDetail(id)
-      if (res) snippetDetail.value = res
+      const { msg, success, data } = res
+      if (!success) throw new Error(msg)
+      if (data) snippetDetail.value = data
     } catch (error) {
       console.log('🚀 ~ getSnippetDetail ~ error:', error)
     }
@@ -69,6 +73,8 @@ export const useSnippetStore = defineStore('snippet', () => {
     try {
       const res = await window.electronAPI.updateSnippetContent(id, content)
       console.log('🚀 ~ useSnippetStore ~ res:', res)
+      const { msg, success } = res
+      if (!success) throw new Error(msg)
     } catch (error) {
       console.log('🚀 ~ updateSnippetContent ~ error:', error)
     }
@@ -78,6 +84,8 @@ export const useSnippetStore = defineStore('snippet', () => {
     try {
       const res = await window.electronAPI.updateSnippetName(id, name)
       console.log('🚀 ~ updateSnippetName ~ res:', res)
+      const { msg, success } = res
+      if (!success) throw new Error(msg)
     } catch (error) {
       console.log('🚀 ~ updateSnippetName ~ error:', error)
     }

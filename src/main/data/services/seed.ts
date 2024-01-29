@@ -83,7 +83,7 @@ const createFolderBatch = async () => {
 
 const seed = async () => {
   // await createTagBatch()
-  // await createSnippetBatch()
-  await createFolderBatch()
+  await createSnippetBatch()
+  // await createFolderBatch()
 }
 seed()

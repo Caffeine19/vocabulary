@@ -14,6 +14,7 @@ import type {
   MoveSnippetIntoInbox,
   UpdateSnippetName
 } from './snippet'
+
 export interface ElectronAPI {
   close: () => void
   maximize: () => void

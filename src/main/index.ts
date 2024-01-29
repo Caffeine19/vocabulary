@@ -4,21 +4,23 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 import {
-  getSnippetList,
-  getSnippetDetail,
-  updateSnippetContent,
   connectSnippetWithTag,
   createSnippet,
   deleteSnippet,
   destroySnippet,
-  getSnippetStatusCount,
   updateSnippetFavorite,
   moveSnippetIntoFolder,
-  moveSnippetIntoInbox,
-  updateSnippetName
-} from './data/snippet'
-import { getTagList } from './data/tag'
-import { getFolderList } from './data/folder'
+  moveSnippetIntoInbox
+} from './data/services/snippet'
+import { getTagList } from './data/services/tag'
+import { getFolderList } from './data/services/folder'
+import {
+  onGetSnippetDetail,
+  onGetSnippetList,
+  onGetSnippetStatusCount,
+  onUpdateSnippetContent,
+  onUpdateSnippetName
+} from './data/handlers/snippet'
 
 export enum IPCMainEvent {
   minimize = 'minimize',
@@ -116,25 +118,11 @@ app.whenReady().then(() => {
   })
 
   //snippet
-  ipcMain.handle(IPCMainEvent.getSnippetList, async (_, params) => {
-    const res = await getSnippetList(params)
-    return res
-  })
-  ipcMain.handle(IPCMainEvent.getSnippetStatusCount, async () => {
-    const res = await getSnippetStatusCount()
-    return res
-  })
-  ipcMain.handle(IPCMainEvent.getSnippetDetail, async (_, id) => {
-    console.log('🚀 ~ ipcMain.handle ~ id:', id)
-    const res = await getSnippetDetail(id)
-    return res
-  })
-  ipcMain.handle(IPCMainEvent.updateSnippetContent, async (_, id, content) => {
-    await updateSnippetContent(id, content)
-  })
-  ipcMain.handle(IPCMainEvent.updateSnippetName, async (_, id, name) => {
-    await updateSnippetName(id, name)
-  })
+  ipcMain.handle(IPCMainEvent.getSnippetList, onGetSnippetList)
+  ipcMain.handle(IPCMainEvent.getSnippetStatusCount, onGetSnippetStatusCount)
+  ipcMain.handle(IPCMainEvent.getSnippetDetail, onGetSnippetDetail)
+  ipcMain.handle(IPCMainEvent.updateSnippetContent, onUpdateSnippetContent)
+  ipcMain.handle(IPCMainEvent.updateSnippetName, onUpdateSnippetName)
   ipcMain.handle(IPCMainEvent.connectSnippetWithTag, async (_, id, tagId) => {
     await connectSnippetWithTag(id, tagId)
   })

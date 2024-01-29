@@ -5,17 +5,29 @@ import {
   CreateSnippet,
   DeleteSnippet,
   DestroySnippet,
-  GetSnippetDetail,
-  GetSnippetList,
-  GetSnippetStatusCount,
   MoveSnippetIntoFolder,
+  Snippet,
   SnippetDetail,
+  SnippetItem,
+  SnippetStatus,
+  SnippetStatusCount,
   UpdateSnippetContent,
   UpdateSnippetFavorite,
   UpdateSnippetName
-} from '../../shared/snippet'
+} from '../../../shared/snippet'
 
-export const getSnippetList: GetSnippetList = async ({ tagId, status, folderId }) => {
+import { Tag } from '../../../shared/Tag'
+import { Folder } from '@prisma/client'
+
+export const getSnippetList = async ({
+  tagId,
+  status,
+  folderId
+}: {
+  tagId?: Tag['id']
+  status?: SnippetStatus
+  folderId?: Folder['id']
+}): Promise<SnippetItem[]> => {
   try {
     const res = await prisma.snippet.findMany({
       select: {
@@ -64,10 +76,11 @@ export const getSnippetList: GetSnippetList = async ({ tagId, status, folderId }
     return res
   } catch (error) {
     console.log('🚀 ~ getSnippetList ~ error:', error)
+    throw error
   }
 }
 
-export const getSnippetStatusCount: GetSnippetStatusCount = async () => {
+export const getSnippetStatusCount = async (): Promise<SnippetStatusCount> => {
   try {
     const getInboxCount = () => prisma.snippet.count({ where: { deleted: false, folderId: null } })
     const getAllCount = () => prisma.snippet.count({ where: { deleted: false } })
@@ -88,10 +101,11 @@ export const getSnippetStatusCount: GetSnippetStatusCount = async () => {
     return { inbox, all, favorite, deleted }
   } catch (error) {
     console.log('🚀 ~ getSnippetStatusCount ~ error:', error)
+    throw error
   }
 }
 
-export const getSnippetDetail: GetSnippetDetail = async (id) => {
+export const getSnippetDetail = async (id: Snippet['id']): Promise<SnippetDetail | null> => {
   try {
     const res = await prisma.snippet.findUnique({
       where: { id },
@@ -111,22 +125,30 @@ export const getSnippetDetail: GetSnippetDetail = async (id) => {
     return res
   } catch (error) {
     console.log('🚀 ~ getSnippetDetail ~ error:', error)
+    throw error
   }
 }
 
-export const updateSnippetContent: UpdateSnippetContent = async (id, content) => {
+export const updateSnippetContent = async (
+  id: Snippet['id'],
+  content: Snippet['content']
+): Promise<void> => {
   try {
     const res = await prisma.snippet.update({
       where: { id },
       data: { content }
     })
-    console.log('🚀 ~ constupdateSnippetContent:UpdateSnippetContent= ~ res:', res)
+    console.log('🚀 ~ res:', res)
   } catch (error) {
-    console.log('🚀 ~ constupdateSnippetDetail:UpdateSnippetContent= ~ error:', error)
+    console.log('🚀 ~ error:', error)
+    throw error
   }
 }
 
-export const updateSnippetName: UpdateSnippetName = async (id, name) => {
+export const updateSnippetName = async (
+  id: Snippet['id'],
+  name: Snippet['name']
+): Promise<void> => {
   try {
     const res = await prisma.snippet.update({
       where: { id },
@@ -135,6 +157,7 @@ export const updateSnippetName: UpdateSnippetName = async (id, name) => {
     console.log('🚀 ~ updateSnippetName ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ updateSnippetName ~ error:', error)
+    throw error
   }
 }
 
@@ -153,6 +176,7 @@ export const connectSnippetWithTag: ConnectSnippetWithTag = async (id, tagId) =>
     console.log('🚀 ~ connectSnippetWithTag ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ error:', error)
+    throw error
   }
 }
 
@@ -183,6 +207,7 @@ export const createSnippet: CreateSnippet = async ({ name, content, excerpt, tag
     return res
   } catch (error) {
     console.log('🚀 ~ createSnippet ~ error:', error)
+    throw error
   }
 }
 
@@ -199,6 +224,7 @@ export const deleteSnippet: DeleteSnippet = async (id) => {
     console.log('🚀 ~ deleteSnippet:DeleteSnippet ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ deleteSnippet ~ error:', error)
+    throw error
   }
 }
 
@@ -210,6 +236,7 @@ export const destroySnippet: DestroySnippet = async (id) => {
     console.log('🚀 ~ constdestroySnippet:DestroySnippet= ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ constdestorySnippet:DestroySnippet= ~ error:', error)
+    throw error
   }
 }
 
@@ -219,6 +246,7 @@ export const updateSnippetFavorite: UpdateSnippetFavorite = async (id, favorite)
     console.log('🚀 ~ constupdateSnippetFavorite:UpdateSnippetFavorite= ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ updateSnippetFavorite ~ error:', error)
+    throw error
   }
 }
 
@@ -237,10 +265,11 @@ export const moveSnippetIntoFolder: MoveSnippetIntoFolder = async (id, folderId)
     console.log('🚀 ~ constmoveSnippetIntoFolder:MoveSnippetIntoFolder= ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ moveSnippetIntoFolder ~ error:', error)
+    throw error
   }
 }
 
-export const moveSnippetIntoInbox = async (id) => {
+export const moveSnippetIntoInbox = async (id: SnippetDetail['id']) => {
   try {
     const res = await prisma.snippet.update({
       where: { id },
@@ -253,5 +282,6 @@ export const moveSnippetIntoInbox = async (id) => {
     console.log('🚀 ~ moveSnippetInfoInbox ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ moveSnippetInfoInbox ~ error:', error)
+    throw error
   }
 }
