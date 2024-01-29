@@ -51,9 +51,11 @@ const onNewSnippetButtonClick = async () => {
 }
 
 const attr = ref(selectedAttr.value)
-const { commit: commitAttr, undo: undoAttr } = useManualRefHistory(attr)
+const { commit: commitAttr, reset: resetAttr } = useManualRefHistory(attr)
+commitAttr()
 const direction = ref(selectedDirection.value)
-const { commit: commitDirection, undo: undoDirection } = useManualRefHistory(direction)
+const { commit: commitDirection, reset: resetDirection } = useManualRefHistory(direction)
+commitDirection()
 
 const attrOptions: SortAttr[] = ['createdAt', 'name']
 const directionOptions: SortDirection[] = ['asc', 'desc']
@@ -79,8 +81,8 @@ const onApplyButtonClick = () => {
 }
 
 const onCancelButtonClick = () => {
-  undoAttr()
-  undoDirection()
+  resetAttr()
+  resetDirection()
 
   isSortOptionsShow.value = false
 }
@@ -130,21 +132,21 @@ const onCancelButtonClick = () => {
             :searchable="false"
             :optionsSeries="[directionOptions, attrOptions]"
             @select="(option, seriesIndex) => onSortOptionSelect(option, seriesIndex)"
-            @click-outside="
-              () => {
-                if (isSortOptionsShow) {
-                  isSortOptionsShow = false
-                  undoAttr()
-                  undoDirection()
-                }
-              }
-            "
             @close-button-click="
               () => {
                 if (isSortOptionsShow) {
                   isSortOptionsShow = false
-                  undoAttr()
-                  undoDirection()
+                  resetAttr()
+                  resetDirection()
+                }
+              }
+            "
+            @click-outside="
+              () => {
+                if (isSortOptionsShow) {
+                  isSortOptionsShow = false
+                  resetAttr()
+                  resetDirection()
                 }
               }
             "
