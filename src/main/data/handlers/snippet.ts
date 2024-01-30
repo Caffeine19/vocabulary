@@ -1,5 +1,6 @@
 import { AddParametersBefore } from '../../../shared/addParameters'
 import {
+  FormatSnippetContent,
   GetSnippetDetail,
   GetSnippetList,
   GetSnippetStatusCount,
@@ -9,6 +10,7 @@ import {
 } from '../../../shared/snippet'
 
 import {
+  formatSnippetContent,
   getSnippetDetail,
   getSnippetList,
   getSnippetStatusCount,
@@ -108,6 +110,21 @@ export const onRestoreSnippet: AddParametersBefore<
 > = async (_, id) => {
   try {
     const res = await restoreSnippet(id)
+    return {
+      success: true,
+      data: res
+    }
+  } catch (error) {
+    return { msg: (error as Error).message, success: false }
+  }
+}
+
+export const onFormatSnippetContent: AddParametersBefore<
+  FormatSnippetContent,
+  [e: Electron.IpcMainInvokeEvent]
+> = async (_, id) => {
+  try {
+    const res = await formatSnippetContent(id)
     return {
       success: true,
       data: res

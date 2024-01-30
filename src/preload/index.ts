@@ -1,29 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { ElectronAPI } from '../shared/electronAPI'
 
-export enum IPCMainEvent {
-  minimize = 'minimize',
-  maximize = 'maximize',
-  close = 'close',
-
-  getSnippetList = 'getSnippetList',
-  getSnippetDetail = 'getSnippetDetail',
-  getSnippetStatusCount = 'getSnippetStatusCount',
-  updateSnippetContent = 'updateSnippetContent',
-  updateSnippetName = 'updateSnippetName',
-  connectSnippetWithTag = 'connectSnippetWithTag',
-  createSnippet = 'createSnippet',
-  deleteSnippet = 'deleteSnippet',
-  destroySnippet = 'destroySnippet',
-  updateSnippetFavorite = 'updateSnippetFavorite',
-  moveSnippetIntoFolder = 'moveSnippetIntoFolder',
-  moveSnippetIntoInbox = 'moveSnippetIntoInbox',
-  restoreSnippet = 'restoreSnippet',
-
-  getTagList = 'getTagList',
-
-  getFolderList = 'getFolderList'
-}
+import { IPCMainEvent } from '../main/IPCMainEvent'
 
 const electronAPI: ElectronAPI = {
   minimize: () => ipcRenderer.send(IPCMainEvent.minimize),
@@ -47,6 +25,7 @@ const electronAPI: ElectronAPI = {
     ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoFolder, id, folderId),
   moveSnippetIntoInbox: (id) => ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoInbox, id),
   restoreSnippet: (id) => ipcRenderer.invoke(IPCMainEvent.restoreSnippet, id),
+  formatSnippetContent: (id) => ipcRenderer.invoke(IPCMainEvent.formatSnippetContent, id),
 
   getTagList: () => ipcRenderer.invoke(IPCMainEvent.getTagList),
 

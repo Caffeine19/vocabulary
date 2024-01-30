@@ -1,16 +1,40 @@
 <script setup lang="ts">
 import { ref, shallowRef, nextTick } from 'vue'
 
+import { storeToRefs } from 'pinia'
+
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
 import { type ViewUpdate, EditorView } from '@codemirror/view'
-import GithubDark from '@/theme/GithubDark'
+
+import { useClipboard } from '@vueuse/core'
 
 import Box from '@/components/Box.vue'
 import Copy24 from '@/components/Icon/Copy24.vue'
 
-withDefaults(defineProps<{ code?: string; disabled?: boolean }>(), { code: 'hi', disabled: false })
+import GithubDark from '@/theme/GithubDark'
+
+import { useSnippetStore } from '@renderer/stores/snippet'
+
+const snippetStore = useSnippetStore()
+const { snippetDetail } = storeToRefs(snippetStore)
+
+const props = withDefaults(defineProps<{ code?: string; disabled?: boolean }>(), {
+  code: 'hi',
+  disabled: false
+})
 defineEmits<{ 'update:code': [e: string] }>()
+
+const { copy } = useClipboard()
+const onCopyButtonClick = () => {
+  copy(props.code)
+}
+
+const onFormatButtonClick = async () => {
+  if (!snippetDetail.value?.id) return
+  await snippetStore.formatSnippetContent(snippetDetail.value.id)
+  snippetStore.getSnippetDetail(snippetDetail.value.id)
+}
 
 const extensions = [javascript(), GithubDark, EditorView.lineWrapping]
 
@@ -74,9 +98,20 @@ const onCodeChange = (value: string, viewUpdate: ViewUpdate) => {
       <span class="fira-code text-xs font-normal dark:text-primer-dark-gray-400"
         >{{ lines }} lines ({{ loc }} loc) · {{ length }} Bytes</span
       >
-      <button>
-        <Copy24 class="w-4 h-4 dark:fill-primer-dark-gray-400"></Copy24>
-      </button>
+      <div>
+        <button
+          @click="onCopyButtonClick"
+          class="p-1.5 dark:bg-primer-dark-gray-700 border dark:border-primer-dark-gray-0/10 dark:hover:border-primer-dark-gray-200/[0.357] transition-colors dark:hover:bg-primer-dark-gray-600 rounded-l-md"
+        >
+          <Copy24 class="w-4 h-4 dark:fill-primer-dark-gray-100"></Copy24>
+        </button>
+        <button
+          @click="onFormatButtonClick"
+          class="p-1.5 dark:bg-primer-dark-gray-700 border dark:border-primer-dark-gray-0/10 dark:hover:border-primer-dark-gray-200/[0.357] transition-colors dark:hover:bg-primer-dark-gray-600 rounded-r-md"
+        >
+          <Copy24 class="w-4 h-4 dark:fill-primer-dark-gray-100"></Copy24>
+        </button>
+      </div>
     </template>
     <template #main>
       <codemirror

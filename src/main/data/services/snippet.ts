@@ -1,5 +1,7 @@
 import prisma from './index'
 
+import * as prettier from 'prettier'
+
 import {
   ConnectSnippetWithTag,
   CreateSnippet,
@@ -13,13 +15,11 @@ import {
   SnippetStatusCount,
   SortAttr,
   SortDirection,
-  UpdateSnippetContent,
-  UpdateSnippetFavorite,
-  UpdateSnippetName
+  UpdateSnippetFavorite
 } from '../../../shared/snippet'
 
 import { Tag } from '../../../shared/Tag'
-import { Folder } from '@prisma/client'
+import { Folder } from '../../../shared/folder'
 
 export const getSnippetList = async ({
   tagId,
@@ -303,6 +303,33 @@ export const restoreSnippet = async (id: SnippetDetail['id']) => {
     console.log('🚀 ~ restoreSnippet ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ restoreSnippet ~ error:', error)
+    throw error
+  }
+}
+
+export const formatSnippetContent = async (id: SnippetDetail['id']) => {
+  try {
+    const snippet = await prisma.snippet.findUnique({
+      where: { id },
+      select: {
+        content: true
+      }
+    })
+    if (!snippet) throw new Error('snippet does not exit')
+    const { content } = snippet
+
+    const formattedContent = await prettier.format(content || '', { parser: 'babel' })
+    console.log('🚀 ~ formatSnippetContent ~ formattedContent:', formattedContent)
+
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: {
+        content: formattedContent
+      }
+    })
+    console.log('🚀 ~ formatSnippetContent ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ formatSnippetContent ~ error:', error)
     throw error
   }
 }

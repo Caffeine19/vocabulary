@@ -78,3 +78,7 @@ export interface MoveSnippetIntoInbox {
 export interface RestoreSnippet {
   (id: SnippetDetail['id']): Promise<Result<void>>
 }
+
+export interface FormatSnippetContent {
+  (id: SnippetDetail['id']): Promise<Result<void>>
+}

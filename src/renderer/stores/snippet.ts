@@ -185,6 +185,15 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
 
+  const formatSnippetContent = async (id: SnippetDetail['id']) => {
+    try {
+      const res = await window.electronAPI.formatSnippetContent(id)
+      console.log('🚀 ~ formatSnippetContent ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ formatSnippetContent ~ error:', error)
+    }
+  }
+
   return {
     snippetList,
     getSnippetList,
@@ -204,6 +213,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     moveSnippetIntoInbox,
     restoreSnippet,
     selectedAttr,
-    selectedDirection
+    selectedDirection,
+    formatSnippetContent
   }
 })

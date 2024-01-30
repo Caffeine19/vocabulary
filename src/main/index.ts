@@ -3,6 +3,8 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
+import { IPCMainEvent } from './IPCMainEvent'
+
 import {
   connectSnippetWithTag,
   createSnippet,
@@ -15,6 +17,7 @@ import {
 import { getTagList } from './data/services/tag'
 import { getFolderList } from './data/services/folder'
 import {
+  onFormatSnippetContent,
   onGetSnippetDetail,
   onGetSnippetList,
   onGetSnippetStatusCount,
@@ -22,30 +25,6 @@ import {
   onUpdateSnippetContent,
   onUpdateSnippetName
 } from './data/handlers/snippet'
-
-export enum IPCMainEvent {
-  minimize = 'minimize',
-  maximize = 'maximize',
-  close = 'close',
-
-  getSnippetList = 'getSnippetList',
-  getSnippetDetail = 'getSnippetDetail',
-  getSnippetStatusCount = 'getSnippetStatusCount',
-  updateSnippetContent = 'updateSnippetContent',
-  updateSnippetName = 'updateSnippetName',
-  connectSnippetWithTag = 'connectSnippetWithTag',
-  createSnippet = 'createSnippet',
-  deleteSnippet = 'deleteSnippet',
-  destroySnippet = 'destroySnippet',
-  updateSnippetFavorite = 'updateSnippetFavorite',
-  moveSnippetIntoFolder = 'moveSnippetIntoFolder',
-  moveSnippetIntoInbox = 'moveSnippetIntoInbox',
-  restoreSnippet = 'restoreSnippet',
-
-  getTagList = 'getTagList',
-
-  getFolderList = 'getFolderList'
-}
 
 function createWindow(): void {
   // Create the browser window.
@@ -150,6 +129,7 @@ app.whenReady().then(() => {
     await moveSnippetIntoInbox(id)
   })
   ipcMain.handle(IPCMainEvent.restoreSnippet, onRestoreSnippet)
+  ipcMain.handle(IPCMainEvent.formatSnippetContent, onFormatSnippetContent)
 
   //tag
   ipcMain.handle(IPCMainEvent.getTagList, async () => {

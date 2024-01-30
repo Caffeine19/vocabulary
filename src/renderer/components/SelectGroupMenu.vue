@@ -50,14 +50,14 @@ watch(
     nextTick(() => {
       if (triggerWrapRef.value && menuRef.value) {
         const triggerRect = triggerWrapRef.value.getBoundingClientRect()
-        console.log(
-          '🚀 ~ triggerRect:',
-          triggerRect,
-          menuRef.value.clientHeight,
-          menuRef.value.clientWidth,
-          window.innerHeight,
-          window.innerWidth
-        )
+        // console.log(
+        //   '🚀 ~ triggerRect:',
+        //   triggerRect,
+        //   menuRef.value.clientHeight,
+        //   menuRef.value.clientWidth,
+        //   window.innerHeight,
+        //   window.innerWidth
+        // )
 
         let newLeft = 0
         if (triggerRect.left + menuRef.value.clientWidth > window.innerWidth - 50) {
@@ -108,6 +108,7 @@ watch(
           </button>
         </div>
         <div class="flex">
+          <!-- no-input-for-search -->
           <!-- <div class="p-2 dark:border-primer-dark-gray-700 border-b" v-if="searchable">
             <Input v-model:value="keyWord" placeholder="Search Tags" class="min-w-48">
               <template #icon>
