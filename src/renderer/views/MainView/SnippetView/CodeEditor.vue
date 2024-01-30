@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, shallowRef, nextTick } from 'vue'
 
-import { storeToRefs } from 'pinia'
-
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
 import { type ViewUpdate, EditorView } from '@codemirror/view'
@@ -14,16 +12,11 @@ import Copy24 from '@/components/Icon/Copy24.vue'
 
 import GithubDark from '@/theme/GithubDark'
 
-import { useSnippetStore } from '@renderer/stores/snippet'
-
-const snippetStore = useSnippetStore()
-const { snippetDetail } = storeToRefs(snippetStore)
-
 const props = withDefaults(defineProps<{ code?: string; disabled?: boolean }>(), {
   code: 'hi',
   disabled: false
 })
-defineEmits<{ 'update:code': [e: string] }>()
+const emits = defineEmits<{ 'update:code': [e: string]; format: [] }>()
 
 const { copy } = useClipboard()
 const onCopyButtonClick = () => {
@@ -31,9 +24,7 @@ const onCopyButtonClick = () => {
 }
 
 const onFormatButtonClick = async () => {
-  if (!snippetDetail.value?.id) return
-  await snippetStore.formatSnippetContent(snippetDetail.value.id)
-  snippetStore.getSnippetDetail(snippetDetail.value.id)
+  emits('format')
 }
 
 const extensions = [javascript(), GithubDark, EditorView.lineWrapping]

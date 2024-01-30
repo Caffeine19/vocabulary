@@ -37,8 +37,15 @@ const { tagList } = storeToRefs(tagStore)
 const onUpdateCode = useDebounceFn(async (e) => {
   if (!snippetDetail.value?.id) return
   await snippetStore.updateSnippetContent(snippetDetail.value.id, e)
+  snippetStore.getSnippetDetail(snippetDetail.value.id)
   // await snippetStore.getSnippetList()
 }, 300)
+
+const onFormatCode = async () => {
+  if (!snippetDetail.value?.id) return
+  await snippetStore.formatSnippetContent(snippetDetail.value.id)
+  snippetStore.getSnippetDetail(snippetDetail.value.id)
+}
 
 const onChangeName = useDebounceFn(async (e) => {
   if (!snippetDetail.value?.id) return
@@ -236,6 +243,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
       class="grow"
       :code="snippetDetail?.content || ''"
       @update:code="(e) => onUpdateCode(e)"
+      @format="onFormatCode"
       :disabled="snippetDetail?.deleted"
     ></CodeEditor>
     <div class="flex items-center justify-between">
