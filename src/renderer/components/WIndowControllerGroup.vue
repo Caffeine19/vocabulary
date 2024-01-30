@@ -28,7 +28,7 @@ const windowControllerOptions: WindowControllerProps[] = [
       :action="con.action"
     >
       <template #icon>
-        <component :is="con.icon" class="fill-primer-dark-gray-0"></component>
+        <component :is="con.icon" class="fill-primer-dark-gray-0 w-5 h-5"></component>
       </template>
     </WindowController>
   </div>

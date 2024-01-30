@@ -57,7 +57,7 @@ const direction = ref(selectedDirection.value)
 const { commit: commitDirection, reset: resetDirection } = useManualRefHistory(direction)
 commitDirection()
 
-const attrOptions: SortAttr[] = ['createdAt', 'name']
+const attrOptions: SortAttr[] = ['createdAt', 'name', 'updatedAt']
 const directionOptions: SortDirection[] = ['asc', 'desc']
 
 const isSortOptionsShow = ref(false)

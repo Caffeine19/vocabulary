@@ -45,7 +45,8 @@ export const getSnippetList = async ({
         folderId: true,
         folder: true,
         favorite: true,
-        createdAt: true
+        createdAt: true,
+        updatedAt: true
       },
 
       where: {
@@ -124,7 +125,8 @@ export const getSnippetDetail = async (id: Snippet['id']): Promise<SnippetDetail
         deleted: true,
         createdAt: true,
         folder: true,
-        folderId: true
+        folderId: true,
+        updatedAt: true
       }
     })
     console.log('🚀 ~ constgetSnippetDetail:GetSnippetDetail= ~ res:', res)
@@ -207,7 +209,8 @@ export const createSnippet: CreateSnippet = async ({ name, content, excerpt, tag
         deleted: true,
         folderId: true,
         folder: true,
-        favorite: true
+        favorite: true,
+        updatedAt: true
       }
     })
     return res
