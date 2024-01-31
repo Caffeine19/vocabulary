@@ -6,7 +6,8 @@ import {
   GetSnippetStatusCount,
   RestoreSnippet,
   UpdateSnippetContent,
-  UpdateSnippetName
+  UpdateSnippetName,
+  UpdateSnippetTags
 } from '../../../shared/snippet'
 
 import {
@@ -16,7 +17,8 @@ import {
   getSnippetStatusCount,
   restoreSnippet,
   updateSnippetContent,
-  updateSnippetName
+  updateSnippetName,
+  updateSnippetTags
 } from '../services/snippet'
 
 export const onGetSnippetList: AddParametersBefore<
@@ -125,6 +127,22 @@ export const onFormatSnippetContent: AddParametersBefore<
 > = async (_, id) => {
   try {
     const res = await formatSnippetContent(id)
+    return {
+      success: true,
+      data: res
+    }
+  } catch (error) {
+    return { msg: (error as Error).message, success: false }
+  }
+}
+
+export const onUpdateSnippetTags: AddParametersBefore<
+  UpdateSnippetTags,
+  [e: Electron.IpcMainInvokeEvent]
+> = async (_, id, tagIdList) => {
+  try {
+    const res = await updateSnippetTags(id, tagIdList)
+    console.log('🚀 ~ >= ~ res:', res)
     return {
       success: true,
       data: res

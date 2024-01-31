@@ -20,7 +20,12 @@ const props = withDefaults(
   }
 )
 
-const emits = defineEmits<{ 'update:isShow': [e: boolean]; select: [e: any] }>()
+const emits = defineEmits<{
+  'update:isShow': [e: boolean]
+  select: [e: any]
+  clickOutside: []
+  closeButtonClick: []
+}>()
 
 const position = reactive({
   top: 0,
@@ -32,7 +37,10 @@ const topGap = 20
 const triggerWrapRef = ref<HTMLElement | null>(null)
 const menuRef = ref<HTMLElement | null>(null)
 
-onClickOutside(menuRef, () => emits('update:isShow', false))
+onClickOutside(menuRef, () => {
+  emits('update:isShow', false)
+  emits('clickOutside')
+})
 
 watch(
   () => props.isShow,
@@ -90,7 +98,15 @@ const filteredOptions = computed(() => {
           <span class="dark:text-primer-dark-gray-0 fira-code text-xs font-semibold">
             {{ title }}</span
           >
-          <button @click="$emit('update:isShow', false)" class="group">
+          <button
+            @click="
+              () => {
+                $emit('update:isShow', false)
+                $emit('closeButtonClick')
+              }
+            "
+            class="group"
+          >
             <X16
               class="dark:fill-primer-dark-gray-400 group-hover:dark:fill-primer-dark-gray-0"
             ></X16>
@@ -115,6 +131,9 @@ const filteredOptions = computed(() => {
               <slot name="menuItem" :option="option"> </slot>
             </li>
           </ul>
+        </div>
+        <div class="dark:border-primer-dark-gray-700 p-3 border-t">
+          <slot name="footer"></slot>
         </div>
       </div>
     </Transition>

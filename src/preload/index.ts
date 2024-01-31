@@ -14,8 +14,8 @@ const electronAPI: ElectronAPI = {
   updateSnippetContent: (id, content) =>
     ipcRenderer.invoke(IPCMainEvent.updateSnippetContent, id, content),
   updateSnippetName: (id, name) => ipcRenderer.invoke(IPCMainEvent.updateSnippetName, id, name),
-  connectSnippetWithTag: (id, tagId) =>
-    ipcRenderer.invoke(IPCMainEvent.connectSnippetWithTag, id, tagId),
+  updateSnippetTags: (id, tagIdList) =>
+    ipcRenderer.invoke(IPCMainEvent.updateSnippetTags, id, tagIdList),
   createSnippet: (params) => ipcRenderer.invoke(IPCMainEvent.createSnippet, params),
   deleteSnippet: (id) => ipcRenderer.invoke(IPCMainEvent.deleteSnippet, id),
   destroySnippet: (id) => ipcRenderer.invoke(IPCMainEvent.destroySnippet, id),

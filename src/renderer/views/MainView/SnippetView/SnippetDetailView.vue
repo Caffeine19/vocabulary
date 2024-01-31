@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { useManualRefHistory } from '@vueuse/core'
 
 // import Divider from '@/components/Divider.vue'
 import Tag from '@/components/Tag.vue'
@@ -20,6 +21,7 @@ import Check16 from '@renderer/components/Icon/Check16.vue'
 import Inbox16 from '@renderer/components/Icon/Inbox16.vue'
 import Fire16 from '@renderer/components/Icon/Fire16.vue'
 import History16 from '@renderer/components/Icon/History16.vue'
+import Checkbox from '@renderer/components/Checkbox.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -54,13 +56,45 @@ const onChangeName = useDebounceFn(async (e) => {
 })
 
 const isTagMenuShow = ref(false)
-const onTagSelect = async (tag: TagItem) => {
+const checkedTagList = ref<TagItem['id'][]>([])
+watch(
+  () => snippetDetail.value?.tags,
+  () => {
+    checkedTagList.value = snippetDetail.value ? snippetDetail.value.tags.map((t) => t.id) : []
+    commitCheckedTagList()
+  }
+)
+const { commit: commitCheckedTagList, reset: resetCheckedTagList } =
+  useManualRefHistory(checkedTagList)
+
+const onTagApplyButtonClick = async () => {
   if (!snippetDetail.value) return
-  await snippetStore.connectSnippetWithTag(snippetDetail.value.id, tag.id)
-  //refresh
-  await snippetStore.getSnippetList()
-  snippetStore.getSnippetDetail(snippetDetail.value.id)
-  tagStore.getTagList()
+  const connectTagIdList = checkedTagList.value.filter(
+    (checkedTagId) => !snippetDetail.value?.tags.find((t) => t.id === checkedTagId)
+  )
+  const disconnectTagIdList = snippetDetail.value.tags
+    .filter((t) => !checkedTagList.value.find((checkedTagId) => checkedTagId === t.id))
+    .map((t) => t.id)
+  try {
+    await snippetStore.updateSnippetTags(snippetDetail.value.id, {
+      connect: connectTagIdList,
+      disconnect: disconnectTagIdList
+    })
+
+    isTagMenuShow.value = false
+
+    commitCheckedTagList()
+
+    snippetStore.getSnippetDetail(snippetDetail.value.id)
+    snippetStore.getSnippetList()
+  } catch (error) {
+    console.log('🚀 ~ onTagCancelButtonClick ~ error:', error)
+  }
+}
+
+const onTagCancelButtonClick = () => {
+  resetCheckedTagList()
+  isTagMenuShow.value = false
 }
 
 const onDeleteButtonClick = async () => {
@@ -212,16 +246,27 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
 
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-1.5">
-          <template v-if="snippetDetail?.tags.length">
-            <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"> </Tag>
-          </template>
-
           <SelectMenu
             v-show="!snippetDetail?.deleted"
             title="Select Tag"
-            v-model:is-show="isTagMenuShow"
+            :is-show="isTagMenuShow"
             :options="tagList"
-            @select="(tag) => onTagSelect(tag)"
+            @click-outside="
+              () => {
+                if (isTagMenuShow) {
+                  isTagMenuShow = false
+                  resetCheckedTagList()
+                }
+              }
+            "
+            @close-button-click="
+              () => {
+                if (isTagMenuShow) {
+                  isTagMenuShow = false
+                  resetCheckedTagList()
+                }
+              }
+            "
           >
             <template #trigger>
               <button @click="isTagMenuShow = !isTagMenuShow">
@@ -231,11 +276,35 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
               </button>
             </template>
             <template #menuItem="{ option }">
-              <div>
-                <Tag :tag="option" class="w-fit"></Tag>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                  <Checkbox
+                    :checked="checkedTagList.includes(option.id)"
+                    @check="checkedTagList.push(option.id)"
+                    @uncheck="checkedTagList = checkedTagList.filter((tag) => tag !== option.id)"
+                  ></Checkbox>
+                  <span class="dark:text-primer-dark-gray-0 fira-code text-sm">{{
+                    option.name
+                  }}</span>
+                </div>
+                <div class="w-3 h-3 rounded-full" :style="{ background: option.color }"></div>
+              </div>
+            </template>
+            <template #footer>
+              <div class="flex justify-end space-x-4">
+                <Button
+                  label="Cancel"
+                  type="secondary"
+                  size="sm"
+                  @click="onTagCancelButtonClick"
+                ></Button>
+                <Button label="Apply" size="sm" @click="onTagApplyButtonClick"></Button>
               </div>
             </template>
           </SelectMenu>
+          <template v-if="snippetDetail?.tags.length">
+            <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"> </Tag>
+          </template>
         </div>
       </div>
     </div>

@@ -103,9 +103,15 @@ export const useSnippetStore = defineStore('snippet', () => {
     }
   }
 
-  const connectSnippetWithTag = async (id: SnippetDetail['id'], tagId: TagItem['id']) => {
+  const updateSnippetTags = async (
+    id: SnippetDetail['id'],
+    tagIdList: {
+      connect: TagItem['id'][]
+      disconnect: TagItem['id'][]
+    }
+  ) => {
     try {
-      const res = await window.electronAPI.connectSnippetWithTag(id, tagId)
+      const res = await window.electronAPI.updateSnippetTags(id, tagIdList)
       console.log('🚀 ~ connectSnippetWithTag ~ res:', res)
     } catch (error) {
       console.log('🚀 ~ connectSnippetWithTag ~ error:', error)
@@ -204,7 +210,7 @@ export const useSnippetStore = defineStore('snippet', () => {
     getSnippetDetail,
     updateSnippetContent,
     updateSnippetName,
-    connectSnippetWithTag,
+    updateSnippetTags,
     createBlankSnippet,
     deleteSnippet,
     destroySnippet,

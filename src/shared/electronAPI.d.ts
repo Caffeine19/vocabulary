@@ -4,7 +4,6 @@ import type {
   GetSnippetList,
   GetSnippetDetail,
   UpdateSnippetContent,
-  ConnectSnippetWithTag,
   CreateSnippet,
   DeleteSnippet,
   DestroySnippet,
@@ -14,7 +13,8 @@ import type {
   MoveSnippetIntoInbox,
   UpdateSnippetName,
   RestoreSnippet,
-  FormatSnippetContent
+  FormatSnippetContent,
+  UpdateSnippetTags
 } from './snippet'
 
 export interface ElectronAPI {
@@ -27,7 +27,7 @@ export interface ElectronAPI {
   getSnippetStatusCount: GetSnippetStatusCount
   updateSnippetContent: UpdateSnippetContent
   updateSnippetName: UpdateSnippetName
-  connectSnippetWithTag: ConnectSnippetWithTag
+  updateSnippetTags: UpdateSnippetTags
   createSnippet: CreateSnippet
   deleteSnippet: DeleteSnippet
   destroySnippet: DestroySnippet

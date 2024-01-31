@@ -6,7 +6,6 @@ import icon from '../../resources/icon.png?asset'
 import { IPCMainEvent } from './IPCMainEvent'
 
 import {
-  connectSnippetWithTag,
   createSnippet,
   deleteSnippet,
   destroySnippet,
@@ -23,7 +22,8 @@ import {
   onGetSnippetStatusCount,
   onRestoreSnippet,
   onUpdateSnippetContent,
-  onUpdateSnippetName
+  onUpdateSnippetName,
+  onUpdateSnippetTags
 } from './data/handlers/snippet'
 
 function createWindow(): void {
@@ -104,9 +104,7 @@ app.whenReady().then(() => {
   ipcMain.handle(IPCMainEvent.getSnippetDetail, onGetSnippetDetail)
   ipcMain.handle(IPCMainEvent.updateSnippetContent, onUpdateSnippetContent)
   ipcMain.handle(IPCMainEvent.updateSnippetName, onUpdateSnippetName)
-  ipcMain.handle(IPCMainEvent.connectSnippetWithTag, async (_, id, tagId) => {
-    await connectSnippetWithTag(id, tagId)
-  })
+  ipcMain.handle(IPCMainEvent.updateSnippetTags, onUpdateSnippetTags)
   ipcMain.handle(IPCMainEvent.createSnippet, async (_, params) => {
     const res = await createSnippet(params)
     return res

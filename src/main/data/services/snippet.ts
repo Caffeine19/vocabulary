@@ -3,7 +3,6 @@ import prisma from './index'
 import * as prettier from 'prettier'
 
 import {
-  ConnectSnippetWithTag,
   CreateSnippet,
   DeleteSnippet,
   DestroySnippet,
@@ -18,7 +17,7 @@ import {
   UpdateSnippetFavorite
 } from '../../../shared/snippet'
 
-import { Tag } from '../../../shared/Tag'
+import { Tag, TagItem } from '../../../shared/Tag'
 import { Folder } from '../../../shared/folder'
 
 export const getSnippetList = async ({
@@ -169,19 +168,53 @@ export const updateSnippetName = async (
   }
 }
 
-export const connectSnippetWithTag: ConnectSnippetWithTag = async (id, tagId) => {
+export const connectSnippetWithTags = async (
+  id: SnippetDetail['id'],
+  tagIdList: TagItem['id'][]
+): Promise<void> => {
   try {
     const res = await prisma.snippet.update({
       where: { id },
       data: {
         tags: {
-          connect: {
-            id: tagId
-          }
+          connect: tagIdList.map((tagId) => {
+            return {
+              id: tagId
+            }
+          })
         }
       }
     })
     console.log('🚀 ~ connectSnippetWithTag ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ error:', error)
+    throw error
+  }
+}
+
+export const updateSnippetTags = async (
+  id: SnippetDetail['id'],
+  tagIdList: { connect: TagItem['id'][]; disconnect: TagItem['id'][] }
+) => {
+  try {
+    const res = await prisma.snippet.update({
+      where: { id },
+      data: {
+        tags: {
+          connect: tagIdList.connect.map((tagId) => {
+            return {
+              id: tagId
+            }
+          }),
+          disconnect: tagIdList.disconnect.map((tagId) => {
+            return {
+              id: tagId
+            }
+          })
+        }
+      }
+    })
+    console.log('🚀 ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ error:', error)
     throw error

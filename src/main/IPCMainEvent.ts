@@ -8,7 +8,7 @@ export const enum IPCMainEvent {
   getSnippetStatusCount = 'getSnippetStatusCount',
   updateSnippetContent = 'updateSnippetContent',
   updateSnippetName = 'updateSnippetName',
-  connectSnippetWithTag = 'connectSnippetWithTag',
+  updateSnippetTags = 'updateSnippetTags',
   createSnippet = 'createSnippet',
   deleteSnippet = 'deleteSnippet',
   destroySnippet = 'destroySnippet',
