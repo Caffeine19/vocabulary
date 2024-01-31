@@ -13,6 +13,8 @@ import Button from '@/components/Button.vue'
 import SnippetItem from '@/components/SnippetItem.vue'
 import SelectGroupMenu from '@renderer/components/SelectGroupMenu.vue'
 import Check16 from '@renderer/components/Icon/Check16.vue'
+import Blank from '@renderer/components/Blank.vue'
+import Code24 from '@renderer/components/Icon/Code24.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
 
@@ -197,7 +199,7 @@ const onCancelButtonClick = () => {
       </template>
 
       <template #main>
-        <ul>
+        <ul v-show="filteredSnippet.length > 0">
           <template v-for="snippet in filteredSnippet" :key="snippet.id">
             <SnippetItem
               :snippet-item="snippet"
@@ -207,6 +209,13 @@ const onCancelButtonClick = () => {
             <Divider></Divider>
           </template>
         </ul>
+        <Blank
+          v-show="filteredSnippet.length === 0"
+          title="No snippet in list."
+          subtitle="Add snippets to view them here."
+        >
+          <template #icon="{ iconStyle }"> <Code24 :class="iconStyle"></Code24></template>
+        </Blank>
       </template>
     </Box>
   </div>
