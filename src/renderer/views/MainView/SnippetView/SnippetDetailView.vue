@@ -150,7 +150,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
 
         <div class="flex items-center space-x-2">
           <template v-if="!snippetDetail?.deleted">
-            <IconButton @click="onFavoriteButtonClick">
+            <IconButton @click="onFavoriteButtonClick" type="secondary" :plain="true">
               <template #icon="{ iconStyle }">
                 <HeartFill16
                   class="w-4 h-4 dark:fill-primer-dark-pink-200"
