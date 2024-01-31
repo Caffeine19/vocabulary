@@ -9,6 +9,7 @@ import { useClipboard } from '@vueuse/core'
 
 import Box from '@/components/Box.vue'
 import Copy24 from '@/components/Icon/Copy24.vue'
+import PaintBrush16 from '@renderer/components/Icon/PaintBrush16.vue'
 import IconButtonGroup from '@renderer/components/IconButtonGroup.vue'
 
 import GithubDark from '@/theme/GithubDark'
@@ -36,7 +37,7 @@ const iconButtonOptions = reactive([
   },
   {
     type: 'secondary',
-    icon: Copy24,
+    icon: PaintBrush16,
     action: onFormatButtonClick
   }
 ])
