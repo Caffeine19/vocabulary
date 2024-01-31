@@ -87,6 +87,7 @@ const onTagApplyButtonClick = async () => {
 
     snippetStore.getSnippetDetail(snippetDetail.value.id)
     snippetStore.getSnippetList()
+    tagStore.getTagList()
   } catch (error) {
     console.log('🚀 ~ onTagCancelButtonClick ~ error:', error)
   }

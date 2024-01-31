@@ -15,6 +15,7 @@ import SelectGroupMenu from '@renderer/components/SelectGroupMenu.vue'
 import Check16 from '@renderer/components/Icon/Check16.vue'
 import Blank from '@renderer/components/Blank.vue'
 import Code24 from '@renderer/components/Icon/Code24.vue'
+import Alert16 from '@renderer/components/Icon/Alert16.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
 
@@ -119,7 +120,7 @@ const onCancelButtonClick = () => {
         v-show="selectedStatus === 'deleted'"
       >
         <template #leftIcon="{ iconStyle }">
-          <Pencil16 :class="iconStyle"></Pencil16>
+          <Alert16 :class="iconStyle"></Alert16>
         </template>
       </Button>
     </div>
