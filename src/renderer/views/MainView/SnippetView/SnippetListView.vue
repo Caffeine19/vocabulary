@@ -89,9 +89,9 @@ const onCancelButtonClick = () => {
 </script>
 
 <template>
-  <div class="basis-1/2 p-6 space-y-4 flex flex-col border-r dark:border-primer-dark-gray-600">
-    <div class="flex items-center space-x-4 justify-between">
-      <Input class="relative grow" placeholder="Type to search" v-model:value="searchKeyword">
+  <div class="basis-1/2 dark:border-primer-dark-gray-600 flex flex-col p-6 space-y-4 border-r">
+    <div class="flex items-center justify-between space-x-4">
+      <Input class="grow relative" placeholder="Type to search" v-model:value="searchKeyword">
         <template #icon>
           <Search16
             class="absolute top-1/2 -translate-y-1/2 left-2.5 dark:fill-primer-dark-gray-400"
@@ -160,13 +160,13 @@ const onCancelButtonClick = () => {
                   class="dark:fill-primer-dark-gray-400 dark:group-hover:fill-primer-dark-gray-0 transition-colors"
                 ></SortDesc16>
                 <span
-                  class="fira-code text-sm dark:text-primer-dark-gray-400 dark:group-hover:text-primer-dark-gray-0 transition-colors"
+                  class="fira-code dark:text-primer-dark-gray-400 dark:group-hover:text-primer-dark-gray-0 text-sm transition-colors"
                   >Sort
                 </span>
               </button>
             </template>
             <template #menuItem="{ option, seriesIndex }">
-              <li class="flex items-center space-x-4 min-w-28">
+              <li class="min-w-28 flex items-center space-x-4">
                 <Check16
                   class="dark:fill-primer-dark-gray-0 transition-opacity"
                   :class="
@@ -182,7 +182,7 @@ const onCancelButtonClick = () => {
               </li>
             </template>
             <template #footer>
-              <div class="flex space-x-4 justify-end">
+              <div class="flex justify-end space-x-4">
                 <Button
                   label="Cancel"
                   type="secondary"

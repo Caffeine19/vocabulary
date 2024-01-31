@@ -4,7 +4,7 @@ import WIndowControllerGroup from './WIndowControllerGroup.vue'
 </script>
 <template>
   <header
-    class="flex items-center justify-between dark:bg-primer-dark-gray-700 px-6 py-2"
+    class="dark:bg-primer-dark-gray-700 flex items-center justify-between px-6 py-2"
     style="-webkit-app-region: drag"
   >
     <div class="flex items-end space-x-2" style="-webkit-app-region: no-drag">

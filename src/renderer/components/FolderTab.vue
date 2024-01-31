@@ -17,7 +17,7 @@ defineEmits<{ click: [e: MouseEvent] }>()
 </script>
 <template>
   <li class="">
-    <div class="group flex items-center space-x-1 w-full" @click="(e) => $emit('click', e)">
+    <div class="group flex items-center w-full space-x-1" @click="(e) => $emit('click', e)">
       <div
         class="flex items-center space-x-2 py-1.5 rounded-md grow transition-colors after:rounded-md after:dark:dark:bg-primer-dark-blue-500 after:-left-2 after:absolute after:transition-opacity relative after:w-1 after:h-6"
         :class="
@@ -39,7 +39,7 @@ defineEmits<{ click: [e: MouseEvent] }>()
           class="dark:fill-primer-dark-gray-400 w-4 h-4"
         ></component>
 
-        <span class="dark:text-primer-dark-gray-100 text-sm font-normal fira-code">{{
+        <span class="dark:text-primer-dark-gray-100 fira-code text-sm font-normal">{{
           folder?.name
         }}</span>
       </div>

@@ -24,7 +24,7 @@ defineProps({
       </div>
     </div>
     <div>
-      <span class="text-xs font-normal fira-code dark:text-primer-dark-gray-400">
+      <span class="fira-code dark:text-primer-dark-gray-400 text-xs font-normal">
         {{ snippetItem.excerpt || 'No content yet' }}
       </span>
     </div>

@@ -11,12 +11,12 @@ defineOptions({ name: 'VNav' })
     <StatusTabGroup></StatusTabGroup>
     <Divider></Divider>
     <div class="space-y-2.5">
-      <span class="dark:text-primer-dark-gray-0 text-sm font-normal fira-code">Folders</span>
+      <span class="dark:text-primer-dark-gray-0 fira-code text-sm font-normal">Folders</span>
       <FolderTabGroup></FolderTabGroup>
     </div>
     <Divider></Divider>
     <div class="space-y-2.5">
-      <span class="dark:text-primer-dark-gray-0 text-sm font-normal fira-code">Tags</span>
+      <span class="dark:text-primer-dark-gray-0 fira-code text-sm font-normal">Tags</span>
       <TagTabGroup></TagTabGroup>
     </div>
   </nav>

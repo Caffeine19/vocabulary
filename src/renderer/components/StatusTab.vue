@@ -20,9 +20,9 @@ defineProps<Omit<StatusTabProps, 'icon'> & { selected: boolean }>()
     "
     class="rounded-lg flex justify-between items-center px-2 py-1.5 space-x-6 bg-transparent transition-colors"
   >
-    <div class="flex space-x-3 items-center">
+    <div class="flex items-center space-x-3">
       <slot name="icon"></slot>
-      <span class="dark:text-primer-dark-gray-100 font-normal text-lg fira-code">
+      <span class="dark:text-primer-dark-gray-100 fira-code text-lg font-normal">
         {{ label }}
       </span>
     </div>

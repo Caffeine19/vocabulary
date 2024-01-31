@@ -23,7 +23,7 @@ defineProps({
   >
     <div class="flex items-center space-x-2">
       <Tag16 class="dark:fill-primer-dark-gray-400"></Tag16>
-      <span class="dark:text-primer-dark-gray-100 text-sm font-normal fira-code">{{
+      <span class="dark:text-primer-dark-gray-100 fira-code text-sm font-normal">{{
         tag.name
       }}</span>
     </div>

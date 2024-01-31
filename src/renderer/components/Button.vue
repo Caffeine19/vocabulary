@@ -61,12 +61,12 @@ const sizeStyle = computed(() => sizeStyleConfig[props.size])
 <template>
   <button
     @click="(e) => $emit('click', e)"
-    class="v-button flex items-center rounded-md 0 transition-colors group border"
+    class="v-button 0 group flex items-center transition-colors border rounded-md"
     :class="typeStyle.button + ' ' + sizeStyle.button"
   >
     <slot name="leftIcon" :iconStyle="typeStyle.icon + ' ' + 'transition-colors'"></slot>
     <span
-      class="v-button-label font-semibold fira-code transition-colors"
+      class="v-button-label fira-code font-semibold transition-colors"
       :class="typeStyle.label + ' ' + sizeStyle.label"
       >{{ label }}</span
     >

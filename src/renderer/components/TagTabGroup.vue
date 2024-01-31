@@ -27,7 +27,7 @@ const onTagClick = (tag: TagItem) => {
 }
 </script>
 <template>
-  <ul class="flex flex-col space-y-1 items-stretch">
+  <ul class="flex flex-col items-stretch space-y-1">
     <TagTab
       v-for="tag in tagList"
       :key="tag.id"

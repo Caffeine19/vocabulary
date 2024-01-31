@@ -66,7 +66,7 @@ const sizeStyle = computed(() => sizeStyleConfig[props.size])
 <template>
   <button
     @click="(e) => $emit('click', e)"
-    class="rounded-md border transition-colors"
+    class="transition-colors border rounded-md"
     :class="sizeStyle.button + ' ' + typeStyle.button"
   >
     <slot name="icon" :iconStyle="sizeStyle.icon + ' ' + typeStyle.icon"></slot>

@@ -101,7 +101,7 @@ const onCodeChange = (value: string, viewUpdate: ViewUpdate) => {
 <template>
   <Box>
     <template #header>
-      <span class="fira-code text-xs font-normal dark:text-primer-dark-gray-400"
+      <span class="fira-code dark:text-primer-dark-gray-400 text-xs font-normal"
         >{{ lines }} lines ({{ loc }} loc) · {{ length }} Bytes</span
       >
       <div>

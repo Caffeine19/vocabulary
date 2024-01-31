@@ -5,7 +5,7 @@ import SnippetList from './SnippetListView.vue'
 defineOptions({ name: 'SnippetView' })
 </script>
 <template>
-  <div class="flex grow">
+  <div class="grow flex">
     <SnippetList></SnippetList>
     <SnippetDetail></SnippetDetail>
   </div>

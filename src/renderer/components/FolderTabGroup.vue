@@ -63,7 +63,7 @@ const closeFolder = (id: Folder['id']) => {
 }
 </script>
 <template>
-  <ul class="flex flex-col space-y-1 items-stretch">
+  <ul class="flex flex-col items-stretch space-y-1">
     <FolderTree
       v-for="folder in folderTree"
       :folder-node="folder"

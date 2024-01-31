@@ -83,14 +83,14 @@ watch(
 
     <Transition>
       <div
-        class="flex flex-col rounded-xl dark:bg-primer-dark-gray-800 absolute z-10 border dark:border-primer-dark-gray-600 overflow-clip"
+        class="rounded-xl dark:bg-primer-dark-gray-800 dark:border-primer-dark-gray-600 overflow-clip absolute z-10 flex flex-col border"
         style="box-shadow: 0px 8px 24px 0px #010409"
         :style="{ top: position.top + 'px', left: position.left + 'px' }"
         v-show="isShow"
         ref="menuRef"
       >
-        <div class="flex justify-between p-2 border-b dark:border-primer-dark-gray-700">
-          <span class="dark:text-primer-dark-gray-0 font-semibold fira-code text-xs">
+        <div class="dark:border-primer-dark-gray-700 flex justify-between p-2 border-b">
+          <span class="dark:text-primer-dark-gray-0 fira-code text-xs font-semibold">
             {{ title }}</span
           >
           <button
@@ -123,7 +123,7 @@ watch(
             class="first:border-r dark:border-primer-dark-gray-700"
           >
             <li
-              class="px-4 py-2 dark:bg-primer-dark-gray-800 dark:hover:bg-primer-dark-gray-400/10 transition-colors cursor-pointer"
+              class="dark:bg-primer-dark-gray-800 dark:hover:bg-primer-dark-gray-400/10 px-4 py-2 transition-colors cursor-pointer"
               v-for="(option, index) in series"
               :key="index"
               @click="$emit('select', option, seriesIndex)"
@@ -132,7 +132,7 @@ watch(
             </li>
           </ul>
         </div>
-        <div class="border-t dark:border-primer-dark-gray-700 p-3">
+        <div class="dark:border-primer-dark-gray-700 p-3 border-t">
           <slot name="footer"></slot>
         </div>
       </div>

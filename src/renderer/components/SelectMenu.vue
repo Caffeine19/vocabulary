@@ -80,14 +80,14 @@ const filteredOptions = computed(() => {
 
     <Transition>
       <div
-        class="flex flex-col rounded-xl dark:bg-primer-dark-gray-800 absolute z-10 border dark:border-primer-dark-gray-600 overflow-clip"
+        class="rounded-xl dark:bg-primer-dark-gray-800 dark:border-primer-dark-gray-600 overflow-clip absolute z-10 flex flex-col border"
         style="box-shadow: 0px 8px 24px 0px #010409"
         :style="{ top: position.top + 'px', left: position.left + 'px' }"
         v-show="isShow"
         ref="menuRef"
       >
-        <div class="flex justify-between p-2 border-b dark:border-primer-dark-gray-700">
-          <span class="dark:text-primer-dark-gray-0 font-semibold fira-code text-xs">
+        <div class="dark:border-primer-dark-gray-700 flex justify-between p-2 border-b">
+          <span class="dark:text-primer-dark-gray-0 fira-code text-xs font-semibold">
             {{ title }}</span
           >
           <button @click="$emit('update:isShow', false)" class="group">
@@ -97,7 +97,7 @@ const filteredOptions = computed(() => {
           </button>
         </div>
         <div class="flex flex-col">
-          <div class="p-2 dark:border-primer-dark-gray-700 border-b" v-if="searchable">
+          <div class="dark:border-primer-dark-gray-700 p-2 border-b" v-if="searchable">
             <Input v-model:value="keyWord" placeholder="Search Tags" class="min-w-48">
               <template #icon>
                 <Search16
@@ -107,7 +107,7 @@ const filteredOptions = computed(() => {
           </div>
           <ul>
             <li
-              class="px-4 py-2 border-b dark:border-primer-dark-gray-700 dark:bg-primer-dark-gray-800 dark:hover:bg-primer-dark-gray-400/10 transition-colors last:border-b-0 cursor-pointer"
+              class="dark:border-primer-dark-gray-700 dark:bg-primer-dark-gray-800 dark:hover:bg-primer-dark-gray-400/10 last:border-b-0 px-4 py-2 transition-colors border-b cursor-pointer"
               v-for="(option, index) in filteredOptions"
               :key="index"
               @click="$emit('select', option)"

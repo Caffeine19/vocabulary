@@ -137,7 +137,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
 }
 </script>
 <template>
-  <div class="basis-1/2 p-6 pb-4 space-y-3 grow flex flex-col">
+  <div class="basis-1/2 grow flex flex-col p-6 pb-4 space-y-3">
     <div class="space-y-2.5">
       <div class="flex items-center justify-between space-x-6">
         <input
@@ -145,7 +145,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
           :disabled="snippetDetail?.deleted"
           @change="(e) => onChangeName((e.target as HTMLInputElement).value)"
           placeholder="untitled"
-          class="fira-code text-base font-normal dark:text-primer-dark-white dark:placeholder-primer-dark-gray-400 bg-transparent outline-none py-1 border-b border-transparent focus:dark:border-primer-dark-blue-400 transition-colors grow"
+          class="fira-code dark:text-primer-dark-white dark:placeholder-primer-dark-gray-400 focus:dark:border-primer-dark-blue-400 grow py-1 text-base font-normal transition-colors bg-transparent border-b border-transparent outline-none"
         />
 
         <div class="flex items-center space-x-2">
@@ -153,7 +153,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
             <IconButton @click="onFavoriteButtonClick" type="secondary" :plain="true">
               <template #icon="{ iconStyle }">
                 <HeartFill16
-                  class="w-4 h-4 dark:fill-primer-dark-pink-200"
+                  class="dark:fill-primer-dark-pink-200 w-4 h-4"
                   v-if="snippetDetail?.favorite"
                 ></HeartFill16>
                 <Heart24 class="w-4 h-4" :class="iconStyle" v-else></Heart24>
@@ -181,7 +181,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
                 </Button>
               </template>
               <template #menuItem="{ option }">
-                <li class="flex items-center space-x-4 justify-between">
+                <li class="flex items-center justify-between space-x-4">
                   <div class="flex items-center space-x-4">
                     <component
                       :is="option.id === undefined ? Inbox16 : FileDirectory16"
