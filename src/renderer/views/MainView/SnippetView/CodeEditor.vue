@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef, nextTick, reactive } from 'vue'
+import { ref, shallowRef, nextTick, reactive, watch } from 'vue'
 
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
@@ -89,14 +89,27 @@ const getCodemirrorStates = () => {
 
 const onCodeChange = (value: string, viewUpdate: ViewUpdate) => {
   console.log('🚀 ~ onCodeChange ~ value:', value, viewUpdate.state.doc)
-  nextTick(() => {
-    const newState = getCodemirrorStates()
-    console.log('🚀 ~ nextTick ~ newState:', newState)
-    length.value = newState.length
-    lines.value = newState.lines
-    loc.value = newState.loc
-  })
+  // nextTick(() => {
+  //   const newState = getCodemirrorStates()
+  //   console.log('🚀 ~ nextTick ~ newState:', newState)
+  //   length.value = newState.length
+  //   lines.value = newState.lines
+  //   loc.value = newState.loc
+  // })
 }
+
+watch(
+  () => props.code,
+  () => {
+    nextTick(() => {
+      const newState = getCodemirrorStates()
+      console.log('🚀 ~ nextTick ~ newState:', newState)
+      length.value = newState.length
+      lines.value = newState.lines
+      loc.value = newState.loc
+    })
+  }
+)
 </script>
 <template>
   <Box>

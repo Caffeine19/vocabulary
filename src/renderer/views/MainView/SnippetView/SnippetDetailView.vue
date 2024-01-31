@@ -201,7 +201,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
             </SelectMenu>
           </template>
           <template v-else>
-            <IconButton @click="onRestoreButtonClick">
+            <IconButton @click="onRestoreButtonClick" type="secondary" :plain="true">
               <template #icon="{ iconStyle }">
                 <History16 :class="iconStyle"> </History16>
               </template>
