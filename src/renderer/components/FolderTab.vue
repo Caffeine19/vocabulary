@@ -19,15 +19,11 @@ defineEmits<{ click: [e: MouseEvent] }>()
   <li class="">
     <div class="group flex items-center space-x-1 w-full" @click="(e) => $emit('click', e)">
       <div
-        class="w-1 h-6 rounded-md dark:bg-primer-dark-blue-500"
-        :class="selected ? 'opacity-100' : 'opacity-0'"
-      ></div>
-      <div
-        class="flex items-center space-x-2 px-2 py-1.5 rounded-md grow transition-colors"
+        class="flex items-center space-x-2 py-1.5 rounded-md grow transition-colors after:rounded-md after:dark:dark:bg-primer-dark-blue-500 after:-left-2 after:absolute after:transition-opacity relative after:w-1 after:h-6"
         :class="
           selected
-            ? ' dark:bg-primer-dark-gray-200/[0.08] dark:group-hover:bg-primer-dark-gray-200/[0.12] '
-            : ' dark:group-hover:bg-primer-dark-gray-200/[0.12] '
+            ? ' dark:bg-primer-dark-gray-200/[0.08] dark:group-hover:bg-primer-dark-gray-200/[0.12]   after:opacity-100'
+            : ' dark:group-hover:bg-primer-dark-gray-200/[0.12]  after:opacity-0'
         "
         :style="{ paddingLeft: indent + 'px' }"
       >

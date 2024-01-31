@@ -8,7 +8,7 @@ defineOptions({ name: 'VFolderTree' })
 defineProps({
   folderNode: { type: Object as PropType<FolderNode>, required: true },
   selectedFolderId: { type: Number as PropType<FolderItem['id']> },
-  accIndent: { type: Number, default: 8 },
+  accIndent: { type: Number, default: 0 },
   openedFolderList: { type: Array as PropType<FolderItem['id'][]>, required: true }
 })
 defineEmits<{ clickFolderNode: [e: FolderNode] }>()
