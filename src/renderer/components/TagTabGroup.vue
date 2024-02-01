@@ -3,6 +3,8 @@ import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 
 import TagTab from './TagTab.vue'
+import Plus16 from './Icon/Plus16.vue'
+import IconButton from './IconButton.vue'
 
 import { useTagStore } from '@renderer/stores/tag'
 import { useSnippetStore } from '@renderer/stores/snippet'
@@ -27,13 +29,23 @@ const onTagClick = (tag: TagItem) => {
 }
 </script>
 <template>
-  <ul class="flex flex-col items-stretch space-y-1">
-    <TagTab
-      v-for="tag in tagList"
-      :key="tag.id"
-      :tag="tag"
-      :selected="tag.id === selectedTagId"
-      @click="onTagClick(tag)"
-    ></TagTab>
-  </ul>
+  <div class="space-y-2.5">
+    <div class="flex items-center justify-between">
+      <span class="dark:text-primer-dark-gray-0 fira-code text-sm font-normal">Tags</span>
+      <IconButton type="invisible">
+        <template #icon="{ iconStyle }">
+          <Plus16 :class="iconStyle"></Plus16>
+        </template>
+      </IconButton>
+    </div>
+    <ul class="flex flex-col items-stretch space-y-1">
+      <TagTab
+        v-for="tag in tagList"
+        :key="tag.id"
+        :tag="tag"
+        :selected="tag.id === selectedTagId"
+        @click="onTagClick(tag)"
+      ></TagTab>
+    </ul>
+  </div>
 </template>

@@ -11,7 +11,10 @@ defineProps({
   accIndent: { type: Number, default: 0 },
   openedFolderList: { type: Array as PropType<FolderItem['id'][]>, required: true }
 })
-defineEmits<{ clickFolderNode: [e: FolderNode] }>()
+defineEmits<{
+  clickFolderNode: [e: FolderNode]
+  rightClickFolderNode: [folder: FolderNode, e: MouseEvent]
+}>()
 
 const indent = 24
 </script>
@@ -20,6 +23,7 @@ const indent = 24
     :folder="folderNode"
     :selected="selectedFolderId === folderNode.id"
     @click="$emit('clickFolderNode', folderNode)"
+    @contextmenu="(e) => $emit('rightClickFolderNode', folderNode, e)"
     :indent="accIndent"
     :isOpen="openedFolderList.includes(folderNode.id)"
   >
@@ -29,6 +33,7 @@ const indent = 24
         :key="childFolder.id"
         :folderNode="childFolder"
         @clickFolderNode="(folderNode) => $emit('clickFolderNode', folderNode)"
+        @right-click-folder-node="(folderNode, e) => $emit('rightClickFolderNode', folderNode, e)"
         :selectedFolderId="selectedFolderId"
         :accIndent="accIndent + indent"
         :openedFolderList="openedFolderList"

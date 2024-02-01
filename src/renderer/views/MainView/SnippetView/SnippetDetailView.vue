@@ -272,7 +272,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
             <template #trigger>
               <button @click="isTagMenuShow = !isTagMenuShow">
                 <Plus24
-                  class="dark:fill-primer-dark-gray-400 dark:hover:fill-primer-dark-gray-0 transition-colors"
+                  class="dark:fill-primer-dark-gray-400 dark:hover:fill-primer-dark-gray-0 w-6 h-6 transition-colors"
                 ></Plus24>
               </button>
             </template>

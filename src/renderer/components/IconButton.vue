@@ -4,7 +4,7 @@ import { computed } from 'vue'
 defineOptions({ name: 'VIconButton' })
 
 export interface IconButtonOption {
-  type?: 'primary' | 'danger' | 'secondary'
+  type?: 'primary' | 'danger' | 'secondary' | 'invisible'
   size?: 'md' | 'sm' | 'lg'
   plain?: boolean
 }
@@ -32,10 +32,16 @@ const dangerStyle = {
   icon: ''
 }
 
+const invisibleStyle = {
+  button: 'bg-transparent border-transparent dark:hover:bg-primer-dark-gray-200/[0.12]',
+  icon: 'dark:fill-primer-dark-gray-400'
+}
+
 const typeStyleConfig = {
   primary: primaryStyle,
   secondary: secondaryStyle,
-  danger: dangerStyle
+  danger: dangerStyle,
+  invisible: invisibleStyle
 }
 
 const typeStyle = computed(() => typeStyleConfig[props.type])

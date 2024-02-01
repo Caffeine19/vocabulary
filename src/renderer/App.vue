@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { devtools } from '@vue/devtools'
+// import { devtools } from '@vue/devtools'
 
 import TitleBar from './components/TitleBar.vue'
+import ActionMenu from './components/ActionMenu.vue'
+
+import { useProvideActionMenu } from './hooks/useActiveMenu'
+
+useProvideActionMenu()
 
 //开发模式下加载vue-devtools
 // if (process.env.NODE_ENV === 'development') {
@@ -20,6 +25,7 @@ import TitleBar from './components/TitleBar.vue'
       <RouterView></RouterView>
     </main>
   </div>
+  <ActionMenu></ActionMenu>
 </template>
 
 <style>

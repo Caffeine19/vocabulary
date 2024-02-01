@@ -18,14 +18,10 @@ import Code24 from '@renderer/components/Icon/Code24.vue'
 import Alert16 from '@renderer/components/Icon/Alert16.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
-import { useTagStore } from '@renderer/stores/tag'
-import { useFolderStore } from '@renderer/stores/folder'
 
 import type { SnippetItem as ISnippetItem, SortAttr, SortDirection } from '@shared/snippet'
 
 const snippetStore = useSnippetStore()
-const tagStore = useTagStore()
-const folderStore = useFolderStore()
 
 const { snippetList, snippetDetail, selectedStatus, selectedAttr, selectedDirection } =
   storeToRefs(snippetStore)

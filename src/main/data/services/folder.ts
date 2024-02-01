@@ -36,3 +36,15 @@ export const getFolderList: GetFolderList = async () => {
     console.log('🚀 ~ constgetFolderList:GetFolderList= ~ error:', error)
   }
 }
+
+export const createFolder = async ({ name }) => {
+  try {
+    const res = await prisma.folder.create({
+      data: {
+        name
+      }
+    })
+  } catch (error) {
+    console.log('🚀 ~ createFolder ~ error:', error)
+  }
+}
