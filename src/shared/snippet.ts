@@ -85,3 +85,7 @@ export interface RestoreSnippet {
 export interface FormatSnippetContent {
   (id: SnippetDetail['id']): Promise<Result<void>>
 }
+
+export interface EmptySnippet {
+  (): Promise<Result<void>>
+}

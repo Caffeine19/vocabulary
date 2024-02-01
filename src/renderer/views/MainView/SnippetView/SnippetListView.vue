@@ -18,10 +18,14 @@ import Code24 from '@renderer/components/Icon/Code24.vue'
 import Alert16 from '@renderer/components/Icon/Alert16.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
+import { useTagStore } from '@renderer/stores/tag'
+import { useFolderStore } from '@renderer/stores/folder'
 
 import type { SnippetItem as ISnippetItem, SortAttr, SortDirection } from '@shared/snippet'
 
 const snippetStore = useSnippetStore()
+const tagStore = useTagStore()
+const folderStore = useFolderStore()
 
 const { snippetList, snippetDetail, selectedStatus, selectedAttr, selectedDirection } =
   storeToRefs(snippetStore)
@@ -89,6 +93,10 @@ const onCancelButtonClick = () => {
 
   isSortOptionsShow.value = false
 }
+const onEmptyButtonClick = async () => {
+  await snippetStore.emptySnippet()
+  snippetStore.getSnippetList()
+}
 </script>
 
 <template>
@@ -116,7 +124,7 @@ const onCancelButtonClick = () => {
       <Button
         label="Empty"
         type="danger"
-        @click="onNewSnippetButtonClick"
+        @click="onEmptyButtonClick"
         v-show="selectedStatus === 'deleted'"
       >
         <template #leftIcon="{ iconStyle }">

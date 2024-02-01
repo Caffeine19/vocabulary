@@ -1,5 +1,6 @@
 import { AddParametersBefore } from '../../../shared/addParameters'
 import {
+  EmptySnippet,
   FormatSnippetContent,
   GetSnippetDetail,
   GetSnippetList,
@@ -11,6 +12,7 @@ import {
 } from '../../../shared/snippet'
 
 import {
+  emptySnippet,
   formatSnippetContent,
   getSnippetDetail,
   getSnippetList,
@@ -143,6 +145,21 @@ export const onUpdateSnippetTags: AddParametersBefore<
   try {
     const res = await updateSnippetTags(id, tagIdList)
     console.log('🚀 ~ >= ~ res:', res)
+    return {
+      success: true,
+      data: res
+    }
+  } catch (error) {
+    return { msg: (error as Error).message, success: false }
+  }
+}
+
+export const onEmptySnippet: AddParametersBefore<
+  EmptySnippet,
+  [e: Electron.IpcMainInvokeEvent]
+> = async () => {
+  try {
+    const res = await emptySnippet()
     return {
       success: true,
       data: res

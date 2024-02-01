@@ -17,6 +17,7 @@ export const enum IPCMainEvent {
   moveSnippetIntoInbox = 'moveSnippetIntoInbox',
   restoreSnippet = 'restoreSnippet',
   formatSnippetContent = 'formatSnippetContent',
+  emptySnippet = 'emptySnippet',
 
   getTagList = 'getTagList',
 

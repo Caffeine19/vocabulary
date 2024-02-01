@@ -14,7 +14,8 @@ import type {
   UpdateSnippetName,
   RestoreSnippet,
   FormatSnippetContent,
-  UpdateSnippetTags
+  UpdateSnippetTags,
+  EmptySnippet
 } from './snippet'
 
 export interface ElectronAPI {
@@ -36,6 +37,7 @@ export interface ElectronAPI {
   moveSnippetIntoInbox: MoveSnippetIntoInbox
   restoreSnippet: RestoreSnippet
   formatSnippetContent: FormatSnippetContent
+  emptySnippet: EmptySnippet
 
   getTagList: GetTagList
 

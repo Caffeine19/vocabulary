@@ -16,6 +16,7 @@ import {
 import { getTagList } from './data/services/tag'
 import { getFolderList } from './data/services/folder'
 import {
+  onEmptySnippet,
   onFormatSnippetContent,
   onGetSnippetDetail,
   onGetSnippetList,
@@ -128,6 +129,7 @@ app.whenReady().then(() => {
   })
   ipcMain.handle(IPCMainEvent.restoreSnippet, onRestoreSnippet)
   ipcMain.handle(IPCMainEvent.formatSnippetContent, onFormatSnippetContent)
+  ipcMain.handle(IPCMainEvent.emptySnippet, onEmptySnippet)
 
   //tag
   ipcMain.handle(IPCMainEvent.getTagList, async () => {

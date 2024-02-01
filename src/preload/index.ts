@@ -26,6 +26,7 @@ const electronAPI: ElectronAPI = {
   moveSnippetIntoInbox: (id) => ipcRenderer.invoke(IPCMainEvent.moveSnippetIntoInbox, id),
   restoreSnippet: (id) => ipcRenderer.invoke(IPCMainEvent.restoreSnippet, id),
   formatSnippetContent: (id) => ipcRenderer.invoke(IPCMainEvent.formatSnippetContent, id),
+  emptySnippet: () => ipcRenderer.invoke(IPCMainEvent.emptySnippet),
 
   getTagList: () => ipcRenderer.invoke(IPCMainEvent.getTagList),
 

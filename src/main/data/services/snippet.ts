@@ -369,3 +369,17 @@ export const formatSnippetContent = async (id: SnippetDetail['id']) => {
     throw error
   }
 }
+
+export const emptySnippet = async () => {
+  try {
+    const res = await prisma.snippet.deleteMany({
+      where: {
+        deleted: true
+      }
+    })
+    console.log('🚀 ~ emptySnippetContent ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ emptySnippetContent ~ error:', error)
+    throw error
+  }
+}
