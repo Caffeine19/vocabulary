@@ -11,3 +11,7 @@ export interface GetFolderList {
 export interface CreateFolder {
   (params: { name: Folder['name']; parentId: Folder['parentId'] }): Promise<Result<void>>
 }
+
+export interface DeleteFolder {
+  (id: FolderItem['id']): Promise<Result<void>>
+}

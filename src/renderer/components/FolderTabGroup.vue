@@ -80,6 +80,17 @@ const onCreateButtonClick = async (parentId: FolderItem['parentId']) => {
   }
 }
 
+const onDeleteButtonClick = async () => {
+  if (!rightClickedFolder.value) return
+  try {
+    await folderStore.deleteFolder(rightClickedFolder.value.id)
+    folderStore.getFolderList()
+    snippetStore.getStatusSnippetCount()
+  } catch (error) {
+    console.log('🚀 ~ onDeleteButtonClick ~ error:', error)
+  }
+}
+
 const { openActionMenu } = useInjectActionMenu()
 const actionMenuOptions = [
   [
@@ -121,7 +132,7 @@ const actionMenuOptions = [
   [
     {
       name: 'Delete folder',
-      action: () => console.log('hi'),
+      action: onDeleteButtonClick,
       icon: Trashcan16
     }
   ]

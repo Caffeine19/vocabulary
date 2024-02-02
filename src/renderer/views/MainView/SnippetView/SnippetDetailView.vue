@@ -166,6 +166,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
 
   snippetStore.getSnippetList()
   snippetStore.getSnippetDetail(snippetDetail.value.id)
+  snippetStore.getStatusSnippetCount()
   folderStore.getFolderList()
 
   isFolderMenuShow.value = false

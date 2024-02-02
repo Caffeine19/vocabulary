@@ -31,6 +31,15 @@ export const useFolderStore = defineStore('folder', () => {
     }
   }
 
+  const deleteFolder = async (id: FolderItem['id']) => {
+    try {
+      const res = await window.electronAPI.deleteFolder(id)
+      console.log('🚀 ~ deleteFolder ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ deleteFolder ~ error:', error)
+    }
+  }
+
   return {
     folderList,
     getFolderList,
@@ -38,6 +47,7 @@ export const useFolderStore = defineStore('folder', () => {
     selectedFolderId,
     setSelectedFolder,
     unsetSelectedFolder,
-    createBlankFolder
+    createBlankFolder,
+    deleteFolder
   }
 })

@@ -1,7 +1,7 @@
 import { Folder } from '@prisma/client'
 import prisma from '.'
 
-import { GetFolderList } from '../../../shared/folder'
+import { FolderItem, GetFolderList } from '../../../shared/folder'
 
 export const getFolderList: GetFolderList = async () => {
   try {
@@ -63,5 +63,18 @@ export const createFolder = async ({
     console.log('🚀 ~ createFolder ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ createFolder ~ error:', error)
+  }
+}
+
+export const deleteFolder = async (id: FolderItem['id']) => {
+  try {
+    const res = await prisma.folder.delete({
+      where: {
+        id
+      }
+    })
+    console.log('🚀 ~ deleteFolder ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ deleteFolder ~ error:', error)
   }
 }
