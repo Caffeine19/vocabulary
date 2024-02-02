@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { onClickOutside ,} from '@vueuse/core'
+import { onClickOutside } from '@vueuse/core'
 
 import { useInjectActionMenu } from '@renderer/hooks/useActiveMenu'
 
@@ -32,6 +32,7 @@ onClickOutside(menuRef, () => {
             v-for="(item, index) in section"
             :key="index"
             v-bind="item"
+            @action-execute="closeActionMenu"
           ></ActionMenuItem>
         </ul>
         <Divider

@@ -5,10 +5,21 @@ import ChevronRight16 from './Icon/ChevronRight16.vue'
 import Button from './Button.vue'
 
 defineProps<ActionItem>()
+defineEmits<{ actionExecute: [] }>()
 </script>
 <template>
   <li class="group relative">
-    <Button :label="name" type="invisible" class="w-full">
+    <Button
+      :label="name"
+      type="invisible"
+      class="w-full"
+      @click="
+        () => {
+          action()
+          $emit('actionExecute')
+        }
+      "
+    >
       <template #leftIcon>
         <component :is="icon" class="dark:fill-primer-dark-gray-300 w-4 h-4"></component>
       </template>

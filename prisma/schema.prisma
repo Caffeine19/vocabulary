@@ -44,7 +44,7 @@ model Snippet {
 
 model Tag {
   id        Int      @id @default(autoincrement())
-  name      String   @unique
+  name      String
   color     String?
   createdAt DateTime @default(now())
 
@@ -53,7 +53,7 @@ model Tag {
 
 model Folder {
   id        Int      @id @default(autoincrement())
-  name      String   @unique
+  name      String
   createdAt DateTime @default(now())
 
   parentId Int?

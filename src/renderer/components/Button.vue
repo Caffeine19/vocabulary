@@ -90,7 +90,7 @@ const sizeStyle = computed(() => sizeStyleConfig[props.size])
   >
     <slot name="leftIcon" :iconStyle="[...typeStyle.icon, 'transition-colors']"></slot>
     <span
-      class="v-button-label fira-code font-semibold transition-colors"
+      class="v-button-label fira-code font-normal transition-colors"
       :class="[...typeStyle.label, sizeStyle.label]"
     >
       {{ label }}

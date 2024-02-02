@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useStorage } from '@vueuse/core'
@@ -70,6 +70,16 @@ const closeFolder = (id: Folder['id']) => {
   openedFolderList.value = openedFolderList.value.filter((f) => f !== id)
 }
 
+const onCreateButtonClick = async (parentId: FolderItem['parentId']) => {
+  console.log('🚀 ~ onCreateButtonClick ~ parentId:', parentId)
+  try {
+    await folderStore.createBlankFolder({ parentId })
+    folderStore.getFolderList()
+  } catch (error) {
+    console.log('🚀 ~ onCreateButtonClick ~ error:', error)
+  }
+}
+
 const { openActionMenu } = useInjectActionMenu()
 const actionMenuOptions = [
   [
@@ -80,12 +90,12 @@ const actionMenuOptions = [
       children: [
         {
           name: 'Create inside',
-          action: () => console.log('hi'),
+          action: () => onCreateButtonClick(rightClickedFolder.value?.id || null),
           icon: ArrowLeft16
         },
         {
           name: 'Create below',
-          action: () => console.log('hi'),
+          action: () => onCreateButtonClick(null),
           icon: ArrowDown16
         }
       ]
@@ -116,7 +126,11 @@ const actionMenuOptions = [
     }
   ]
 ]
-const onFolderItemRightClick = (e: MouseEvent) => {
+
+const rightClickedFolder = ref<FolderItem>()
+const onFolderItemRightClick = (folderItem: FolderItem, e: MouseEvent) => {
+  rightClickedFolder.value = folderItem
+
   if (!openActionMenu) return
   openActionMenu(actionMenuOptions, e)
 }
@@ -125,7 +139,7 @@ const onFolderItemRightClick = (e: MouseEvent) => {
   <div class="space-y-2.5">
     <div class="flex items-center justify-between">
       <span class="dark:text-primer-dark-gray-0 fira-code text-sm font-normal">Folders</span>
-      <IconButton type="invisible">
+      <IconButton type="invisible" @click="() => onCreateButtonClick(null)">
         <template #icon="{ iconStyle }">
           <Plus16 :class="iconStyle"></Plus16>
         </template>
@@ -137,7 +151,7 @@ const onFolderItemRightClick = (e: MouseEvent) => {
         :folder-node="folder"
         :key="folder.id"
         @click-folder-node="(folderNode) => onFolderClick(folderNode)"
-        @right-click-folder-node="(folderNode, e) => onFolderItemRightClick(e)"
+        @right-click-folder-node="(folderNode, e) => onFolderItemRightClick(folderNode, e)"
         :selected-folder-id="selectedFolderId"
         :opened-folder-list="openedFolderList"
       ></FolderTree>

@@ -1,4 +1,4 @@
-import { FolderItem } from '@shared/folder'
+import { Folder, FolderItem } from '@shared/folder'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -22,9 +22,9 @@ export const useFolderStore = defineStore('folder', () => {
     selectedFolder.value = undefined
   }
 
-  const createBlankFolder = async (params) => {
+  const createBlankFolder = async ({ parentId }: { parentId: Folder['parentId'] }) => {
     try {
-      const res = await window.electronAPI.createFolder(params)
+      const res = await window.electronAPI.createFolder({ parentId, name: 'Untitled' })
       console.log('🚀 ~ createFolder ~ res:', res)
     } catch (error) {
       console.log('🚀 ~ createFolder ~ error:', error)
