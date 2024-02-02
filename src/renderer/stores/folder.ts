@@ -38,6 +38,6 @@ export const useFolderStore = defineStore('folder', () => {
     selectedFolderId,
     setSelectedFolder,
     unsetSelectedFolder,
-    createFolder
+    createBlankFolder
   }
 })
