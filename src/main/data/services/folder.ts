@@ -1,3 +1,4 @@
+import { Folder } from '@prisma/client'
 import prisma from '.'
 
 import { GetFolderList } from '../../../shared/folder'
@@ -37,13 +38,29 @@ export const getFolderList: GetFolderList = async () => {
   }
 }
 
-export const createFolder = async ({ name }) => {
+export const createFolder = async ({
+  name,
+  parentId
+}: {
+  name: Folder['name']
+  parentId: Folder['parentId']
+}) => {
   try {
     const res = await prisma.folder.create({
       data: {
-        name
+        name,
+        ...(parentId
+          ? {
+              parent: {
+                connect: {
+                  id: parentId
+                }
+              }
+            }
+          : {})
       }
     })
+    console.log('🚀 ~ createFolder ~ res:', res)
   } catch (error) {
     console.log('🚀 ~ createFolder ~ error:', error)
   }

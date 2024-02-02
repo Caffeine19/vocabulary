@@ -26,6 +26,7 @@ import {
   onUpdateSnippetName,
   onUpdateSnippetTags
 } from './data/handlers/snippet'
+import { onCreateFolder } from './data/handlers/folder'
 
 function createWindow(): void {
   // Create the browser window.
@@ -142,6 +143,8 @@ app.whenReady().then(() => {
     const res = await getFolderList()
     return res
   })
+
+  ipcMain.handle(IPCMainEvent.createFolder, onCreateFolder)
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

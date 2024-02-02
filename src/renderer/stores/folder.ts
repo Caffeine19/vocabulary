@@ -22,12 +22,22 @@ export const useFolderStore = defineStore('folder', () => {
     selectedFolder.value = undefined
   }
 
+  const createBlankFolder = async (params) => {
+    try {
+      const res = await window.electronAPI.createFolder(params)
+      console.log('🚀 ~ createFolder ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ createFolder ~ error:', error)
+    }
+  }
+
   return {
     folderList,
     getFolderList,
     selectedFolder,
     selectedFolderId,
     setSelectedFolder,
-    unsetSelectedFolder
+    unsetSelectedFolder,
+    createFolder
   }
 })

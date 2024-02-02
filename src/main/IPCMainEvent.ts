@@ -21,5 +21,6 @@ export const enum IPCMainEvent {
 
   getTagList = 'getTagList',
 
-  getFolderList = 'getFolderList'
+  getFolderList = 'getFolderList',
+  createFolder = 'createFolder'
 }

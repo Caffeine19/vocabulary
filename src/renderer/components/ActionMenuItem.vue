@@ -8,21 +8,20 @@ defineProps<ActionItem>()
 </script>
 <template>
   <li class="group relative">
-    <div
-      class="flex items-center py-1.5 px-2 rounded-md bg-transparent transition-colors dark:hover:bg-primer-dark-gray-200/[0.12] cursor-pointer justify-between space-x-2"
-    >
-      <Button :label="name">
-        <template #leftIcon="{ iconStyle }">
-          <component :is="icon" class="dark:fill-primer-dark-gray-300 w-4 h-4"></component>
-        </template>
-        <template #rightIcon="{ iconStyle }">
+    <Button :label="name" type="invisible" class="w-full">
+      <template #leftIcon>
+        <component :is="icon" class="dark:fill-primer-dark-gray-300 w-4 h-4"></component>
+      </template>
+      <template #rightIcon>
+        <div class="grow flex items-center justify-end">
           <ChevronRight16
             v-if="children"
-            class="dark:fill-primer-dark-gray-300 w-4 h-4"
-          ></ChevronRight16
-        ></template>
-      </Button>
-    </div>
+            class="dark:fill-primer-dark-gray-300 place-self-end w-4 h-4"
+          ></ChevronRight16>
+        </div>
+      </template>
+    </Button>
+
     <ul
       v-if="children"
       class="rounded-xl dark:bg-primer-dark-gray-800 min-w-48 left-full group-hover:block absolute top-0 z-20 hidden p-2"

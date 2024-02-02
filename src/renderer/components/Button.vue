@@ -3,7 +3,7 @@ import { computed } from 'vue'
 defineOptions({ name: 'VButton' })
 const props = withDefaults(
   defineProps<{
-    type?: 'primary' | 'danger' | 'secondary'
+    type?: 'primary' | 'danger' | 'secondary' | 'invisible'
     label: string
     plain?: boolean
     size?: 'md' | 'sm'
@@ -35,10 +35,17 @@ const secondaryStyle = {
   icon: 'dark:fill-primer-dark-gray-400'
 }
 
+const invisibleStyle = {
+  button: 'bg-transparent border-transparent dark:hover:bg-primer-dark-gray-200/[0.12]',
+  label: 'dark:fill-primer-dark-gray-400',
+  icon: 'dark:fill-primer-dark-gray-400'
+}
+
 const typeStyleConfig = {
   primary: primaryStyle,
   danger: dangerStyle,
-  secondary: secondaryStyle
+  secondary: secondaryStyle,
+  invisible: invisibleStyle
 }
 const typeStyle = computed(() => typeStyleConfig[props.type])
 
