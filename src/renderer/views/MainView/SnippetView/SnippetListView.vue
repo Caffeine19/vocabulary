@@ -96,7 +96,9 @@ const onEmptyButtonClick = async () => {
 </script>
 
 <template>
-  <div class="basis-1/2 dark:border-primer-dark-gray-600 flex flex-col p-6 space-y-4 border-r">
+  <div
+    class="basis-1/2 dark:border-primer-dark-gray-600 flex flex-col p-6 space-y-4 overflow-hidden border-r"
+  >
     <div class="flex items-center justify-between space-x-4">
       <Input class="grow relative" placeholder="Type to search" v-model:value="searchKeyword">
         <template #icon>
@@ -129,7 +131,7 @@ const onEmptyButtonClick = async () => {
       </Button>
     </div>
 
-    <Box>
+    <Box class="overflow-hidden">
       <template #header>
         <div></div>
         <div>

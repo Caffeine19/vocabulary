@@ -50,22 +50,22 @@ watch(
     nextTick(() => {
       if (triggerWrapRef.value && menuRef.value) {
         const triggerRect = triggerWrapRef.value.getBoundingClientRect()
-        // console.log(
-        //   '🚀 ~ triggerRect:',
-        //   triggerRect,
-        //   menuRef.value.clientHeight,
-        //   menuRef.value.clientWidth,
-        //   window.innerHeight,
-        //   window.innerWidth
-        // )
+        console.log(
+          '🚀 ~ triggerRect:',
+          triggerRect,
+          menuRef.value.clientHeight,
+          menuRef.value.clientWidth,
+          window.innerHeight,
+          window.innerWidth
+        )
 
-        let newLeft = 0
+        let newLeft = triggerRect.left
         if (triggerRect.left + menuRef.value.clientWidth > window.innerWidth - 50) {
-          newLeft = triggerRect.width - menuRef.value.clientWidth
+          newLeft = triggerRect.left + triggerRect.width - menuRef.value.clientWidth
         }
         position.left = newLeft
 
-        let newTop = triggerRect.height + topGap
+        let newTop = triggerRect.bottom + topGap
         if (triggerRect.bottom + menuRef.value.clientHeight > window.innerHeight - 50) {
           newTop = -(menuRef.value.clientHeight + topGap)
         }
@@ -76,14 +76,14 @@ watch(
 )
 </script>
 <template>
-  <div class="relative">
+  <div>
     <div ref="triggerWrapRef" class="flex items-center justify-center">
       <slot name="trigger"></slot>
     </div>
 
     <Transition>
       <div
-        class="rounded-xl dark:bg-primer-dark-gray-800 dark:border-primer-dark-gray-600 overflow-clip absolute z-10 flex flex-col border"
+        class="rounded-xl dark:bg-primer-dark-gray-800 dark:border-primer-dark-gray-600 overflow-clip fixed z-10 flex flex-col border"
         style="box-shadow: 0px 8px 24px 0px #010409"
         :style="{ top: position.top + 'px', left: position.left + 'px' }"
         v-show="isShow"
