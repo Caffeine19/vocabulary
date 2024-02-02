@@ -204,7 +204,7 @@ const onEmptyButtonClick = async () => {
       </template>
 
       <template #main>
-        <ul v-show="filteredSnippet.length > 0">
+        <ul v-show="filteredSnippet.length > 0" v-auto-animate>
           <template v-for="snippet in filteredSnippet" :key="snippet.id">
             <SnippetItem
               :snippet-item="snippet"

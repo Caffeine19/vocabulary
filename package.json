@@ -26,6 +26,7 @@
     "@codemirror/view": "^6.23.0",
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "@formkit/auto-animate": "^0.8.1",
     "@lezer/highlight": "^1.2.0",
     "@prisma/client": "5.8.1",
     "@vueuse/core": "^10.7.2",
