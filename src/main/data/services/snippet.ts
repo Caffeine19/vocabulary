@@ -228,9 +228,13 @@ export const createSnippet: CreateSnippet = async ({ name, content, excerpt, tag
         name,
         content,
         excerpt,
-        tags: {
-          connect: [{ id: tagId }]
-        }
+        ...(tagId
+          ? {
+              tags: {
+                connect: [{ id: tagId }]
+              }
+            }
+          : {})
       },
       select: {
         id: true,
