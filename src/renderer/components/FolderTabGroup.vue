@@ -13,6 +13,9 @@ import Unfold16 from './Icon/Unfold16.vue'
 import ArrowDown16 from './Icon/ArrowDown16.vue'
 import ArrowLeft16 from './Icon/ArrowLeft16.vue'
 import Pencil16 from './Icon/Pencil16.vue'
+import Dialog from './Dialog.vue'
+import Button from './Button.vue'
+import Input from './Input.vue'
 
 import { useFolderStore } from '@renderer/stores/folder'
 import { useSnippetStore } from '@renderer/stores/snippet'
@@ -91,6 +94,10 @@ const onDeleteButtonClick = async () => {
   }
 }
 
+const onRenameButtonClick = async () => {
+  isDialogShow.value = true
+}
+
 const { openActionMenu } = useInjectActionMenu()
 const actionMenuOptions = [
   [
@@ -113,7 +120,7 @@ const actionMenuOptions = [
     },
     {
       name: 'Rename',
-      action: () => console.log('hi'),
+      action: onRenameButtonClick,
       icon: Pencil16
     }
   ],
@@ -145,6 +152,10 @@ const onFolderItemRightClick = (folderItem: FolderItem, e: MouseEvent) => {
   if (!openActionMenu) return
   openActionMenu(actionMenuOptions, e)
 }
+
+const isDialogShow = ref(false)
+
+const newName = ref('')
 </script>
 <template>
   <div class="space-y-2.5">
@@ -185,4 +196,15 @@ const onFolderItemRightClick = (folderItem: FolderItem, e: MouseEvent) => {
     </FolderTab> -->
     </ul>
   </div>
+  <Dialog v-model:isShow="isDialogShow" title="Rename folder">
+    <template #body>
+      <Input v-model:value="newName" placeholder="New name for folder"></Input>
+    </template>
+    <template #footer>
+      <div class="flex items-center justify-end gap-2">
+        <Button type="secondary" label="Cancel"></Button>
+        <Button type="primary" label="Apply"></Button>
+      </div>
+    </template>
+  </Dialog>
 </template>
