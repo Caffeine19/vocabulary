@@ -23,5 +23,6 @@ export const enum IPCMainEvent {
 
   getFolderList = 'getFolderList',
   createFolder = 'createFolder',
-  deleteFolder = 'deleteFolder'
+  deleteFolder = 'deleteFolder',
+  updateFolderName = 'updateFolderName'
 }

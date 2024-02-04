@@ -15,3 +15,7 @@ export interface CreateFolder {
 export interface DeleteFolder {
   (id: FolderItem['id']): Promise<Result<void>>
 }
+
+export interface UpdateFolderName {
+  (id: FolderItem['id'], name: FolderItem['name']): Promise<Result<void>>
+}

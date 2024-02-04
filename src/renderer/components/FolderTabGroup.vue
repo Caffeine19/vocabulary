@@ -73,6 +73,14 @@ const closeFolder = (id: Folder['id']) => {
   openedFolderList.value = openedFolderList.value.filter((f) => f !== id)
 }
 
+const rightClickedFolder = ref<FolderItem>()
+const onFolderItemRightClick = (folderItem: FolderItem, e: MouseEvent) => {
+  rightClickedFolder.value = folderItem
+
+  if (!openActionMenu) return
+  openActionMenu(actionMenuOptions, e)
+}
+
 const onCreateButtonClick = async (parentId: FolderItem['parentId']) => {
   console.log('🚀 ~ onCreateButtonClick ~ parentId:', parentId)
   try {
@@ -94,8 +102,42 @@ const onDeleteButtonClick = async () => {
   }
 }
 
+const isDialogShow = ref(false)
+const newName = ref('')
+const renameInputFocused = ref(false)
 const onRenameButtonClick = async () => {
+  if (!rightClickedFolder.value) return
   isDialogShow.value = true
+  renameInputFocused.value = true
+  newName.value = rightClickedFolder.value.name
+}
+const onCancelRenameButtonClick = () => {
+  isDialogShow.value = false
+
+  renameInputFocused.value = false
+}
+const onApplyRenameButtonClick = async () => {
+  try {
+    if (!rightClickedFolder.value) return
+    const res = await folderStore.updateFolderName(rightClickedFolder.value.id, newName.value)
+    console.log('🚀 ~ onApplyRenameButtonClick ~ res:', res)
+
+    isDialogShow.value = false
+    renameInputFocused.value = false
+
+    folderStore.getFolderList()
+
+    const snippetStore = useSnippetStore()
+    const { snippetDetail } = storeToRefs(snippetStore)
+
+    if (snippetDetail.value?.folderId === rightClickedFolder.value.id) {
+      console.log('🚀 ~ onApplyRenameButtonClick ~ rightClickedFolder:', rightClickedFolder)
+
+      snippetStore.getSnippetDetail(snippetDetail.value.id)
+    }
+  } catch (error) {
+    console.log('🚀 ~ onApplyRenameButtonClick ~ error:', error)
+  }
 }
 
 const { openActionMenu } = useInjectActionMenu()
@@ -144,18 +186,6 @@ const actionMenuOptions = [
     }
   ]
 ]
-
-const rightClickedFolder = ref<FolderItem>()
-const onFolderItemRightClick = (folderItem: FolderItem, e: MouseEvent) => {
-  rightClickedFolder.value = folderItem
-
-  if (!openActionMenu) return
-  openActionMenu(actionMenuOptions, e)
-}
-
-const isDialogShow = ref(false)
-
-const newName = ref('')
 </script>
 <template>
   <div class="space-y-2.5">
@@ -177,33 +207,20 @@ const newName = ref('')
         :selected-folder-id="selectedFolderId"
         :opened-folder-list="openedFolderList"
       ></FolderTree>
-      <!-- <FolderTab
-      v-for="folder in folderTree"
-      :key="folder.id"
-      :label="folder.name"
-      :selected="folder.id === selectedFolderId"
-      @click="onFolderClick(folder)"
-    >
-      <ul v-if="folder.children" class="pl-4">
-        <FolderTab
-          v-for="childFolder in folder.children"
-          :key="childFolder.id"
-          :label="childFolder.name"
-          :selected="childFolder.id === selectedFolderId"
-          @click="onFolderClick(childFolder)"
-        ></FolderTab>
-      </ul>
-    </FolderTab> -->
     </ul>
   </div>
   <Dialog v-model:isShow="isDialogShow" title="Rename folder">
     <template #body>
-      <Input v-model:value="newName" placeholder="New name for folder"></Input>
+      <Input
+        v-model:value="newName"
+        placeholder="New name for folder"
+        :focused="renameInputFocused"
+      ></Input>
     </template>
     <template #footer>
       <div class="flex items-center justify-end gap-2">
-        <Button type="secondary" label="Cancel"></Button>
-        <Button type="primary" label="Apply"></Button>
+        <Button type="secondary" label="Cancel" @click="onCancelRenameButtonClick"></Button>
+        <Button type="primary" label="Apply" @click="onApplyRenameButtonClick"></Button>
       </div>
     </template>
   </Dialog>

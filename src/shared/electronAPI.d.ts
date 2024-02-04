@@ -1,5 +1,5 @@
 import { GetTagList } from './Tag'
-import { CreateFolder, DeleteFolder, GetFolderList } from './folder'
+import { CreateFolder, DeleteFolder, GetFolderList, UpdateFolderName } from './folder'
 import type {
   GetSnippetList,
   GetSnippetDetail,
@@ -44,6 +44,7 @@ export interface ElectronAPI {
   getFolderList: GetFolderList
   createFolder: CreateFolder
   deleteFolder: DeleteFolder
+  updateFolderName: UpdateFolderName
 }
 
 declare global {

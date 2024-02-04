@@ -32,7 +32,8 @@ const electronAPI: ElectronAPI = {
 
   getFolderList: () => ipcRenderer.invoke(IPCMainEvent.getFolderList),
   createFolder: (params) => ipcRenderer.invoke(IPCMainEvent.createFolder, params),
-  deleteFolder: (id) => ipcRenderer.invoke(IPCMainEvent.deleteFolder, id)
+  deleteFolder: (id) => ipcRenderer.invoke(IPCMainEvent.deleteFolder, id),
+  updateFolderName: (id, name) => ipcRenderer.invoke(IPCMainEvent.updateFolderName, id, name)
 }
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI)

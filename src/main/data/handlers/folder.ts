@@ -1,6 +1,6 @@
 import { AddParametersBefore } from '../../../shared/addParameters'
-import { CreateFolder, DeleteFolder } from '../../../shared/folder'
-import { createFolder, deleteFolder } from '../services/folder'
+import { CreateFolder, DeleteFolder, UpdateFolderName } from '../../../shared/folder'
+import { createFolder, deleteFolder, updateFolderName } from '../services/folder'
 
 export const onCreateFolder: AddParametersBefore<
   CreateFolder,
@@ -26,6 +26,24 @@ export const onDeleteFolder: AddParametersBefore<
 > = async (_, id) => {
   try {
     const res = await deleteFolder(id)
+    return {
+      data: res,
+      success: true
+    }
+  } catch (error) {
+    return {
+      msg: (error as Error).message,
+      success: false
+    }
+  }
+}
+
+export const onUpdateFolderName: AddParametersBefore<
+  UpdateFolderName,
+  [e: Electron.IpcMainInvokeEvent]
+> = async (_, id, name) => {
+  try {
+    const res = await updateFolderName(id, name)
     return {
       data: res,
       success: true

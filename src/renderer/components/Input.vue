@@ -1,12 +1,35 @@
 <script setup lang="ts">
+import { nextTick, ref, watch } from 'vue'
+
 defineOptions({ name: 'VInput' })
-defineProps<{ placeholder?: string; value: string }>()
+const props = withDefaults(
+  defineProps<{ placeholder?: string; value: string; focused?: boolean }>(),
+  {
+    focused: false
+  }
+)
 defineEmits<{ 'update:value': [e: string] }>()
+
+const inputRef = ref<HTMLElement | null>(null)
+watch(
+  () => props.focused,
+  (newVal) => {
+    if (!newVal) return
+    nextTick(() => {
+      if (!inputRef.value) return
+      inputRef.value.focus()
+    })
+  },
+  {
+    immediate: true
+  }
+)
 </script>
 <template>
   <div class="relative">
     <slot name="icon"></slot>
     <input
+      ref="inputRef"
       @input="$emit('update:value', ($event.target as HTMLInputElement).value)"
       :placeholder="placeholder"
       :value="value"

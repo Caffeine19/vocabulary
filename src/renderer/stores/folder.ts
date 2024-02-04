@@ -40,6 +40,15 @@ export const useFolderStore = defineStore('folder', () => {
     }
   }
 
+  const updateFolderName = async (id: FolderItem['id'], name: FolderItem['name']) => {
+    try {
+      const res = await window.electronAPI.updateFolderName(id, name)
+      console.log('🚀 ~ updateFolderName ~ res:', res)
+    } catch (error) {
+      console.log('🚀 ~ updateFolderName ~ error:', error)
+    }
+  }
+
   return {
     folderList,
     getFolderList,
@@ -48,6 +57,7 @@ export const useFolderStore = defineStore('folder', () => {
     setSelectedFolder,
     unsetSelectedFolder,
     createBlankFolder,
-    deleteFolder
+    deleteFolder,
+    updateFolderName
   }
 })

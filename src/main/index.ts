@@ -26,7 +26,7 @@ import {
   onUpdateSnippetName,
   onUpdateSnippetTags
 } from './data/handlers/snippet'
-import { onCreateFolder, onDeleteFolder } from './data/handlers/folder'
+import { onCreateFolder, onDeleteFolder, onUpdateFolderName } from './data/handlers/folder'
 
 function createWindow(): void {
   // Create the browser window.
@@ -145,6 +145,7 @@ app.whenReady().then(() => {
   })
   ipcMain.handle(IPCMainEvent.createFolder, onCreateFolder)
   ipcMain.handle(IPCMainEvent.deleteFolder, onDeleteFolder)
+  ipcMain.handle(IPCMainEvent.updateFolderName, onUpdateFolderName)
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

@@ -78,3 +78,18 @@ export const deleteFolder = async (id: FolderItem['id']) => {
     console.log('🚀 ~ deleteFolder ~ error:', error)
   }
 }
+
+export const updateFolderName = async (id: FolderItem['id'], name: FolderItem['name']) => {
+  try {
+    const res = await prisma.folder.update({
+      where: { id },
+      data: {
+        name
+      }
+    })
+    console.log('🚀 ~ updateFolderName ~ res:', res)
+  } catch (error) {
+    console.log('🚀 ~ updateFolderName ~ error:', error)
+    throw error
+  }
+}
