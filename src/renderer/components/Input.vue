@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 defineOptions({ name: 'VInput' })
 const props = withDefaults(
@@ -11,19 +11,12 @@ const props = withDefaults(
 defineEmits<{ 'update:value': [e: string] }>()
 
 const inputRef = ref<HTMLElement | null>(null)
-watch(
-  () => props.focused,
-  (newVal) => {
-    if (!newVal) return
-    nextTick(() => {
-      if (!inputRef.value) return
-      inputRef.value.focus()
-    })
-  },
-  {
-    immediate: true
+
+watchEffect(() => {
+  if (props.focused && inputRef.value) {
+    inputRef.value.focus()
   }
-)
+})
 </script>
 <template>
   <div class="relative">
