@@ -2,6 +2,8 @@
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 
+import { useAutoAnimate } from '@formkit/auto-animate/vue'
+
 import TagTab from './TagTab.vue'
 import Plus16 from './Icon/Plus16.vue'
 import IconButton from './IconButton.vue'
@@ -12,6 +14,8 @@ import { useFolderStore } from '@renderer/stores/folder'
 
 import { TagItem } from '@shared/Tag'
 defineOptions({ name: 'VTagTabGroup' })
+
+const [parent] = useAutoAnimate({})
 
 const tagStore = useTagStore()
 const { tagList, selectedTagId } = storeToRefs(tagStore)
@@ -38,7 +42,7 @@ const onTagClick = (tag: TagItem) => {
         </template>
       </IconButton>
     </div>
-    <ul class="flex flex-col items-stretch space-y-1">
+    <ul class="flex flex-col items-stretch space-y-1" ref="parent">
       <TagTab
         v-for="tag in tagList"
         :key="tag.id"

@@ -4,6 +4,8 @@ import { storeToRefs } from 'pinia'
 
 import { useStorage } from '@vueuse/core'
 
+import { useAutoAnimate } from '@formkit/auto-animate/vue'
+
 import FolderTree from './FolderTree.vue'
 import IconButton from './IconButton.vue'
 import Plus16 from './Icon/Plus16.vue'
@@ -16,6 +18,7 @@ import Pencil16 from './Icon/Pencil16.vue'
 import Dialog from './Dialog.vue'
 import Button from './Button.vue'
 import Input from './Input.vue'
+import FileDirectory16 from './Icon/FileDirectory16.vue'
 
 import { useFolderStore } from '@renderer/stores/folder'
 import { useSnippetStore } from '@renderer/stores/snippet'
@@ -26,6 +29,8 @@ import { FolderItem, Folder } from '@shared/folder'
 import { useInjectActionMenu } from '@renderer/hooks/useActiveMenu'
 
 defineOptions({ name: 'VFolderTabGroup' })
+
+const [parent] = useAutoAnimate({})
 
 const folderStore = useFolderStore()
 const { folderList, selectedFolderId } = storeToRefs(folderStore)
@@ -42,6 +47,14 @@ const onFolderClick = (folder: FolderNode) => {
   folderStore.setSelectedFolder(folder)
   selectedStatus.value = 'all'
   tagStore.unsetSelectedTag()
+
+  if (folder.children) {
+    if (openedFolderList.value.includes(folder.id)) {
+      closeFolder(folder.id)
+    } else {
+      openFolder(folder.id)
+    }
+  }
 }
 
 export type FolderNode = FolderItem & { children: FolderNode[] | null }
@@ -164,6 +177,11 @@ const actionMenuOptions = [
       name: 'Rename',
       action: onRenameButtonClick,
       icon: Pencil16
+    },
+    {
+      name: 'Move to',
+      action: () => console.log(),
+      icon: FileDirectory16
     }
   ],
   [
@@ -197,7 +215,7 @@ const actionMenuOptions = [
         </template>
       </IconButton>
     </div>
-    <ul class="flex flex-col items-stretch space-y-1">
+    <ul class="flex flex-col items-stretch space-y-1 overflow-x-auto" ref="parent">
       <FolderTree
         v-for="folder in folderTree"
         :folder-node="folder"

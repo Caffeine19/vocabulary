@@ -10,7 +10,10 @@ defineOptions({ name: 'VFolderTab' })
 defineProps({
   selected: Boolean,
   indent: Number,
-  isOpen: Boolean,
+
+  isOpen: {
+    type: Boolean
+  },
   folder: Object as PropType<FolderItem>
 })
 defineEmits<{ click: [e: MouseEvent]; contextmenu: [e: MouseEvent] }>()
@@ -33,7 +36,7 @@ defineEmits<{ click: [e: MouseEvent]; contextmenu: [e: MouseEvent] }>()
       >
         <TriangleDown16
           class="dark:fill-primer-dark-gray-400"
-          :class="isOpen ? '' : '-rotate-90'"
+          :class="isOpen || folder?.childrenCount ? '-rotate-90' : ''"
         ></TriangleDown16>
 
         <component

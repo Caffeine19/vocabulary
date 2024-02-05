@@ -9,7 +9,7 @@ defineOptions({ name: 'MainView' })
 </script>
 
 <template>
-  <Nav class="shrink-0"></Nav>
+  <Nav class="w-64 overflow-x-hidden"></Nav>
   <Divider type="vertical"></Divider>
   <RouterView></RouterView>
 </template>

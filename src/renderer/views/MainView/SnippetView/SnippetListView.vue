@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useManualRefHistory } from '@vueuse/core'
+import { useAutoAnimate } from '@formkit/auto-animate/vue'
 
 import Search16 from '@/components/Icon/Search16.vue'
 import Pencil16 from '@/components/Icon/Pencil16.vue'
@@ -20,6 +21,8 @@ import Alert16 from '@renderer/components/Icon/Alert16.vue'
 import { useSnippetStore } from '@/stores/snippet'
 
 import type { SnippetItem as ISnippetItem, SortAttr, SortDirection } from '@shared/snippet'
+
+const [parent] = useAutoAnimate({})
 
 const snippetStore = useSnippetStore()
 
@@ -206,7 +209,7 @@ const onEmptyButtonClick = async () => {
       </template>
 
       <template #main>
-        <ul v-show="filteredSnippet.length > 0" v-auto-animate>
+        <ul v-show="filteredSnippet.length > 0" ref="parent">
           <template v-for="snippet in filteredSnippet" :key="snippet.id">
             <SnippetItem
               :snippet-item="snippet"

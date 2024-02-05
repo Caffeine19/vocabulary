@@ -27,7 +27,7 @@ const indent = 24
     :indent="accIndent"
     :isOpen="openedFolderList.includes(folderNode.id)"
   >
-    <ul v-if="folderNode.children" class="mt-1">
+    <ul v-if="folderNode.children" class="mt-1" v-show="openedFolderList.includes(folderNode.id)">
       <FolderTree
         v-for="childFolder in folderNode.children"
         :key="childFolder.id"
