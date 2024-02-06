@@ -30,11 +30,21 @@ onClickOutside(dialogRef, () => {
         class="fixed top-0 left-0 z-10 flex items-center justify-center w-screen h-screen dark:bg-primer-dark-black/[0.8]"
         v-if="isShow"
       >
-        <div class="dark:bg-primer-dark-gray-700 w-80 max-h-64 rounded-lg" ref="dialogRef">
+        <div
+          class="dark:bg-primer-dark-gray-800 w-80 max-h-64 rounded-lg"
+          ref="dialogRef"
+          style="box-shadow: rgb(48, 54, 61) 0px 0px 0px 1px"
+        >
           <div class="flex items-center justify-between p-2">
             <div class="px-2 py-1.5">
-              <span class="fira-code text-sm font-normal">{{ title }}</span>
-              <span>{{ subtitle }}</span>
+              <span class="fira-code dark:text-primer-dark-gray-0 text-sm font-semibold">{{
+                title
+              }}</span>
+              <span
+                class="dark:text-primer-dark-gray-300 fira-code mt-1 text-xs font-bold"
+                v-if="subtitle"
+                >{{ subtitle }}</span
+              >
             </div>
             <IconButton @click="onCloseButtonClick" type="invisible">
               <template #icon="{ iconStyle }"><X16 :class="iconStyle"></X16></template>

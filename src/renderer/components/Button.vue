@@ -54,8 +54,8 @@ const secondaryStyle = {
 
 const invisibleStyle = {
   button: ['bg-transparent', 'border-transparent', 'dark:hover:bg-primer-dark-gray-200/[0.12]'],
-  label: ['dark:fill-primer-dark-gray-400'],
-  icon: ['dark:fill-primer-dark-gray-400']
+  label: ['dark:text-primer-dark-gray-0'],
+  icon: ['dark:fill-primer-dark-gray-300']
 }
 
 const typeStyleConfig = {
