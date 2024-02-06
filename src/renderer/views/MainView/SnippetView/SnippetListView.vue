@@ -17,23 +17,33 @@ import Check16 from '@renderer/components/Icon/Check16.vue'
 import Blank from '@renderer/components/Blank.vue'
 import Code24 from '@renderer/components/Icon/Code24.vue'
 import Alert16 from '@renderer/components/Icon/Alert16.vue'
+import Tag16 from '@renderer/components/Icon/Tag16.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
+import { useTagStore } from '@renderer/stores/tag'
+import { useFolderStore } from '@renderer/stores/folder'
 
 import type { SnippetItem as ISnippetItem, SortAttr, SortDirection } from '@shared/snippet'
 
 import { useInjectConfirmation } from '@renderer/hooks/useConfirmation'
+import { ActionMenuOptions, useInjectActionMenu } from '@renderer/hooks/useActionMenu'
+import Trashcan16 from '@renderer/components/Icon/Trashcan16.vue'
+import FileDirectory16 from '@renderer/components/Icon/FileDirectory16.vue'
+import Heart24 from '@renderer/components/Icon/Heart24.vue'
 
 const [parent] = useAutoAnimate({})
 
 const snippetStore = useSnippetStore()
-
 const { snippetList, snippetDetail, selectedStatus, selectedAttr, selectedDirection } =
   storeToRefs(snippetStore)
 
 onMounted(async () => {
   await snippetStore.getSnippetList()
 })
+
+const tagStore = useTagStore()
+
+const folderStore = useFolderStore()
 
 const onSnippetItemClick = (id: ISnippetItem['id']) => {
   snippetStore.getSnippetDetail(id)
@@ -105,6 +115,75 @@ const onEmptyButtonClick = async () => {
       snippetStore.getSnippetList()
     }
   })
+}
+
+const onDeleteButtonClick = async () => {
+  if (!rightClickedSnippet.value) return
+  try {
+    await snippetStore.deleteSnippet(rightClickedSnippet.value.id)
+    snippetStore.getSnippetList()
+    snippetStore.getStatusSnippetCount()
+    tagStore.getTagList()
+    folderStore.getFolderList()
+  } catch (error) {
+    console.log('🚀 ~ onDeleteButtonClick ~ error:', error)
+  }
+}
+
+const onFavoriteButtonClick = async (favorite: boolean) => {
+  if (!rightClickedSnippet.value) return
+  try {
+    await snippetStore.updateSnippetFavorite(rightClickedSnippet.value.id, favorite)
+    snippetStore.getSnippetList()
+    snippetStore.getStatusSnippetCount()
+
+    // Update snippet detail if it's the same snippet
+    if (snippetDetail.value && snippetDetail.value.id === rightClickedSnippet.value.id) {
+      snippetStore.getSnippetDetail(snippetDetail.value.id)
+    }
+  } catch (error) {
+    console.log('🚀 ~ onDeleteButtonClick ~ error:', error)
+  }
+}
+
+const { openActionMenu } = useInjectActionMenu()
+const actionMenuOptions = computed<ActionMenuOptions>(() => [
+  [
+    {
+      name: 'Rename',
+      action: () => console.log(''),
+      icon: Pencil16
+    },
+    {
+      name: 'Move to',
+      action: () => console.log(''),
+      icon: FileDirectory16
+    },
+    {
+      name: 'Add tag',
+      action: () => console.log(''),
+      icon: Tag16
+    },
+    {
+      name: rightClickedSnippet.value?.favorite ? 'Remove from favorite' : 'Add to favorite',
+      action: () => onFavoriteButtonClick(!rightClickedSnippet.value?.favorite),
+      icon: Heart24
+    }
+  ],
+  [
+    {
+      name: 'Delete',
+      action: onDeleteButtonClick,
+      icon: Trashcan16
+    }
+  ]
+])
+
+const rightClickedSnippet = ref<ISnippetItem | null>(null)
+const onSnippetItemRightClick = (snippetItem: ISnippetItem, e: MouseEvent) => {
+  if (!openActionMenu) return
+  rightClickedSnippet.value = snippetItem
+  openActionMenu(actionMenuOptions.value, e)
 }
 </script>
 
@@ -225,6 +304,7 @@ const onEmptyButtonClick = async () => {
               :snippet-item="snippet"
               @click="onSnippetItemClick(snippet.id)"
               :selected="snippetDetail?.id === snippet.id"
+              @contextmenu="(e: MouseEvent) => onSnippetItemRightClick(snippet, e)"
             ></SnippetItem>
             <Divider></Divider>
           </template>
