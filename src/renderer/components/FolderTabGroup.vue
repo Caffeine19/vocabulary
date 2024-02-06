@@ -26,7 +26,7 @@ import { useTagStore } from '@renderer/stores/tag'
 
 import { FolderItem, Folder } from '@shared/folder'
 
-import { useInjectActionMenu } from '@renderer/hooks/useActiveMenu'
+import { useInjectActionMenu } from '@renderer/hooks/useActionMenu'
 
 defineOptions({ name: 'VFolderTabGroup' })
 
@@ -243,3 +243,4 @@ const actionMenuOptions = [
     </template>
   </Dialog>
 </template>
+@renderer/hooks/useActionMenu

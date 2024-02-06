@@ -4,10 +4,13 @@ import { RouterView } from 'vue-router'
 
 import TitleBar from './components/TitleBar.vue'
 import ActionMenu from './components/ActionMenu.vue'
+import ConfirmationDialog from './components/ConfirmationDialog.vue'
 
-import { useProvideActionMenu } from './hooks/useActiveMenu'
+import { useProvideActionMenu } from './hooks/useActionMenu'
+import { useProvideConfirmation } from './hooks/useConfirmation'
 
 useProvideActionMenu()
+useProvideConfirmation()
 
 //开发模式下加载vue-devtools
 // if (process.env.NODE_ENV === 'development') {
@@ -26,6 +29,7 @@ useProvideActionMenu()
     </main>
   </div>
   <ActionMenu></ActionMenu>
+  <ConfirmationDialog></ConfirmationDialog>
 </template>
 
 <style>

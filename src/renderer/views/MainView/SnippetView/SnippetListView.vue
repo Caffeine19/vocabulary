@@ -22,6 +22,8 @@ import { useSnippetStore } from '@/stores/snippet'
 
 import type { SnippetItem as ISnippetItem, SortAttr, SortDirection } from '@shared/snippet'
 
+import { useInjectConfirmation } from '@renderer/hooks/useConfirmation'
+
 const [parent] = useAutoAnimate({})
 
 const snippetStore = useSnippetStore()
@@ -92,9 +94,17 @@ const onCancelButtonClick = () => {
 
   isSortOptionsShow.value = false
 }
+
+const { openConfirmation } = useInjectConfirmation()
 const onEmptyButtonClick = async () => {
-  await snippetStore.emptySnippet()
-  snippetStore.getSnippetList()
+  openConfirmation({
+    title: 'Empty Snippet',
+    description: 'Are you sure you want to empty all snippets?',
+    onConfirm: async () => {
+      await snippetStore.emptySnippet()
+      snippetStore.getSnippetList()
+    }
+  })
 }
 </script>
 

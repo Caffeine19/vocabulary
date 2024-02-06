@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+
+export type ButtonType = 'primary' | 'danger' | 'secondary' | 'invisible'
+
 defineOptions({ name: 'VButton' })
+
 const props = withDefaults(
   defineProps<{
-    type?: 'primary' | 'danger' | 'secondary' | 'invisible'
+    type?: ButtonType
     label: string
     plain?: boolean
     size?: 'md' | 'sm'

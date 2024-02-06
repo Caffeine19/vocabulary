@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
-import { useInjectActionMenu } from '@renderer/hooks/useActiveMenu'
+import { useInjectActionMenu } from '@renderer/hooks/useActionMenu'
 
 import Divider from './Divider.vue'
 import ActionMenuItem from './ActionMenuItem.vue'
@@ -57,3 +57,4 @@ onClickOutside(menuRef, () => {
   opacity: 0;
 }
 </style>
+@renderer/hooks/useActionMenu

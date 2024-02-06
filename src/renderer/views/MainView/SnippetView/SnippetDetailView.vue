@@ -29,6 +29,8 @@ import { useFolderStore } from '@renderer/stores/folder'
 
 import type { TagItem } from '@shared/Tag'
 import type { FolderItem } from '@shared/folder'
+import { useInjectConfirmation } from '@renderer/hooks/useConfirmation'
+import { open } from 'inspector'
 
 const snippetStore = useSnippetStore()
 const { snippetDetail } = storeToRefs(snippetStore)
@@ -111,15 +113,23 @@ const onDeleteButtonClick = async () => {
   }
 }
 
-const onDestroyButtonClick = async () => {
-  try {
-    if (!snippetDetail.value?.id) return
-    await snippetStore.destroySnippet(snippetDetail.value.id)
-    snippetStore.getSnippetList()
-    snippetStore.getStatusSnippetCount()
-  } catch (error) {
-    console.log('🚀 ~ onDestoryButtonClick ~ error:', error)
-  }
+const { openConfirmation } = useInjectConfirmation()
+const onDestroyButtonClick = () => {
+  openConfirmation({
+    title: 'Destroy Snippet',
+    description: 'Are you sure you want to destroy this snippet?',
+    confirmButtonType: 'danger',
+    onConfirm: async () => {
+      try {
+        if (!snippetDetail.value?.id) return
+        await snippetStore.destroySnippet(snippetDetail.value.id)
+        snippetStore.getSnippetList()
+        snippetStore.getStatusSnippetCount()
+      } catch (error) {
+        console.log('🚀 ~ onDestoryButtonClick ~ error:', error)
+      }
+    }
+  })
 }
 
 const onFavoriteButtonClick = async () => {

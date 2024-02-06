@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionItem } from '@renderer/hooks/useActiveMenu'
+import type { ActionItem } from '@renderer/hooks/useActionMenu'
 
 import ChevronRight16 from './Icon/ChevronRight16.vue'
 import Button from './Button.vue'
@@ -43,3 +43,4 @@ defineEmits<{ actionExecute: [] }>()
     </ul>
   </li>
 </template>
+@renderer/hooks/useActionMenu
