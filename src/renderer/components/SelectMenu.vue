@@ -121,7 +121,7 @@ const filteredOptions = computed(() => {
                 ></Search16> </template
             ></Input>
           </div>
-          <ul>
+          <ul class="max-h-64 overflow-y-auto">
             <li
               class="dark:border-primer-dark-gray-700 dark:bg-primer-dark-gray-800 dark:hover:bg-primer-dark-gray-400/10 last:border-b-0 px-4 py-2 transition-colors border-b cursor-pointer"
               v-for="(option, index) in filteredOptions"
