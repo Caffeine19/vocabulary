@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
 import { useInjectActionMenu } from '@renderer/hooks/useActionMenu'
@@ -9,10 +8,9 @@ import ActionMenuItem from './ActionMenuItem.vue'
 
 defineOptions({ name: 'VActionMenu' })
 
-const { actionMenuOptions, isActionMenuOpen, actionMenuPosition, closeActionMenu } =
+const { actionMenuOptions, isActionMenuOpen, actionMenuPosition, closeActionMenu, menuRef } =
   useInjectActionMenu()
 
-const menuRef = ref<HTMLElement | null>(null)
 onClickOutside(menuRef, () => {
   if (closeActionMenu) closeActionMenu()
 })
