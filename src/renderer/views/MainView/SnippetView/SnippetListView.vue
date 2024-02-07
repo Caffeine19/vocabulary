@@ -18,6 +18,7 @@ import Blank from '@renderer/components/Blank.vue'
 import Code24 from '@renderer/components/Icon/Code24.vue'
 import Alert16 from '@renderer/components/Icon/Alert16.vue'
 import Tag16 from '@renderer/components/Icon/Tag16.vue'
+import Dialog from '@renderer/components/Dialog.vue'
 
 import { useSnippetStore } from '@/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -146,12 +147,43 @@ const onFavoriteButtonClick = async (favorite: boolean) => {
   }
 }
 
+const isDialogShow = ref(false)
+const newName = ref('')
+const renameInputFocused = ref(false)
+const onRenameButtonClick = async () => {
+  if (!rightClickedSnippet.value) return
+
+  isDialogShow.value = true
+  renameInputFocused.value = true
+  newName.value = rightClickedSnippet.value.name || ''
+}
+const onCancelRenameButtonClick = () => {
+  isDialogShow.value = false
+  renameInputFocused.value = false
+}
+const onApplyRenameButtonClick = async () => {
+  try {
+    if (!rightClickedSnippet.value) return
+    const res = await snippetStore.updateSnippetName(rightClickedSnippet.value.id, newName.value)
+    console.log('🚀 ~ onApplyRenameButtonClick ~ res:', res)
+
+    isDialogShow.value = false
+    renameInputFocused.value = false
+
+    if (snippetDetail.value?.id === rightClickedSnippet.value.id) {
+      snippetStore.getSnippetDetail(snippetDetail.value.id)
+    }
+  } catch (error) {
+    console.log('🚀 ~ onApplyRenameButtonClick ~ error:', error)
+  }
+}
+
 const { openActionMenu } = useInjectActionMenu()
 const actionMenuOptions = computed<ActionMenuOptions>(() => [
   [
     {
       name: 'Rename',
-      action: () => console.log(''),
+      action: onRenameButtonClick,
       icon: Pencil16
     },
     {
@@ -319,4 +351,19 @@ const onSnippetItemRightClick = (snippetItem: ISnippetItem, e: MouseEvent) => {
       </template>
     </Box>
   </div>
+  <Dialog v-model:isShow="isDialogShow" title="Rename snippet">
+    <template #body>
+      <Input
+        v-model:value="newName"
+        placeholder="New name for folder"
+        :focused="renameInputFocused"
+      ></Input>
+    </template>
+    <template #footer>
+      <div class="flex items-center justify-end gap-2">
+        <Button type="secondary" label="Cancel" @click="onCancelRenameButtonClick"></Button>
+        <Button type="primary" label="Apply" @click="onApplyRenameButtonClick"></Button>
+      </div>
+    </template>
+  </Dialog>
 </template>
