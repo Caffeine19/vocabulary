@@ -8,7 +8,6 @@ import { useManualRefHistory } from '@vueuse/core'
 import Tag from '@/components/Tag.vue'
 import Button from '@/components/Button.vue'
 import Trashcan16 from '@/components/Icon/Trashcan16.vue'
-import Plus24 from '@renderer/components/Icon/Plus24.vue'
 import SelectMenu from '@renderer/components/SelectMenu.vue'
 import CodeEditor from './CodeEditor.vue'
 import FileDirectory16 from '@renderer/components/Icon/FileDirectory16.vue'
@@ -22,6 +21,7 @@ import Inbox16 from '@renderer/components/Icon/Inbox16.vue'
 import Fire16 from '@renderer/components/Icon/Fire16.vue'
 import History16 from '@renderer/components/Icon/History16.vue'
 import Checkbox from '@renderer/components/Checkbox.vue'
+import Tooltip from '@renderer/components/Tooltip.vue'
 
 import { useSnippetStore } from '@renderer/stores/snippet'
 import { useTagStore } from '@renderer/stores/tag'
@@ -285,11 +285,15 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
           "
         >
           <template #trigger>
-            <IconButton @click="isTagMenuShow = !isTagMenuShow" type="invisible" size="sm">
-              <template #icon="{ iconStyle }">
-                <Link16 :class="iconStyle"></Link16>
+            <Tooltip text="Connect tag">
+              <template #trigger>
+                <IconButton @click="isTagMenuShow = !isTagMenuShow" type="invisible" size="sm">
+                  <template #icon="{ iconStyle }">
+                    <Link16 :class="iconStyle"></Link16>
+                  </template>
+                </IconButton>
               </template>
-            </IconButton>
+            </Tooltip>
           </template>
 
           <template #menuItem="{ option }">
