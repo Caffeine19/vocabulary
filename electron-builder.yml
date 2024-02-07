@@ -9,8 +9,10 @@ files:
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
-asarUnpack:
-  - resources/**
+# asarUnpack:
+#   - resources/**
+asar:
+  false
 win:
   executableName: vocabulary-elctron-vite
 nsis:
@@ -41,3 +43,8 @@ npmRebuild: false
 publish:
   provider: generic
   url: https://example.com/auto-updates
+
+# fix cant find .prisma/client
+extraResources:
+  - from: node_modules/.prisma/client/
+    to: app/node_modules/.prisma/client/

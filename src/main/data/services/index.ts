@@ -1,26 +1,36 @@
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+import { join } from 'path'
+import { app } from 'electron'
+import { is } from '@electron-toolkit/utils'
+import { copyFileSync, existsSync } from 'fs'
+import logger from '../../utils/log'
 
-// async function main() {
-//   // ... you will write your Prisma Client queries here
-//   const user = await prisma.user.create({
-//     data: {
-//       name: 'Alice',
-//       email: 'alice@prisma.io'
-//     }
-//   })
-//   console.log(user)
-// }
+const prodDBPath = join(app.getPath('userData'), 'database.db')
 
-// main()
-//   .then(async () => {
-//     await prisma.$disconnect()
-//   })
-//   .catch(async (e) => {
-//     console.error(e)
-//     await prisma.$disconnect()
-//     process.exit(1)
-//   })
+app.getPath('appData')
+
+const srcDBPath = join(process.resourcesPath, 'app/prisma/dev.db')
+logger.info({ srcDBPath }, 'srcDBPath')
+
+if (!is.dev && !existsSync(prodDBPath)) {
+  try {
+    copyFileSync(srcDBPath, prodDBPath)
+    logger.info('copy db success')
+  } catch (error) {
+    logger.error({ error }, 'copy db error')
+  }
+}
+
+//use file db in production and use env in
+const datasources = is.dev
+  ? {}
+  : {
+      db: {
+        url: `file:${prodDBPath}`
+      }
+    }
+
+const prisma = new PrismaClient({ datasources })
 
 export default prisma
