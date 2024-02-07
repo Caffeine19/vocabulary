@@ -43,4 +43,3 @@ defineEmits<{ actionExecute: [] }>()
     </ul>
   </li>
 </template>
-@renderer/hooks/useActionMenu
