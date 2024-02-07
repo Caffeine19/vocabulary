@@ -31,6 +31,7 @@ import type { TagItem } from '@shared/Tag'
 import type { FolderItem } from '@shared/folder'
 import { useInjectConfirmation } from '@renderer/hooks/useConfirmation'
 import { open } from 'inspector'
+import Link16 from '@renderer/components/Icon/Link16.vue'
 
 const snippetStore = useSnippetStore()
 const { snippetDetail } = storeToRefs(snippetStore)
@@ -256,68 +257,68 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
         </div>
       </div>
 
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-1.5">
-          <SelectMenu
-            v-show="!snippetDetail?.deleted"
-            title="Select Tag"
-            :is-show="isTagMenuShow"
-            :options="tagList"
-            @click-outside="
-              () => {
-                if (isTagMenuShow) {
-                  isTagMenuShow = false
-                  resetCheckedTagList()
-                }
+      <div class="flex items-center space-x-1.5">
+        <template v-if="snippetDetail?.tags.length">
+          <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"> </Tag>
+        </template>
+
+        <SelectMenu
+          v-show="!snippetDetail?.deleted"
+          title="Select Tag"
+          :is-show="isTagMenuShow"
+          :options="tagList"
+          @click-outside="
+            () => {
+              if (isTagMenuShow) {
+                isTagMenuShow = false
+                resetCheckedTagList()
               }
-            "
-            @close-button-click="
-              () => {
-                if (isTagMenuShow) {
-                  isTagMenuShow = false
-                  resetCheckedTagList()
-                }
+            }
+          "
+          @close-button-click="
+            () => {
+              if (isTagMenuShow) {
+                isTagMenuShow = false
+                resetCheckedTagList()
               }
-            "
-          >
-            <template #trigger>
-              <button @click="isTagMenuShow = !isTagMenuShow">
-                <Plus24
-                  class="dark:fill-primer-dark-gray-400 dark:hover:fill-primer-dark-gray-0 w-6 h-6 transition-colors"
-                ></Plus24>
-              </button>
-            </template>
-            <template #menuItem="{ option }">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                  <Checkbox
-                    :checked="checkedTagList.includes(option.id)"
-                    @check="checkedTagList.push(option.id)"
-                    @uncheck="checkedTagList = checkedTagList.filter((tag) => tag !== option.id)"
-                  ></Checkbox>
-                  <span class="dark:text-primer-dark-gray-0 fira-code text-sm">{{
-                    option.name
-                  }}</span>
-                </div>
-                <div class="w-3 h-3 rounded-full" :style="{ background: option.color }"></div>
-              </div>
-            </template>
-            <template #footer>
-              <div class="flex justify-end space-x-4">
-                <Button
-                  label="Cancel"
-                  type="secondary"
-                  size="sm"
-                  @click="onTagCancelButtonClick"
-                ></Button>
-                <Button label="Apply" size="sm" @click="onTagApplyButtonClick"></Button>
-              </div>
-            </template>
-          </SelectMenu>
-          <template v-if="snippetDetail?.tags.length">
-            <Tag :tag="tag" v-for="(tag, index) in snippetDetail.tags" :key="index"> </Tag>
+            }
+          "
+        >
+          <template #trigger>
+            <IconButton @click="isTagMenuShow = !isTagMenuShow" type="invisible" size="sm">
+              <template #icon="{ iconStyle }">
+                <Link16 :class="iconStyle"></Link16>
+              </template>
+            </IconButton>
           </template>
-        </div>
+
+          <template #menuItem="{ option }">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-4">
+                <Checkbox
+                  :checked="checkedTagList.includes(option.id)"
+                  @check="checkedTagList.push(option.id)"
+                  @uncheck="checkedTagList = checkedTagList.filter((tag) => tag !== option.id)"
+                ></Checkbox>
+                <span class="dark:text-primer-dark-gray-0 fira-code text-sm">{{
+                  option.name
+                }}</span>
+              </div>
+              <div class="w-3 h-3 rounded-full" :style="{ background: option.color }"></div>
+            </div>
+          </template>
+          <template #footer>
+            <div class="flex justify-end space-x-4">
+              <Button
+                label="Cancel"
+                type="secondary"
+                size="sm"
+                @click="onTagCancelButtonClick"
+              ></Button>
+              <Button label="Apply" size="sm" @click="onTagApplyButtonClick"></Button>
+            </div>
+          </template>
+        </SelectMenu>
       </div>
     </div>
     <CodeEditor

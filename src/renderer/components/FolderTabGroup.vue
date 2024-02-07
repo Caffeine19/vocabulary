@@ -243,4 +243,3 @@ const actionMenuOptions = [
     </template>
   </Dialog>
 </template>
-@renderer/hooks/useActionMenu
