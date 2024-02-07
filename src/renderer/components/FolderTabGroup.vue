@@ -215,7 +215,7 @@ const actionMenuOptions = [
         </template>
       </IconButton>
     </div>
-    <ul class="flex flex-col items-stretch space-y-1 overflow-x-auto" ref="parent">
+    <ul class="flex flex-col items-stretch space-y-1" ref="parent">
       <FolderTree
         v-for="folder in folderTree"
         :folder-node="folder"

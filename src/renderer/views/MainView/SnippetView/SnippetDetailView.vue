@@ -183,7 +183,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
 }
 </script>
 <template>
-  <div class="basis-1/2 grow flex flex-col p-6 pb-4 space-y-3">
+  <div class="basis-1/2 grow flex flex-col p-6 pb-4 space-y-3 overflow-hidden">
     <div class="space-y-2.5">
       <div class="flex items-center justify-between space-x-6">
         <input
@@ -321,7 +321,7 @@ const onFolderSelect = async (folderId: FolderItem['id']) => {
       </div>
     </div>
     <CodeEditor
-      class="grow"
+      class="grow overflow-hidden"
       :code="snippetDetail?.content || ''"
       @update:code="(e) => onUpdateCode(e)"
       @format="onFormatCode"
