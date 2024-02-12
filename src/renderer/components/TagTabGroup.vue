@@ -7,6 +7,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/vue'
 import TagTab from './TagTab.vue'
 import Plus16 from './Icon/Plus16.vue'
 import IconButton from './IconButton.vue'
+import Tooltip from './Tooltip.vue'
 
 import { useTagStore } from '@renderer/stores/tag'
 import { useSnippetStore } from '@renderer/stores/snippet'
@@ -36,11 +37,15 @@ const onTagClick = (tag: TagItem) => {
   <div class="space-y-2.5">
     <div class="flex items-center justify-between">
       <span class="dark:text-primer-dark-gray-0 fira-code text-sm font-normal">Tags</span>
-      <IconButton type="invisible">
-        <template #icon="{ iconStyle }">
-          <Plus16 :class="iconStyle"></Plus16>
+      <Tooltip text="Append">
+        <template #trigger>
+          <IconButton type="invisible">
+            <template #icon="{ iconStyle }">
+              <Plus16 :class="iconStyle"></Plus16>
+            </template>
+          </IconButton>
         </template>
-      </IconButton>
+      </Tooltip>
     </div>
     <ul class="flex flex-col items-stretch space-y-1" ref="parent">
       <TagTab

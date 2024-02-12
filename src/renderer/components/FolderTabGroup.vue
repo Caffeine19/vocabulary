@@ -19,6 +19,7 @@ import Dialog from './Dialog.vue'
 import Button from './Button.vue'
 import Input from './Input.vue'
 import FileDirectory16 from './Icon/FileDirectory16.vue'
+import Tooltip from './Tooltip.vue'
 
 import { useFolderStore } from '@renderer/stores/folder'
 import { useSnippetStore } from '@renderer/stores/snippet'
@@ -209,11 +210,15 @@ const actionMenuOptions = [
   <div class="space-y-2.5">
     <div class="flex items-center justify-between">
       <span class="dark:text-primer-dark-gray-0 fira-code text-sm font-normal">Folders</span>
-      <IconButton type="invisible" @click="() => onCreateButtonClick(null)">
-        <template #icon="{ iconStyle }">
-          <Plus16 :class="iconStyle"></Plus16>
+      <Tooltip text="Append">
+        <template #trigger>
+          <IconButton type="invisible" @click="() => onCreateButtonClick(null)">
+            <template #icon="{ iconStyle }">
+              <Plus16 :class="iconStyle"></Plus16>
+            </template>
+          </IconButton>
         </template>
-      </IconButton>
+      </Tooltip>
     </div>
     <ul class="flex flex-col items-stretch space-y-1" ref="parent">
       <FolderTree

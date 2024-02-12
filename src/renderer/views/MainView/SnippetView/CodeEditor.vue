@@ -11,8 +11,8 @@ import Box from '@/components/Box.vue'
 import Copy24 from '@/components/Icon/Copy24.vue'
 import PaintBrush16 from '@renderer/components/Icon/PaintBrush16.vue'
 import IconButton, {
-  calRoundedFromButtonGroup,
-  type IconButtonProps
+  type IconButtonProps,
+  calRoundedFromButtonGroup
 } from '@renderer/components/IconButton.vue'
 
 import GithubDark from '@/theme/GithubDark'

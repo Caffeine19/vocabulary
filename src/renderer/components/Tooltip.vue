@@ -23,7 +23,7 @@ watch(isShow, (newVal) => {
         //vertical align center
         tooltipPosition.left =
           triggerRect.left - (tooltipRef.value.clientWidth - triggerRect.width) / 2
-        tooltipPosition.top = triggerRect.bottom + gap
+        tooltipPosition.top = triggerRect.top - tooltipRef.value.clientHeight - gap
       }
     })
   }
