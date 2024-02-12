@@ -1,18 +1,14 @@
-<script lang="ts">
-export const calRoundedFromButtonGroup = (index: number, buttonGroup: any[]) => {
-  return index === 0 ? 'l' : index === buttonGroup.length - 1 ? 'r' : 'none'
-}
+<script setup lang="ts">
+import { computed } from 'vue'
+
+defineOptions({ name: 'VIconButton' })
+
 export interface IconButtonProps {
   type?: 'primary' | 'danger' | 'secondary' | 'invisible'
   size?: 'md' | 'sm' | 'lg'
   plain?: boolean
   rounded?: 'full' | 'none' | 'l' | 'r'
 }
-</script>
-<script setup lang="ts">
-import { computed } from 'vue'
-
-defineOptions({ name: 'VIconButton' })
 
 const props = withDefaults(defineProps<IconButtonProps>(), {
   type: 'primary',
@@ -74,6 +70,11 @@ const roundedStyleConfig: Record<'full' | 'none' | 'l' | 'r', string[]> = {
   r: ['rounded-none', 'rounded-r-md']
 }
 const roundedStyle = computed(() => roundedStyleConfig[props.rounded])
+
+const calRoundedFromButtonGroup = (index: number, buttonGroup: any[]) => {
+  return index === 0 ? 'l' : index === buttonGroup.length - 1 ? 'r' : 'none'
+}
+defineExpose({ calRoundedFromButtonGroup })
 </script>
 <template>
   <button
