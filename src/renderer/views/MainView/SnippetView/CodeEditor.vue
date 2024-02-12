@@ -10,10 +10,13 @@ import { useClipboard } from '@vueuse/core'
 import Box from '@/components/Box.vue'
 import Copy24 from '@/components/Icon/Copy24.vue'
 import PaintBrush16 from '@renderer/components/Icon/PaintBrush16.vue'
-import ButtonGroup from '@renderer/components/ButtonGroup.vue'
-import IconButton, { IconButtonProps } from '@renderer/components/IconButton.vue'
+import IconButton, {
+  calRoundedFromButtonGroup,
+  type IconButtonProps
+} from '@renderer/components/IconButton.vue'
 
 import GithubDark from '@/theme/GithubDark'
+import Tooltip from '@renderer/components/Tooltip.vue'
 
 const props = withDefaults(defineProps<{ code?: string; disabled?: boolean }>(), {
   code: 'hi',
@@ -30,16 +33,22 @@ const onFormatButtonClick = async () => {
   emits('format')
 }
 
-const iconButtonOptions: (Partial<IconButtonProps> & { action: () => void; icon: Component })[] = [
+const iconButtonOptions: (Partial<IconButtonProps> & {
+  action: () => void
+  icon: Component
+  tooltip: string
+})[] = [
   {
     type: 'secondary',
     icon: Copy24,
-    action: onCopyButtonClick
+    action: onCopyButtonClick,
+    tooltip: 'Copy'
   },
   {
     type: 'secondary',
     icon: PaintBrush16,
-    action: onFormatButtonClick
+    action: onFormatButtonClick,
+    tooltip: 'Format'
   }
 ]
 
@@ -118,16 +127,22 @@ watch(
       <span class="fira-code dark:text-primer-dark-gray-400 text-xs font-normal"
         >{{ lines }} lines ({{ loc }} loc) · {{ length }} Bytes</span
       >
-
-      <ButtonGroup>
-        <div v-for="(bt, index) in iconButtonOptions" :key="index">
-          <IconButton @click="bt.action" :type="bt.type" :size="bt.size">
-            <template #icon="{ iconStyle }">
-              <component :is="bt.icon" :class="iconStyle"></component>
-            </template>
-          </IconButton>
-        </div>
-      </ButtonGroup>
+      <div class="flex">
+        <Tooltip v-for="(bt, index) in iconButtonOptions" :key="index" :text="bt.tooltip">
+          <template #trigger>
+            <IconButton
+              @click="bt.action"
+              :type="bt.type"
+              :size="bt.size"
+              :rounded="calRoundedFromButtonGroup(index, iconButtonOptions)"
+            >
+              <template #icon="{ iconStyle }">
+                <component :is="bt.icon" :class="iconStyle"></component>
+              </template>
+            </IconButton>
+          </template>
+        </Tooltip>
+      </div>
     </template>
     <template #main>
       <codemirror

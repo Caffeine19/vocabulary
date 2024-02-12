@@ -30,7 +30,6 @@ import { useFolderStore } from '@renderer/stores/folder'
 import type { TagItem } from '@shared/Tag'
 import type { FolderItem } from '@shared/folder'
 import { useInjectConfirmation } from '@renderer/hooks/useConfirmation'
-import { open } from 'inspector'
 import Link16 from '@renderer/components/Icon/Link16.vue'
 
 const snippetStore = useSnippetStore()
