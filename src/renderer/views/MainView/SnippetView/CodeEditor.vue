@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef, nextTick, reactive, watch } from 'vue'
+import { ref, shallowRef, nextTick, watch, type Component } from 'vue'
 
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
@@ -10,7 +10,8 @@ import { useClipboard } from '@vueuse/core'
 import Box from '@/components/Box.vue'
 import Copy24 from '@/components/Icon/Copy24.vue'
 import PaintBrush16 from '@renderer/components/Icon/PaintBrush16.vue'
-import IconButtonGroup from '@renderer/components/IconButtonGroup.vue'
+import ButtonGroup from '@renderer/components/ButtonGroup.vue'
+import IconButton, { IconButtonProps } from '@renderer/components/IconButton.vue'
 
 import GithubDark from '@/theme/GithubDark'
 
@@ -29,7 +30,7 @@ const onFormatButtonClick = async () => {
   emits('format')
 }
 
-const iconButtonOptions = reactive([
+const iconButtonOptions: (Partial<IconButtonProps> & { action: () => void; icon: Component })[] = [
   {
     type: 'secondary',
     icon: Copy24,
@@ -40,7 +41,7 @@ const iconButtonOptions = reactive([
     icon: PaintBrush16,
     action: onFormatButtonClick
   }
-])
+]
 
 const extensions = [javascript(), GithubDark, EditorView.lineWrapping]
 
@@ -117,18 +118,16 @@ watch(
       <span class="fira-code dark:text-primer-dark-gray-400 text-xs font-normal"
         >{{ lines }} lines ({{ loc }} loc) · {{ length }} Bytes</span
       >
-      <div>
-        <IconButtonGroup :options="iconButtonOptions"></IconButtonGroup>
-        <!-- <button @click="onCopyButtonClick" class="p-1.5 transition-colors rounded-l-md">
-          <Copy24 class="w-4 h-4"></Copy24>
-        </button>
-        <button
-          @click="onFormatButtonClick"
-          class="p-1.5 dark:bg-primer-dark-gray-700 border dark:border-primer-dark-gray-0/10 dark:hover:border-primer-dark-gray-200/[0.357] transition-colors dark:hover:bg-primer-dark-gray-600 rounded-r-md"
-        >
-          <Copy24 class="w-4 h-4 dark:fill-primer-dark-gray-100"></Copy24>
-        </button> -->
-      </div>
+
+      <ButtonGroup>
+        <div v-for="(bt, index) in iconButtonOptions" :key="index">
+          <IconButton @click="bt.action" :type="bt.type" :size="bt.size">
+            <template #icon="{ iconStyle }">
+              <component :is="bt.icon" :class="iconStyle"></component>
+            </template>
+          </IconButton>
+        </div>
+      </ButtonGroup>
     </template>
     <template #main>
       <codemirror

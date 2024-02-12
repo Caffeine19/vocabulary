@@ -3,12 +3,12 @@ import { computed } from 'vue'
 
 defineOptions({ name: 'VIconButton' })
 
-export interface IconButtonOption {
+export interface IconButtonProps {
   type?: 'primary' | 'danger' | 'secondary' | 'invisible'
   size?: 'md' | 'sm' | 'lg'
   plain?: boolean
 }
-const props = withDefaults(defineProps<IconButtonOption>(), {
+const props = withDefaults(defineProps<IconButtonProps>(), {
   type: 'primary',
   size: 'md',
   plain: false
@@ -72,7 +72,7 @@ const sizeStyle = computed(() => sizeStyleConfig[props.size])
 <template>
   <button
     @click="(e) => $emit('click', e)"
-    class="transition-colors border rounded-md"
+    class="v-icon-button transition-colors border rounded-md"
     :class="sizeStyle.button + ' ' + typeStyle.button"
   >
     <slot name="icon" :iconStyle="sizeStyle.icon + ' ' + typeStyle.icon"></slot>
